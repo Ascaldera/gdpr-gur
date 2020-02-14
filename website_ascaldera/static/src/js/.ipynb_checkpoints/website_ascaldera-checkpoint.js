@@ -26,7 +26,7 @@ odoo.define('website_ascaldera', function(require) {
             document.getElementById("post_type").value = "Judgments of the European Court of Justice";
         }
         else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_escp')){
-            document.getElementById("post_type").value = "ESČP judgments";
+            document.getElementById("post_type").value = "ECHR judgments";
         }
         else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_foreign')){
             document.getElementById("post_type").value = "Judgments of foreign courts";

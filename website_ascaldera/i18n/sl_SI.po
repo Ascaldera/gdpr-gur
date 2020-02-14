@@ -404,7 +404,7 @@ msgstr ""
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_1:0
 #: selection:blog.post,sub_category_main:0
-msgid "ESČP judgments"
+msgid "ECHR judgments"
 msgstr "Sodbe ESČP"
 
 #. module: website_ascaldera

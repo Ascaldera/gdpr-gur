@@ -208,12 +208,12 @@
                             <li><a href="/blog/News">News</a></li>
                             <li><a href="/blog/Articles">Articles</a></li>
                             <li class='sub-menu-1'><a href="/blog/Judicial-Practice">Judicial Practice</a>
-                                <!-- dodano -->
+                                <!-- dodano --> 
                                 <div class="dropdown-content">
                                     <a href="/blog/Judicial-Practice/practice_slo">SLO Information Commissioner's practice</a>
                                     <a href="/blog/Judicial-Practice/practice_foreign_oversight">The practice of foreign oversight bodies</a>
                                     <a href="/blog/Judicial-Practice/judgement_EU">Judgments of the European Court of Justice</a>
-                                    <a href="/blog/Judicial-Practice/judgements_escp">ESČP judgments</a>
+                                    <a href="/blog/Judicial-Practice/judgements_escp">ECHR judgments</a>
                                     <a href="/blog/Judicial-Practice/judgements_foreign">Judgments of foreign courts</a>
                                 </div>
                                 <!-- dodano -->
@@ -901,7 +901,7 @@
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
-                                    <div class="text">ESČP judgments</div>
+                                    <div class="text">ECHR judgments</div>
                                     <div class="line"><span></span></div>
                                 </div>
                                 <div class="block-content">

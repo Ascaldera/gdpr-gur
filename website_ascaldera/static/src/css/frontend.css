@@ -52,6 +52,7 @@
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  line-height: 20px;
 }
 
 /* Links inside the dropdown*/ 
@@ -60,7 +61,6 @@
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  overflow: auto;
 }
 
 /* Change color of dropdown links on hover */
@@ -69,9 +69,11 @@
 /* Show the dropdown menu on hover */
 .sub-menu-1:hover .dropdown-content {
   display: block;
+    position: absolute;
 }
 .sub-menu-2:hover .dropdown-content {
   display: block;
+      position: absolute;
 }
 /* NOVO */
 

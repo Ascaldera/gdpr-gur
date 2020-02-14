@@ -40,9 +40,9 @@ class BlogPost(models.Model):
     save_name=fields.Char(string='Saved name')
     
     sub_category_main=fields.Selection(string="Subcategory", 
-                                       selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation'),('SLO_commissioner_practice','SLO Information Commissioner\'s practice'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ESČP judgments'),('foreign_judgments','Judgments of foreign courts')])
+                                       selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation'),('SLO_commissioner_practice','SLO Information Commissioner\'s practice'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts')])
     sub_category_1=fields.Selection(string="Subcategory", 
-                                    selection=[('SLO_commissioner_practice','SLO Information Commissioner\'s practice'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ESČP judgments'),('foreign_judgments','Judgments of foreign courts')])
+                                    selection=[('SLO_commissioner_practice','SLO Information Commissioner\'s practice'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts')])
     sub_category_2=fields.Selection(string="Subcategory", 
                                     selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation')])
     
