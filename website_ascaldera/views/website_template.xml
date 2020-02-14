@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!-- Sider bar -->
+    <template id="t_sidebar">
+        <div class="sidebar_icon">
+            <img src="/website_ascaldera/static/src/img/icon-arrow-large-left.svg" id="sidebar_arrow" data-visible="False"/>
+        </div>
+        <div class="sidebar_bg">
+        </div>
+        <div id="sidebar">
+            <div class="block">
+                <div class="block-title">
+                    <div class="text">FAVORITE <b>TAGS</b>
+                    </div>
+                    <div class="line">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <div class="elements elements-tag x1 ">
+                        <t t-set="fav_tags" t-value="request.env['blog.tag'].sudo().search([])"/>
+                        <t t-foreach="fav_tags" t-as="tag">
+                            <div class="element-row tight">
+                                <div class="element-wrapper list_padding">
+                                    <div class="element background">
+                                        <div class="element-text">
+                                            <div class="element-title">
+                                                <a t-attf-href="/blog/tag/#{ slug(tag) }"><t t-esc="tag.name"/></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            <div class="block">
+                <div class="block-title">
+                    <div class="text">FROM THE <b>CONTENT</b>
+                    </div>
+                    <div class="line"><span></span>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <div class="elements elements-list x1 ">
+                        <t t-set="post_types" t-value="request.env['blog.post.type'].sudo().search([])"/>
+                        <t t-foreach="post_types" t-as="post_type">
+                            <div class="element-row">
+                                <div class="element-wrapper">
+                                    <div class="element tight-element tight-content">
+                                        <div class="element-text">
+                                            <div class="element-title">
+                                                <t t-if="post_type.with_context(lang='en_US').name == 'Legislation'">
+                                                    <t t-set="count" t-value="external_post_count"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="count" t-value="request.env['blog.post'].sudo().search_count([('blog_post_type_id.name', '=', post_type.name), ('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])"/>
+                                                </t>
+                                                <a t-attf-href="/blog/#{post_type.with_context(lang='en_US').name}"><t t-esc="post_type.name"/><span><t t-esc="count"/></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+            <div class="block background">
+                <div class="block-title">
+                    <div class="text"><b>E-news</b></div>
+                    <div class="line"><span></span></div>
+                </div>
+                <div class="block-content">
+                    Subscribe to our newsletter and we will keep you updated on all the latest news, professional articles, changes.
+                    <div class="field-input has-icon icon-fill">
+                        <input type="email" placeholder="E-news"/>
+                        <input type="submit" class="action submit" value=""/>
+                        <a class="action submit" href="#"></a>
+                        <button class="action submit"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-title" style="margin-bottom: 0px;">
+                    <div class="text">Useful <b>links</b></div>
+                    <div class="line"><span></span></div>
+                </div>
+                <div class="block-content">
+                    <div class="elements elements-list x1">
+                        <div class="element-row">
+                            <div class="element-wrapper">
+                                <div class="element">
+                                    <t t-set="blog_links" t-value="request.env['blog.link'].sudo().search([('lang', '=', request.env.context.get('lang'))])"/>
+                                    <t t-foreach="blog_links" t-as="blog_link">
+                                        <div class="element-text">
+                                            <div class="element-title useful_link">
+                                                <a id="redirect_gdpr" t-att-data-id="blog_link.link" href="#"><b><t t-esc="blog_link.title"/></b></a>
+                                            </div>
+                                            <div class="element-meta">
+                                                <t t-esc="(blog_link.date).strftime('%A, %d. %B %Y')"/>
+                                            </div>
+                                            <div class="element-content link-content">
+                                                <t t-esc="blog_link.content"/>
+                                            </div>
+                                            <div class="element-link">
+                                                <a id="redirect_gdpr" t-att-data-id="blog_link.link" href="#"><t t-esc="blog_link.link"/></a>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </template>
+
+    <template id="blog_post_link">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text"><t t-esc="link_id.title"/></div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <t t-raw="link_id.content"/>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!-- Replace website Header and Footer  -->
+    <template id="new_header" inherit_id="website.layout">
+        <xpath expr="//div[@id='wrapwrap']//header" position="attributes">
+            <attribute  name="t-att-style">'display: none'</attribute>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']//header/nav/div/a[hasclass('navbar-brand')]" position="attributes">
+            <attribute  name="t-att-style">'display: none'</attribute>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']//header" position="after">
+            <header id="header">
+                <nav id="header-nav-top">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div class="language-info">
+                            <div class="language">
+                                <t t-set="href" t-value="request.httprequest.path + '?' + keep_query()"/>
+                                <t t-foreach="['/en_US','/sl_SI','/it_IT']" t-as="code">
+                                    <t t-if="code in href">
+                                        <t t-set="href" t-value="href.replace(code, '')"/>
+                                    </t>
+                                </t>
+                                <t t-set="lang" t-value="request.env.context.get('lang')"/>
+                                <select class="selector-lang">
+                                    <option t-att-value="'/en_US'+href" t-att-selected="lang == 'en_US'">English</option>
+                                    <option t-att-value="'/sl_SI'+href" t-att-selected="lang == 'sl_SI'">Slovenia</option>
+                                    <option t-att-value="'/it_IT'+href" t-att-selected="lang == 'it_IT'">Italy</option>
+                                </select>
+                            </div>
+                            <div class="info">
+                                Contact +386 41 000 000
+                            </div>
+                        </div><div class="account">
+                            <t t-set="url" t-value="request.httprequest.full_path"/>
+                            <t t-if="url != '/web/login?' and request.env.user.id == 4">
+                                <a t-attf-href="/web/login">Login</a>
+                            </t>
+                            <t t-if="url != '/web/signup?' and request.env.user.id == 4">
+                                <a t-attf-href="/web/signup" class="fill">Sign up</a>
+                            </t>
+                            <t t-if="request.env.user.id != 4 and url != '/web/signup?' and url != '/web/login?'">
+                                <a t-attf-href="/web/session/logout?redirect=/">Logout</a>
+                            </t>
+                        </div>
+                    </div>
+                </nav>
+                <div id="header-main">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div class="section-logo">
+                            <a href="/"><img src="/website_ascaldera/static/src/img/logo.png"/></a>
+                        </div>
+                        <div id="div_search" class="section-search">
+                             <div class="field-input has-icon">
+                                <form action="/blog/search" method="GET">
+                                    <input id="search_query" name="query" type="text" placeholder="Search"/>
+                                    <input id="post_type" name="post_type" type="hidden"/>
+                                    <button type="submit" class="action search js_search_post"></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav id="header-nav-menu">
+                    <div class="wrapper container-fluid maxWidth">
+                        <ul class="menu-vertical menu-main">
+                            <li><a href="/blog/News">News</a></li>
+                            <li><a href="/blog/Articles">Articles</a></li>
+                            <li><a href="/blog/Judicial-Practice">Judicial Practice</a></li>
+                            <li><a href="/blog/Legislation">Legislation</a></li>
+                        </ul>
+                        <ul class="menu-vertical menu-side">
+                            <li><a href="/blog/Dpo">DPO</a></li>
+                            <li><a href="/blog/Hubapp">HUB APP</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </xpath>
+
+        <xpath expr="//footer" position="replace">
+            <footer id="footer">
+                <div id="footer-main">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div class="section-logo">
+                            <img src="/website_ascaldera/static/src/img/logo.png"/>
+                        </div><div class="section-links">
+                            <ul class="menu-vertical menu-main">
+                                <li><a href="#">Legal stuff</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="footer-bottom">
+                    <div class="wrapper container-fluid maxWidth">
+                        Copyright &amp;copy;2019
+                    </div>
+                </div>
+            </footer>
+        </xpath>
+    </template>
+
+    <!-- Search  -->
+    <template id="blog_post_search">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">
+                                        Result For:
+                                        <b><t t-esc="query"/></b>
+                                    </div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-foreach="blog_post" t-as="post">
+                                            <div class="elements elements-list x1">
+                                                <div class="element-row tight">
+                                                    <div class="element-wrapper">
+                                                        <div class="element has-image fixed">
+                                                            <div class="element-image">
+                                                                <t t-if="post.blog_post_cover_image">
+                                                                    <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><img t-attf-src="data:image/*;base64,{{post.blog_post_cover_image}}"/></a>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                                </t>
+                                                            </div>
+                                                            <div class="element-text">
+                                                                <div class="element-title">
+                                                                    <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><t t-esc="post.name"/></a>
+                                                                </div>
+                                                                <div class="element-meta"><t t-esc="(post.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                <div class="element-content">
+                                                                    <div class="blog-element-content">
+                                                                        <p style="text-align:justify;">
+                                                                            <t t-if="post.post_listing_content">
+                                                                                <t t-raw="post.post_listing_content"/>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                               <t t-raw="post.post_listing_text_content"/>
+                                                                            </t>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                        <t t-if="data">
+                                            <t t-foreach="data" t-as="d">
+                                                <div class="elements elements-list x1">
+                                                    <div class="element-row tight blog-list">
+                                                        <div class="element-wrapper">
+                                                            <div class="element has-image fixed">
+                                                                <div class="element-image">
+                                                                    <a><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                                </div>
+                                                                <div class="element-text">
+                                                                    <div class="element-title">
+                                                                        <t t-esc="data[d].get('name')"/>
+                                                                    </div>
+                                                                    <div class="element-meta"><t t-esc="data[d].get('post_date')"/></div>
+                                                                    <div class="element-content">
+                                                                        <div class="blog-element-content">
+                                                                            <p style="text-align:justify;">
+                                                                                <t t-esc="data[d].get('content')"/>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!-- Tags -->
+    <template id="blog_post_tags" name="Blog Post Tags">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <t t-foreach="tag_ids" t-as="tag_id">
+                                        <div class="text">
+                                            Tags:
+                                            <b><t t-esc="tag_id.name"/></b>
+                                        </div>
+                                        <div class="line"><span></span></div>
+                                    </t>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-foreach="blog_post_ids" t-as="blog_post_id">
+                                            <div class="elements elements-list x1">
+                                                <div class="element-row tight">
+                                                    <div class="element-wrapper">
+                                                        <div class="element has-image fixed">
+                                                            <div class="element-image">
+                                                                <t t-if="blog_post_id.blog_post_cover_image">
+                                                                    <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }"><img t-attf-src="data:image/*;base64,{{blog_post_id.blog_post_cover_image}}"/></a>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                                </t>
+                                                            </div>
+                                                            <div class="element-text">
+                                                                <div class="element-title">
+                                                                    <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }"><t t-esc="blog_post_id.name"/></a>
+                                                                </div>
+                                                                <div class="element-meta"><t t-esc="(blog_post_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                <div class="element-content">
+                                                                    <div class="blog-element-content">
+                                                                        <p style="text-align:justify;">
+                                                                            <t t-if="blog_post_id.post_listing_content">
+                                                                                <t t-raw="blog_post_id.post_listing_content"/>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                               <t t-raw="blog_post_id.post_listing_text_content"/>
+                                                                            </t>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!-- Replace /blog main page -->
+    <template id="main_blog_post" name="Blogs">
+        <t t-call="website.layout">
+            <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="5000">
+                <t t-set="blog_post" t-value="request.env['blog.post'].sudo().search([('website_published', '=', True), ('lang', '=', request.env.context.get('lang')), ('blog_post_type_id', '!=', False)], limit=5, order='id desc')"/>
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"/>
+                    <li data-target="#myCarousel" data-slide-to="1"/>
+                    <li data-target="#myCarousel" data-slide-to="2"/>
+                    <t t-if="len(blog_post) >= 4">
+                        <li data-target="#myCarousel" data-slide-to="3"/>
+                        <li data-target="#myCarousel" data-slide-to="4"/>
+                    </t>
+                </ol>
+                <!-- Content -->
+                <div class="carousel-inner">
+                    <t t-set="count" t-value="0"/>
+                    <t t-foreach="blog_post" t-as="post">
+                        <t t-set="count" t-value="count+1"/>
+                        <t t-if="count==1">
+                            <div class="carousel-item active oe_custom_bg oe_img_bg pt152 pb152 js_click" t-attf-style="background-image: url(/web/binary/image?model=blog.post&amp;field=blog_post_cover_image&amp;id={{post.id}});" t-att-data-id="post.id" data-name="Slide">
+                                <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+                                    <div class="container">
+                                        <div class="element-image-title">
+                                            <t t-esc="post.subtitle or post.name"/>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="carousel-item oe_custom_bg oe_img_bg pt152 pb152 js_click" t-attf-style="background-image: url(/web/binary/image?model=blog.post&amp;field=blog_post_cover_image&amp;id={{post.id}});" t-att-data-id="post.id" data-name="Slide">
+                                <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+                                    <div class="container">
+                                        <div class="element-image-title">
+                                            <t t-esc="post.subtitle or post.name"/>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+                <!-- Controls -->
+                <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                    <span class="carousel-control-prev-icon"/>
+                    <span class="sr-only">Previous</span>
+                </div>
+                <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                    <span class="carousel-control-next-icon"/>
+                    <span class="sr-only">Next</span>
+                </div>
+            </div>
+            <main id="main">
+                <div class="row">
+                    <div class="oe_structure"/>
+                 </div>
+                <div id="page">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">Most Read <b>News</b></div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements inline_images_wrapper">
+                                        <t t-foreach="most_read_news_post" t-as="news_post">
+                                            <div class="element-row tight news_block inline_images">
+                                                <div class="element-wrapper">
+                                                    <div class="element has-image fixed">
+                                                        <div class="element-image">
+                                                            <t t-if="news_post.blog_post_cover_image">
+                                                                <a t-attf-href="/blog/#{ slug(news_post.blog_id) }/post/#{ slug(news_post) }">
+                                                                    <img t-attf-src="data:image/*;base64,{{news_post.blog_post_cover_image}}"/>
+                                                                    <div class="element-image-title text-left">
+                                                                        <font style="vertical-align: inherit;">
+                                                                            <font style="vertical-align: inherit;"><t t-esc="news_post.name"/></font>
+                                                                        </font>
+                                                                    </div>
+                                                                </a>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <a t-attf-href="/blog/#{ slug(news_post.blog_id) }/post/#{ slug(news_post) }">
+                                                                    <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                    <div class="element-image-title text-left">
+                                                                        <t t-esc="news_post.name"/>
+                                                                    </div>
+                                                                </a>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">PROFESSIONAL <b>Articles</b></div>
+                                    <div class="line"><span></span></div> 
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-foreach="most_read_article_post" t-as="article_post">
+                                            <div class="element-row tight blog-list">
+                                                <div class="element-wrapper">
+                                                    <div class="element has-image fixed">
+                                                        <div class="element-image">
+                                                            <t t-if="article_post.blog_post_cover_image">
+                                                                <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }"><img t-attf-src="data:image/*;base64,{{article_post.blog_post_cover_image}}"/>
+                                                                </a>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                            </t>
+                                                        </div>
+                                                        <div class="element-text">
+                                                            <div class="element-title">
+                                                                <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }"><t t-esc="article_post.name"/></a>
+                                                            </div>
+                                                            <div class="element-meta"><t t-esc="(article_post.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                            <div class="element-content">
+                                                                <p style="text-align:justify;">
+                                                                    <t t-if="article_post.post_listing_content">
+                                                                    <t t-raw="article_post.post_listing_content"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                       <t t-raw="article_post.post_listing_text_content"/>
+                                                                    </t>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">Judicial <b>Practices</b></div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-foreach="most_read_practice_post" t-as="practice_post">
+                                            <div class="element-row tight blog-list">
+                                                <div class="element-wrapper">
+                                                    <div class="element has-image fixed">
+                                                        <div class="element-image">
+                                                            <t t-if="practice_post.blog_post_cover_image">
+                                                                <a t-attf-href="/blog/#{ slug(practice_post.blog_id) }/post/#{ slug(practice_post) }"><img t-attf-src="data:image/*;base64,{{practice_post.blog_post_cover_image}}"/>
+                                                                </a>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <a t-attf-href="/blog/#{ slug(practice_post.blog_id) }/post/#{ slug(practice_post) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                            </t>
+                                                        </div>
+                                                        <div class="element-text">
+                                                            <div class="element-title">
+                                                                <a t-attf-href="/blog/#{ slug(practice_post.blog_id) }/post/#{ slug(practice_post) }"><t t-esc="practice_post.name"/></a>
+                                                            </div>
+                                                            <div class="element-meta"><t t-esc="(practice_post.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                            <div class="element-content">
+                                                                <p style="text-align:justify;">
+                                                                    <t t-if="practice_post.post_listing_content">
+                                                                    <t t-raw="practice_post.post_listing_content"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                       <t t-raw="practice_post.post_listing_text_content"/>
+                                                                    </t>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <template id="blog_post_complete_1" inherit_id="website_blog.blog_post_complete">
+        <xpath expr="//div[@id='title']" position="replace">
+        </xpath>
+    </template>
+
+    <!-- Blog Post News -->
+    <template id="blog_post_news" name="Blog Post News">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">News</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-if="blog_type">
+                                            <t t-foreach="blog_type" t-as="type_id">
+                                                <div class="elements elements-list x1">
+                                                    <div class="element-row tight blog-list">
+                                                        <div class="element-wrapper">
+                                                            <div class="element has-image fixed">
+                                                                <div class="element-image">
+                                                                    <t t-if="type_id.blog_post_cover_image">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/></a>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }">
+                                                                            <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                        </a>
+                                                                    </t>
+                                                                </div>
+                                                                <div class="element-text">
+                                                                    <div class="element-title">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
+                                                                    </div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-content">
+                                                                        <div class="blog-element-content">
+                                                                            <p style="text-align:justify;">
+                                                                                <t t-if="type_id.post_listing_content">
+                                                                                <t t-raw="type_id.post_listing_content"/>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                   <t t-raw="type_id.post_listing_text_content"/>
+                                                                                </t>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                           <h3> There is no available blog!</h3>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!-- Blog Post article -->
+    <template id="blog_post_article" name="Blog Post Articles">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">Articles</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-if="blog_type">
+                                            <t t-foreach="blog_type" t-as="type_id">
+                                                <div class="elements elements-list x1">
+                                                    <div class="element-row tight blog-list">
+                                                        <div class="element-wrapper">
+                                                            <div class="element has-image fixed">
+                                                                <div class="element-image">
+                                                                    <t t-if="type_id.blog_post_cover_image">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/></a>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                                    </t>
+                                                                </div>
+                                                                <div class="element-text">
+                                                                    <div class="element-title">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
+                                                                    </div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-content">
+                                                                        <div class="blog-element-content">
+                                                                            <p style="text-align:justify;">
+                                                                                <t t-if="type_id.post_listing_content">
+                                                                                <t t-raw="type_id.post_listing_content"/>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                   <t t-raw="type_id.post_listing_text_content"/>
+                                                                                </t>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                           <h3> There is no available blog!</h3>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!-- Blog Post Judicial Practice -->
+    <template id="blog_post_judicial_practice" name="Blog Post Judicial-Practice">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">Judicial Practice</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-if="blog_type">
+                                            <t t-foreach="blog_type" t-as="type_id">
+                                                <div class="elements elements-list x1">
+                                                    <div class="element-row tight blog-list">
+                                                        <div class="element-wrapper">
+                                                            <div class="element has-image fixed">
+                                                                <div class="element-image">
+                                                                    <t t-if="type_id.blog_post_cover_image">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/></a>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                       <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                                    </t>
+                                                                </div>
+                                                                <div class="element-text">
+                                                                    <div class="element-title">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
+                                                                    </div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-content">
+                                                                        <div class="blog-element-content">
+                                                                            <p style="text-align:justify;">
+                                                                                <t t-if="type_id.post_listing_content">
+                                                                                <t t-raw="type_id.post_listing_content"/>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                   <t t-raw="type_id.post_listing_text_content"/>
+                                                                                </t>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                           <h3> There is no available blog!</h3>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!--  Blog Post Legislation -->
+    <template id="blog_post_legislation" name="Blog Post Legislation">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">Legislation</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-if="data">
+                                            <t t-foreach="data" t-as="d">
+                                                <div class="elements elements-list x1">
+                                                    <div class="element-row tight blog-list">
+                                                        <div class="element-wrapper">
+                                                            <div class="element has-image fixed">
+                                                                <div class="element-image">
+                                                                    <a t-attf-href="/blog/legislation/content?name={{data[d].get('name')}}">
+                                                                        <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="element-text">
+                                                                    <div class="element-title">
+                                                                        <a t-attf-href="/blog/legislation/content?name={{data[d].get('name')}}">
+                                                                            <t t-esc="data[d].get('name')"/>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="element-meta"><t t-esc="data[d].get('post_date')"/></div>
+                                                                    <div class="element-content">
+                                                                        <div class="blog-element-content">
+                                                                            <p style="text-align:justify;">
+                                                                                <t t-esc="data[d].get('content')"/>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                           <h3> There is no available blog!</h3>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <template id="blog_post_dpo" name="Blog Post DPO">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">DPO</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <template id="blog_post_hubapp" name="Blog Post HUBAPP">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">HUB App</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!-- Display blog post content -->
+    <template id="blog_post_content">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text"><t t-esc="blog_post.name"/></div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <t t-raw="blog_post.content"/>
+                                    <div>
+                                        <a t-attf-href="#{blog_post.external_post_link}"><t t-esc="blog_post.external_post_link"/></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <template id="legislation_post_content">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text"><t t-esc="name"/></div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <t t-raw="content"/>
+                                    <div>
+                                        <a t-attf-href="external_post_link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+</odoo>

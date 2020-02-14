@@ -1,0 +1,31 @@
+@mixin calc($property, $expression, $important: false) {
+	$imp: "";
+	@if $important == true {
+		$imp: "!important";
+	}
+
+	#{$property}: -webkit-calc(#{$expression})#{$imp};
+	#{$property}: -moz-calc(#{$expression})#{$imp};
+	#{$property}: -o-calc(#{$expression})#{$imp};
+	#{$property}: calc(#{$expression})#{$imp};
+}
+
+@mixin gradient($direction, $list) { 
+	background: -webkit-linear-gradient($direction, $list);
+	background: -moz-linear-gradient($direction, $list);
+	background: -o-linear-gradient($direction, $list);
+	background: linear-gradient($direction, $list);  
+}
+
+@mixin background_linear_gradient($direction, $color1, $color2, $important: false) {
+	$imp: "";
+	@if $important == true {
+		$imp: "!important";
+	}
+	
+	background: $color1#{$imp};
+	background: -webkit-linear-gradient($direction, $color1, $color2)#{$imp};
+	background: -moz-linear-gradient($direction, $color1, $color2)#{$imp};
+	background: -o-linear-gradient($direction, $color1, $color2)#{$imp};
+	background: linear-gradient($direction, $color1, $color2)#{$imp};
+}
