@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-09 09:36+0000\n"
-"PO-Revision-Date: 2019-12-09 09:36+0000\n"
+"POT-Creation-Date: 2020-02-27 08:21+0000\n"
+"PO-Revision-Date: 2020-02-27 08:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
 msgid "<b>E-news</b>"
 msgstr "<b>E-novice</b>"
-
-#. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
-msgid "E-news"
-msgstr "E-novice"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
@@ -87,6 +82,11 @@ msgid "Blog Post"
 msgstr "Članek na blogu"
 
 #. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__blog_post_type_id
+msgid "Blog Post Type"
+msgstr ""
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Contact +386 41 000 000"
 msgstr "Kontakt +386 41 000 000"
@@ -148,8 +148,16 @@ msgstr "Prikazni naziv"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
-msgid "E-novice"
-msgstr ""
+msgid "E-news"
+msgstr "E-novice"
+
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_1:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_ESCP
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "ECHR judgments"
+msgstr "Sodbe ESČP"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
@@ -167,12 +175,21 @@ msgid "FROM THE <b>CONTENT</b>"
 msgstr "IZ <b>VSEBINE</b>"
 
 #. module: website_ascaldera
+#: selection:blog.post,sub_category_2:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_legislation
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Foreign legislation"
+msgstr "Tuja zakonodaja"
+
+#. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_gdpr
 msgid "GDPR"
 msgstr ""
 
 #. module: website_ascaldera
 #. openerp-web
+#: code:addons/website_ascaldera/static/src/xml/.ipynb_checkpoints/template-checkpoint.xml:4
 #: code:addons/website_ascaldera/static/src/xml/template.xml:4
 #, python-format
 msgid "Go to Website"
@@ -197,7 +214,31 @@ msgstr ""
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Italy"
-msgstr ""
+msgstr "Italija"
+
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_1:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_court
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Judgments of foreign courts"
+msgstr "Sodbe tujih sodišč"
+
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_1:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_EU_court
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Judgments of the European Court of Justice"
+msgstr "Sodbe Sodišča EU"
+
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_1:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judgement_SLO
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Judgments of the Slovenian Court"
+msgstr "Sodbe slovenskih sodišč"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
@@ -214,6 +255,12 @@ msgstr "Sodna praksa"
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_judicial_practice
 msgid "Judicial-Practice"
 msgstr "Sodna praksa"
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__lang
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__lang
+msgid "Language"
+msgstr "Jezik"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link____last_update
@@ -306,7 +353,7 @@ msgstr "Nazaj"
 #. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_privacy
 msgid "Privacy"
-msgstr ""
+msgstr "Zasebnost"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
@@ -334,6 +381,19 @@ msgid "Rights"
 msgstr ""
 
 #. module: website_ascaldera
+#: selection:blog.post,sub_category_1:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_practice_slo
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "SLO Information Commissioner's practice"
+msgstr "Praksa SLO Informacijskega pooblaščenca"
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__save_name
+msgid "Saved name"
+msgstr ""
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Search"
 msgstr "Iskanje"
@@ -344,6 +404,16 @@ msgid "Select blog post type"
 msgstr ""
 
 #. module: website_ascaldera
+#: model:ir.model.fields,help:website_ascaldera.field_blog_post__lang
+msgid "Select language for blog post content"
+msgstr ""
+
+#. module: website_ascaldera
+#: model:ir.model.fields,help:website_ascaldera.field_blog_link__lang
+msgid "Select language for useful link content"
+msgstr ""
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Sign up"
 msgstr "Registracija"
@@ -351,7 +421,22 @@ msgstr "Registracija"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Slovenia"
-msgstr ""
+msgstr "Slovenija"
+
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_2:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_slovenian_legislation
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Slovenian legislation"
+msgstr "Slovenska zakonodaja"
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_1
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_2
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_main
+msgid "Subcategory"
+msgstr "Podkategorija"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
@@ -364,10 +449,26 @@ msgid "Tags:"
 msgstr ""
 
 #. module: website_ascaldera
+#: selection:blog.post,sub_category_1:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_practice
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "The practice of foreign oversight bodies"
+msgstr "Praksa tujih nadzornih organov"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_ESCP
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_EU_court
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_article
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_court
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_legislation
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_practice
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judgement_SLO
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judicial_practice
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_legislation
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_news
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_practice_slo
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_slovenian_legislation
 msgid "There is no available blog!"
 msgstr "Blog ni na voljo!"
 
@@ -401,51 +502,3 @@ msgstr "Spletna stran"
 msgid "blog.post.type"
 msgstr ""
 
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_1:0
-#: selection:blog.post,sub_category_main:0
-msgid "ECHR judgments"
-msgstr "Sodbe ESČP"
-
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_2:0
-#: selection:blog.post,sub_category_main:0
-msgid "Foreign legislation"
-msgstr "Tuja zakonodaja"
-
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_1:0
-#: selection:blog.post,sub_category_main:0
-msgid "Judgments of foreign courts"
-msgstr "Sodbe tujih sodišč"
-
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_1:0
-#: selection:blog.post,sub_category_main:0
-msgid "SLO Information Commissioner's practice"
-msgstr "Praksa SLO Informacijskega pooblaščenca"
-
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_1:0
-#: selection:blog.post,sub_category_main:0
-msgid "Judgments of the European Court of Justice"
-msgstr "Sodbe Sodišča EU"
-
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_2:0
-#: selection:blog.post,sub_category_main:0
-msgid "Slovenian legislation"
-msgstr "Slovenska zakonodaja"
-
-#. module: website_ascaldera
-#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_1
-#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_2
-#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_main
-msgid "Subcategory"
-msgstr "Podkategorija"
-
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_1:0
-#: selection:blog.post,sub_category_main:0
-msgid "The practice of foreign oversight bodies"
-msgstr "Praksa tujih nadzornih organov"

@@ -19,6 +19,9 @@ odoo.define('website_ascaldera', function(require) {
         else if (window.location.pathname.includes('/blog/Judicial-Practice/practice_slo')){
             document.getElementById("post_type").value = "SLO Information Commissioner's practice";
         }
+        else if (window.location.pathname.includes('/blog/Judicial-Practice/judgement_SLO')){
+            document.getElementById("post_type").value = "Judgments of the Slovenian Court";
+        }
         else if (window.location.pathname.includes('/blog/Judicial-Practice/practice_foreign_oversight')){
             document.getElementById("post_type").value = "The practice of foreign oversight bodies";
         }
