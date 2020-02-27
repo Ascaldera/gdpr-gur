@@ -52,11 +52,11 @@ class BlogPost(models.Model):
     
     @api.onchange('blog_post_type_id','sub_category_1','sub_category_2')
     def spremeni_podkategorijo(self):
-        if self.blog_post_type_id.name=="Judicial-Practice":
+        if self.blog_post_type_id.name=="Judicial-Practice" or self.blog_post_type_id.name=="Sodna praksa":
             self.sub_category_2=[]
             if self.sub_category_1==False:
                 self.sub_category_main=[]
-        elif self.blog_post_type_id.name=="Legislation":
+        elif self.blog_post_type_id.name=="Legislation" or self.blog_post_type_id.name=="Zakonodaja":
             self.sub_category_1=[]
             if self.sub_category_2==False:
                 self.sub_category_main=[]

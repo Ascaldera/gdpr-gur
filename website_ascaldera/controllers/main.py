@@ -10,7 +10,8 @@ from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import Website
 from odoo.addons.website_blog.controllers.main import WebsiteBlog
 from odoo.http import request
-
+import base64
+from bs4 import BeautifulSoup
 
 def check_lang_to_installed(env, website):
     for code in ['sl_SI', 'it_IT', 'en_US']:
@@ -434,7 +435,7 @@ class WebsiteBlog(WebsiteBlog):
     ], type='http', auth="public", website=True)
     def blog_post_legislation(self, **post):
         """Controller for Legislation  page."""
-        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
+        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail'
         res = requests.get(url)
         result = res.json()
         vals = {}
@@ -442,7 +443,7 @@ class WebsiteBlog(WebsiteBlog):
         for res in result['_embedded']['documents']:
             count += 1
             vals.update({count: {'name': res['name'],
-                                 'content': res['description'],
+                                 'content': BeautifulSoup(base64.b64decode(res['content'])).get_text(),
                                  'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
                                  'external_post_link': res['_links']['self']['href'],
                                  }})
@@ -454,7 +455,7 @@ class WebsiteBlog(WebsiteBlog):
                 type='http', auth="public", website=True)
     def display_legislation_content(self, **post):
         name = request.params.get('name')
-        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
+        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail'
         res = requests.get(url)
         result = res.json()
         for res in result['_embedded']['documents']:
@@ -462,7 +463,7 @@ class WebsiteBlog(WebsiteBlog):
                 return request.render(
                     "website_ascaldera.legislation_post_content",
                     {'name': res['name'],
-                     'content': res['description'],
+                     'content': base64.b64decode(res['content']),
                      'external_post_link': res['_links']['self']['href'],
                      'external_post_count': self.get_external_post_count(), })
 

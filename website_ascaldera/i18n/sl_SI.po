@@ -346,7 +346,7 @@ msgstr ""
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Sign up"
-msgstr "Prijavi"
+msgstr "Registracija"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header

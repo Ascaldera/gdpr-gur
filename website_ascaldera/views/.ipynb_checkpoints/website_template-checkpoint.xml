@@ -296,7 +296,7 @@
                                                                 <div class="element-meta"><t t-esc="(post.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                 <div class="element-content">
                                                                     <div class="blog-element-content">
-                                                                        <p style="text-align:justify;">
+                                                                        <p style="text-align:left;">
                                                                             <t t-if="post.post_listing_content">
                                                                                 <t t-raw="post.post_listing_content"/>
                                                                             </t>
@@ -328,7 +328,7 @@
                                                                     <div class="element-meta"><t t-esc="data[d].get('post_date')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-esc="data[d].get('content')"/>
                                                                             </p>
                                                                         </div>
@@ -542,7 +542,7 @@
                                                             </div>
                                                             <div class="element-meta"><t t-esc="(article_post.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                             <div class="element-content">
-                                                                <p style="text-align:justify;">
+                                                                <p style="text-align:left;">
                                                                     <t t-if="article_post.post_listing_content">
                                                                     <t t-raw="article_post.post_listing_content"/>
                                                                     </t>
@@ -585,7 +585,7 @@
                                                             </div>
                                                             <div class="element-meta"><t t-esc="(practice_post.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                             <div class="element-content">
-                                                                <p style="text-align:justify;">
+                                                                <p style="text-align:left;">
                                                                     <t t-if="practice_post.post_listing_content">
                                                                     <t t-raw="practice_post.post_listing_content"/>
                                                                     </t>
@@ -652,7 +652,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -722,7 +722,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -791,7 +791,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -860,7 +860,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -929,7 +929,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -998,7 +998,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -1067,7 +1067,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -1136,7 +1136,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -1205,7 +1205,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -1271,7 +1271,7 @@
                                                                     <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <p style="text-align:left;">
                                                                                 <t t-if="type_id.post_listing_content">
                                                                                 <t t-raw="type_id.post_listing_content"/>
                                                                                 </t>
@@ -1336,7 +1336,8 @@
                                                                     <div class="element-meta"><t t-esc="data[d].get('post_date')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
-                                                                            <p style="text-align:justify;">
+                                                                            <!--change-->
+                                                                            <p style="text-align:left;">
                                                                                 <t t-esc="data[d].get('content')"/>
                                                                             </p>
                                                                         </div>
