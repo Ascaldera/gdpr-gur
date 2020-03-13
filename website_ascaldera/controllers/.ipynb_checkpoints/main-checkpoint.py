@@ -307,11 +307,19 @@ class WebsiteBlog(WebsiteBlog):
 
     #------------------------------------------------------------------------------------------------------
     
-    @http.route(['/blog/Judicial-Practice/practice_slo',],type='http',auth="public",website=True)
+    @http.route(['/blog/Legislation',],type='http',auth="public",website=True)
     def blog_post_articles_1(self,**post):
-        article_name="SLO_commissioner_practice"        
-        article_ids = request.env['blog.post'].sudo().search([('sub_category_main', '=', article_name),('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_practice_slo", {'blog_type': article_ids,'external_post_count': self.get_external_post_count(), })
+        """Controller for Article page."""
+        article_id = request.env.ref(
+            'website_ascaldera.blog_post_type_legislation')
+        article_ids = request.env['blog.post'].sudo().search(
+            [('blog_post_type_id', '=', article_id.id),
+             ('website_published', '=', True),
+             ('lang', '=', request.env.context.get('lang'))])
+
+        return request.render("website_ascaldera.blog_post_practice_slo", {
+            'blog_type': article_ids,
+            'external_post_count': self.get_external_post_count(), })
     
     #2
     
@@ -447,7 +455,7 @@ class WebsiteBlog(WebsiteBlog):
                 'external_post_count': self.get_external_post_count(), })
 
     @http.route([
-        '/blog/Legislation',
+        '/blog/Judicial-Practice/practice_slo',
     ], type='http', auth="public", website=True)
     def blog_post_legislation(self, **post):
         """Controller for Legislation  page."""
