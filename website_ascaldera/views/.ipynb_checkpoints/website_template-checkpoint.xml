@@ -243,7 +243,9 @@
                     <div class="wrapper container-fluid maxWidth">
                         <div class="section-logo">
                             <img src="/website_ascaldera/static/src/img/logo.png"/>
-                        </div><div class="section-links">
+                            <img src="/website_ascaldera/static/src/img/MGRT-logo.jpg" style="margin-left:30px"/>
+                        </div>
+                        <div class="section-links">
                             <ul class="menu-vertical menu-main">
                                 <li><a href="#">Legal stuff</a></li>
                                 <li><a href="#">Privacy policy</a></li>
@@ -294,7 +296,7 @@
                                                                 <div class="element-title">
                                                                     <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><t t-esc="post.name"/></a>
                                                                 </div>
-                                                                <div class="element-meta"><t t-esc="(post.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                <div class="element-meta"><t t-esc="(post.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                 <div class="element-content">
                                                                     <div class="blog-element-content">
                                                                         <p style="text-align:left;">
@@ -326,7 +328,7 @@
                                                                     <div class="element-title">
                                                                         <t t-esc="data[d].get('name')"/>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="data[d].get('post_date')"/></div>
+                                                                    <div class="element-meta"><t t-esc="data[d].get('document_date')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -388,7 +390,7 @@
                                                                 <div class="element-title">
                                                                     <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }"><t t-esc="blog_post_id.name"/></a>
                                                                 </div>
-                                                                <div class="element-meta"><t t-esc="(blog_post_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                <div class="element-meta"><t t-esc="(blog_post_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                 <div class="element-content">
                                                                     <div class="blog-element-content">
                                                                         <p style="text-align:justify;">
@@ -541,7 +543,7 @@
                                                             <div class="element-title">
                                                                 <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }"><t t-esc="article_post.name"/></a>
                                                             </div>
-                                                            <div class="element-meta"><t t-esc="(article_post.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                            <div class="element-meta"><t t-esc="(article_post.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                             <div class="element-content">
                                                                 <p style="text-align:left;">
                                                                     <t t-if="article_post.post_listing_content">
@@ -584,7 +586,7 @@
                                                             <div class="element-title">
                                                                 <a t-attf-href="/blog/#{ slug(practice_post.blog_id) }/post/#{ slug(practice_post) }"><t t-esc="practice_post.name"/></a>
                                                             </div>
-                                                            <div class="element-meta"><t t-esc="(practice_post.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                            <div class="element-meta"><t t-esc="(practice_post.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                             <div class="element-content">
                                                                 <p style="text-align:left;">
                                                                     <t t-if="practice_post.post_listing_content">
@@ -650,7 +652,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -720,7 +722,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -789,7 +791,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -858,7 +860,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -927,7 +929,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -996,7 +998,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -1065,7 +1067,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -1134,7 +1136,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -1204,7 +1206,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -1273,7 +1275,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -1339,7 +1341,7 @@
                                                                     <div class="element-title">
                                                                         <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="(type_id.post_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <p style="text-align:left;">
@@ -1404,7 +1406,7 @@
                                                                             <t t-esc="data[d].get('name')"/>
                                                                         </a>
                                                                     </div>
-                                                                    <div class="element-meta"><t t-esc="data[d].get('post_date')"/></div>
+                                                                    <div class="element-meta"><t t-esc="data[d].get('document_date')"/></div>
                                                                     <div class="element-content">
                                                                         <div class="blog-element-content">
                                                                             <!--change-->

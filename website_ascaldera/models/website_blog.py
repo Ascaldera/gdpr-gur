@@ -18,6 +18,7 @@ class BlogPostType(models.Model):
 
 class BlogPost(models.Model):
     _inherit = "blog.post"
+    _order = 'document_date desc'
 
     blog_post_type_id = fields.Many2one('blog.post.type',
                                         string='Blog Post Type',
@@ -33,6 +34,7 @@ class BlogPost(models.Model):
                             default=lambda self: self.env.lang,
                             help="Select language for blog post content",
                             required=True)
+    document_date = fields.Date(string="Document Date")
 
     #ADDITION
     #------------------------------------------------------------------------------------------------------------------------------
