@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 
 from odoo import api, fields, models
+from datetime import date,datetime
 
 
 @api.model
@@ -34,8 +35,13 @@ class BlogPost(models.Model):
                             default=lambda self: self.env.lang,
                             help="Select language for blog post content",
                             required=True)
-    document_date = fields.Date(string="Document Date")
+    document_date = fields.Datetime(string="Document Date",compute='get_date')
 
+    def get_date(self):
+        for r in self:
+            if r.document_date==False and r.create_date:
+                r.document_date=r.create_date
+    
     #ADDITION
     #------------------------------------------------------------------------------------------------------------------------------
     
