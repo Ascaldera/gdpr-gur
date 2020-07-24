@@ -45,17 +45,8 @@ class Website(Website):
         """Controller to replace home page with main page.."""
         super(Website, self).index(**kw)
         blog_post = request.env['blog.post']        
-        fav_tags = request.env['blog.tag'].sudo().search([],limit=3)
-        """fav_tags_1 = request.env['blog.tag'].sudo().search([])
-        for f in fav_tags_1:
-            blog=request.env['blog.post'].sudo().search([('tag_ids','in',f.id)])
-            vals={
-                'num_post':int(len(blog))
-            }
-            f.sudo().write(vals)
-        fav_tags = request.env['blog.tag'].sudo().search([()],limit=3,order="num_post desc")"""
-        
-        
+        fav_tags = request.env['blog.tag'].sudo().search([])
+        """fav_tags = request.env['blog.tag'].sudo().search([],limit=3)"""
         # Get max three news posts
         news_id = request.env.ref(
             'website_ascaldera.blog_post_type_news')
@@ -120,17 +111,8 @@ class WebsiteBlog(WebsiteBlog):
     def blogs(self, **post):
         """Controller to render new template with most visited data."""
         blog_post = request.env['blog.post']
-        fav_tags = request.env['blog.tag'].sudo().search([],limit=3)
-        """fav_tags_1 = request.env['blog.tag'].sudo().search([])
-        for f in fav_tags_1:
-            blog=request.env['blog.post'].sudo().search([('tag_ids','in',f.id)])
-            vals={
-                'num_post':int(len(blog))
-            }
-            f.sudo().write(vals)
-        fav_tags = request.env['blog.tag'].sudo().search([()],limit=3,order="num_post desc")"""
-        
-        
+        fav_tags = request.env['blog.tag'].sudo().search([])
+        """fav_tags = request.env['blog.tag'].sudo().search([],limit=3)"""        
         posts = blog_post.sudo().search(
             [('lang', '=', request.env.context.get('lang'))], order='id desc')
         # Get max three news posts

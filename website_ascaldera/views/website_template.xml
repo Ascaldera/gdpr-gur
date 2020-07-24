@@ -19,8 +19,7 @@
                 </div>
                 <div class="block-content">
                     <div class="elements elements-tag x1 ">
-                        <!--<t t-set="fav_tags" t-value="request.env['blog.tag'].sudo().search([]).sorted(key=post_ids,reverse=True)"/>-->
-                        <!--<t t-set="fav_tags" t-value="fav_tags"/>-->
+                        <t t-set="fav_tags" t-value="request.env['blog.tag'].sudo().search([])"/>
                         <t t-foreach="fav_tags" t-as="tag">
                             <div class="element-row tight">
                                 <div class="element-wrapper list_padding">
