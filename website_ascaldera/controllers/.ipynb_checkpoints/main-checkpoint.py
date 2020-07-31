@@ -12,6 +12,7 @@ from odoo.addons.website_blog.controllers.main import WebsiteBlog
 from odoo.http import request
 import base64
 from bs4 import BeautifulSoup
+import logging
 
 def check_lang_to_installed(env, website):
     for code in ['sl_SI', 'it_IT', 'en_US']:
@@ -44,9 +45,30 @@ class Website(Website):
     def index(self, data={}, **kw):
         """Controller to replace home page with main page.."""
         super(Website, self).index(**kw)
-        blog_post = request.env['blog.post']        
-        fav_tags = request.env['blog.tag'].sudo().search([])
-        """fav_tags = request.env['blog.tag'].sudo().search([],limit=3)"""
+        blog_post = request.env['blog.post']     
+        
+        fav_tags_1 = request.env['blog.tag'].sudo().search([])
+        search_list_first=[]
+        search_list_second=[]
+        list_first=[]
+        list_second=[]
+        for f in fav_tags_1:
+            list_first.append((f.id,len(f.post_ids)))
+            list_second.append((f.id,len(f.post_ids)))
+        list_first.sort(key=lambda x: x[1],reverse=True)
+        list_second.sort(key=lambda x: x[1],reverse=True)
+        if(len(list_first) > 3):
+            list_first=list_first[:3]
+        if (len(list_second) > 3):
+            list_second=list_second[3:]
+        for x in list_first:
+            search_list_first.append(x[0])
+        for x in list_second:
+            search_list_second.append(x[0])
+        fav_tags=request.env['blog.tag'].sudo().search([('id','in',search_list_first)])
+        unfav_tags=request.env['blog.tag'].sudo().search([('id','in',search_list_second)])
+        
+        """fav_tags = request.env['blog.tag'].sudo().search([])"""
         # Get max three news posts
         news_id = request.env.ref(
             'website_ascaldera.blog_post_type_news')
@@ -85,12 +107,13 @@ class Website(Website):
              ('lang', '=', request.env.context.get('lang'))], limit=3)
 
         check_lang_to_installed(request.env, request.website)
-
+        
         return request.render("website_ascaldera.main_blog_post", {
             'most_read_news_post': most_read_news_post,
             'most_read_article_post': most_read_article_post,
             'most_read_practice_post': most_read_practice_post,
             'fav_tags': fav_tags,
+            'unfav_tags': unfav_tags,
             'external_post_count': self.get_external_post_count(),
         })
 
@@ -105,13 +128,50 @@ class WebsiteBlog(WebsiteBlog):
         count = len(result['_embedded']['documents'])
         return count
 
+    def fav_tags_get(self):
+        fav_tags = request.env['blog.tag'].sudo().search([])
+        search_list=[]
+        list=[]
+        for f in fav_tags:
+            list.append((f.id,len(f.post_ids)))
+        list.sort(key=lambda x: x[1],reverse=True)
+        if(len(list) > 3):
+            list=list[:3]
+        for x in list:
+            search_list.append(x[0])
+        return request.env['blog.tag'].sudo().search([('id','in',search_list)])
+    
+    def unfav_tags_get(self):
+        unfav_tags = request.env['blog.tag'].sudo().search([])
+        search_list=[]
+        list=[]
+        for f in unfav_tags:
+            list.append((f.id,len(f.post_ids)))
+        list.sort(key=lambda x: x[1],reverse=True)
+        if(len(list) > 3):
+            list=list[3:]
+        for x in list:
+            search_list.append(x[0])
+        return request.env['blog.tag'].sudo().search([('id','in',search_list)])
+
     @http.route([
         '/blog',
     ], type='http', auth="public", website=True)
     def blogs(self, **post):
         """Controller to render new template with most visited data."""
         blog_post = request.env['blog.post']
-        fav_tags = request.env['blog.tag'].sudo().search([])
+        """fav_tags_1 = request.env['blog.tag'].sudo().search([])
+        search_list=[]
+        list=[]
+        for f in fav_tags_1:
+            list.append((f.id,len(f.post_ids)))
+        list.sort(key=lambda x: x[1])
+        if(len(list) > 1):
+            list=list[4:]
+        for x in list:
+            search_list.append(x[1])
+        fav_tags=request.env['blog.tag'].sudo().search([('id','in',search_list)])"""
+        
         """fav_tags = request.env['blog.tag'].sudo().search([],limit=3)"""        
         posts = blog_post.sudo().search(
             [('lang', '=', request.env.context.get('lang'))], order='id desc')
@@ -157,7 +217,8 @@ class WebsiteBlog(WebsiteBlog):
             'most_read_news_post': most_read_news_post,
             'most_read_article_post': most_read_article_post,
             'most_read_practice_post': most_read_practice_post,
-            'fav_tags': fav_tags,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(),
         })
 
@@ -168,6 +229,8 @@ class WebsiteBlog(WebsiteBlog):
         """Controller to render new template "blog_post_content"."""
         return request.render("website_ascaldera.blog_post_content", {
             'blog': blog,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'blog_post': blog_post,
             'main_object': blog_post,
             'external_post_count': self.get_external_post_count(),
@@ -188,6 +251,8 @@ class WebsiteBlog(WebsiteBlog):
         """Controller to fetch blog based on tags."""
         return request.render("website_ascaldera.blog_post_tags", {
             'tag_ids': tag_id,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'blog_post_ids': tag_id.post_ids.filtered(lambda r: r.lang == request.env.context.get('lang')),
             'external_post_count': self.get_external_post_count(),
         })
@@ -261,6 +326,7 @@ class WebsiteBlog(WebsiteBlog):
                                                      'content': res['description'],
                                                      'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
                                                      'external_post_link': res['_links']['self']['href'],
+                                                     'fav_tags': self.fav_tags_get(),
                                                      }})
                             elif content.find(search_query) != -1:
                                 count += 1
@@ -268,6 +334,7 @@ class WebsiteBlog(WebsiteBlog):
                                                      'content': res['description'],
                                                      'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
                                                      'external_post_link': res['_links']['self']['href'],
+                                                     'fav_tags': self.fav_tags_get(),
                                                      }})
                         return request.render("website_ascaldera.blog_post_search", {
                             'data': vals,
@@ -288,6 +355,8 @@ class WebsiteBlog(WebsiteBlog):
 
         return request.render("website_ascaldera.blog_post_news", {
             'blog_type': news_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(),
         })
 
@@ -305,6 +374,8 @@ class WebsiteBlog(WebsiteBlog):
 
         return request.render("website_ascaldera.blog_post_article", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
 
     #------------------------------------------------------------------------------------------------------
@@ -321,6 +392,8 @@ class WebsiteBlog(WebsiteBlog):
 
         return request.render("website_ascaldera.blog_post_practice_slo", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
     
     #2
@@ -329,7 +402,7 @@ class WebsiteBlog(WebsiteBlog):
     def blog_post_articles_2(self, **post):
         article_name="foreign_practice"        
         article_ids = request.env['blog.post'].sudo().search([('sub_category_main', '=', article_name),('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_foreign_practice", {'blog_type': article_ids,'external_post_count': self.get_external_post_count(), })
+        return request.render("website_ascaldera.blog_post_foreign_practice", {'blog_type': article_ids,'fav_tags': self.fav_tags_get(),'external_post_count': self.get_external_post_count(), })
     
     #3
     
@@ -347,6 +420,8 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])
         return request.render("website_ascaldera.blog_post_EU_court", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
     
     #4
@@ -365,6 +440,8 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])
         return request.render("website_ascaldera.blog_post_ESCP", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
     
     #5
@@ -383,6 +460,8 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])
         return request.render("website_ascaldera.blog_post_foreign_court", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
     
     #6
@@ -401,6 +480,8 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])
         return request.render("website_ascaldera.blog_post_foreign_legislation", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
     
     #7
@@ -419,6 +500,8 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])
         return request.render("website_ascaldera.blog_post_slovenian_legislation", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
     #8
     @http.route([
@@ -435,6 +518,8 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])
         return request.render("website_ascaldera.blog_post_judgement_SLO", {
             'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
     
     #------------------------------------------------------------------------------------------------------
@@ -454,6 +539,7 @@ class WebsiteBlog(WebsiteBlog):
         return request.render(
             "website_ascaldera.blog_post_judicial_practice", {
                 'blog_type': judicial_practice_ids,
+                'fav_tags': self.fav_tags_get(),
                 'external_post_count': self.get_external_post_count(), })
 
     @http.route([
@@ -475,6 +561,8 @@ class WebsiteBlog(WebsiteBlog):
                                  }})
         return request.render("website_ascaldera.blog_post_legislation", {
             'data': vals,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
             'external_post_count': self.get_external_post_count(), })
 
     @http.route('/blog/legislation/content',

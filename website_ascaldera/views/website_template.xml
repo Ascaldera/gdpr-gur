@@ -3,6 +3,7 @@
 <odoo>
     <!-- Sider bar -->
     <template id="t_sidebar">
+        
         <div class="sidebar_icon">
             <img src="/website_ascaldera/static/src/img/icon-arrow-large-left.svg" id="sidebar_arrow" data-visible="False"/>
         </div>
@@ -12,6 +13,53 @@
             <div class="block">
                 <div class="block-title">
                     <div class="text">FAVORITE <b>TAGS</b>
+                    </div>
+                    <div class="line">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <div class="elements elements-tag x1 ">
+                        <t t-set="fav_tags" t-value="fav_tags"/>
+                        <t t-foreach="fav_tags" t-as="tag">
+                            <div class="element-row tight">
+                                <div class="element-wrapper list_padding">
+                                    <div class="element background">
+                                        <div class="element-text">
+                                            <div class="element-title">
+                                                <a t-attf-href="/blog/tag/#{ slug(tag) }"><t t-esc="tag.name"/></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>                        
+                    </div>
+                    
+                    <button data-toggle="collapse" data-target="#collapsable">More tags...</button>
+                    
+                    <div class="collapse" id="collapsable">
+                        <div class="elements elements-tag x1">
+                            <t t-set="unfav_tags" t-value="unfav_tags"/>
+                            <t t-foreach="unfav_tags" t-as="untag">
+                                <div class="element-row tight">
+                                    <div class="element-wrapper list_padding">
+                                        <div class="element background">
+                                            <div class="element-text">
+                                                <div class="element-title">
+                                                    <a t-attf-href="/blog/tag/#{ slug(untag) }"><t t-esc="untag.name"/></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>  
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="block-title">
+                    <div class="text">ALL <b>TAGS</b>
                     </div>
                     <div class="line">
                         <span></span>
