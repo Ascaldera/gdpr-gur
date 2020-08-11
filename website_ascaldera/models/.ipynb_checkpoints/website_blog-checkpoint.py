@@ -35,7 +35,7 @@ class BlogPost(models.Model):
                             default=lambda self: self.env.lang,
                             help="Select language for blog post content",
                             required=True)
-    document_date = fields.Datetime(string="Document Date",compute='get_date')
+    document_date = fields.Datetime(string="Document Date")
 
     def get_date(self):
         for r in self:

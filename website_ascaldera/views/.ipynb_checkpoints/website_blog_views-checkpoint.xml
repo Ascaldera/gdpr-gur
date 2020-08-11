@@ -16,7 +16,7 @@
             </xpath>
             <xpath expr="//field[@name='post_date']" position="after">
                 <!-- Attributes have been added -->
-                <field name="document_date" attrs="{'readonly':False}"/>
+                <field name="document_date" attrs="{'readonly':False, 'required': True}"/>
             </xpath>
             <xpath expr="//field[@name='blog_post_type_id']" position="after">
                 

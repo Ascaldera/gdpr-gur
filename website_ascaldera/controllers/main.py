@@ -57,10 +57,10 @@ class Website(Website):
             list_second.append((f.id,len(f.post_ids)))
         list_first.sort(key=lambda x: x[1],reverse=True)
         list_second.sort(key=lambda x: x[1],reverse=True)
-        if(len(list_first) > 3):
-            list_first=list_first[:3]
-        if (len(list_second) > 3):
-            list_second=list_second[3:]
+        if(len(list_first) > 10):
+            list_first=list_first[:10]
+        if (len(list_second) > 10):
+            list_second=list_second[10:]
         for x in list_first:
             search_list_first.append(x[0])
         for x in list_second:
@@ -135,8 +135,8 @@ class WebsiteBlog(WebsiteBlog):
         for f in fav_tags:
             list.append((f.id,len(f.post_ids)))
         list.sort(key=lambda x: x[1],reverse=True)
-        if(len(list) > 3):
-            list=list[:3]
+        if(len(list) > 10):
+            list=list[:10]
         for x in list:
             search_list.append(x[0])
         return request.env['blog.tag'].sudo().search([('id','in',search_list)])
@@ -148,8 +148,8 @@ class WebsiteBlog(WebsiteBlog):
         for f in unfav_tags:
             list.append((f.id,len(f.post_ids)))
         list.sort(key=lambda x: x[1],reverse=True)
-        if(len(list) > 3):
-            list=list[3:]
+        if(len(list) > 10):
+            list=list[10:]
         for x in list:
             search_list.append(x[0])
         return request.env['blog.tag'].sudo().search([('id','in',search_list)])
