@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="website_assets_frontend" name="Website Frontend Assets" inherit_id="website.assets_frontend">
+        <xpath expr="//link[last()]" position="after">
+            <!--Main Stylesheet-->
+            <link rel="stylesheet" type="text/css" href="/website_ascaldera/static/src/scss/mixin.scss"/>
+            <link rel="stylesheet" type="text/css" href="/website_ascaldera/static/src/scss/setting.scss"/>
+            <link rel="stylesheet" type="text/css" href="/website_ascaldera/static/src/scss/style.scss"/>
+            <link rel="stylesheet" type="text/css" href="/website_ascaldera/static/src/css/frontend.css"/>
+        </xpath>
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/website_ascaldera/static/src/js/website_ascaldera.js"></script>
+        </xpath>
+    </template>
+</odoo>

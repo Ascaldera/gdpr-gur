@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_blog_post_form" model="ir.ui.view">
+        <field name="name">blog.post.form</field>
+        <field name="model">blog.post</field>
+        <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='blog_id']" position="before">
+                <field name="blog_post_cover_image" widget='image' class="oe_avatar" filename="cover_image_filename"/>
+                <field name="cover_image_filename" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <!-- Attributes have been added -->
+                <field name="blog_post_type_id" widget='selection'/>
+            </xpath>
+            <xpath expr="//field[@name='post_date']" position="after">
+                <!-- Attributes have been added -->
+                <field name="document_date" attrs="{'readonly':False, 'required': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='blog_post_type_id']" position="after">
+                
+                
+                <!-- THESE SELECTION FIELDS HAVE BEEN ADDED -->
+                
+                <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+                
+                <field name="save_name" attrs ="{'invisible':1}"/>
+                <field name="sub_category_main" attrs ="{'invisible':1}"/>
+                <field name="sub_category_1" attrs ="{'invisible':[('save_name','!=','blog.post.type(3,)')]}"/>
+                <field name="sub_category_2" attrs ="{'invisible':[('save_name','!=','blog.post.type(4,)')]}"/>
+                
+                <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+                
+                <field name="lang"/>
+                <field name="post_listing_content"/>
+                <field name="content" help="Add blog content here which allows (image, link, video etc.)"/>
+                <field name="external_post_link" widget="url"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_blog_post_list" model="ir.ui.view">
+        <field name="name">blog.post.tree</field>
+        <field name="model">blog.post</field>
+        <field name="inherit_id" ref="website_blog.view_blog_post_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="lang"/>
+            </xpath>
+            <xpath expr="//field[@name='write_date']" position="before">
+                <field name="document_date"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="view_blog_link_tree" model="ir.ui.view">
+        <field name="name">blog.link.tree</field>
+        <field name="model">blog.link</field>
+        <field name="arch" type="xml">
+            <tree string="Blog Link">
+                <field name="lang"/>
+                <field name="title"/>
+                <field name="link" widget="url"/>
+                <field name="content"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_blog_link_form" model="ir.ui.view">
+        <field name="name">blog.link.form</field>
+        <field name="model">blog.link</field>
+        <field name="arch" type="xml">
+            <form string="Blog Link">
+                <sheet>
+                    <group>
+                        <field name="lang"/>
+                    </group>
+                    <group>
+                        <field name="title"/>
+                        <field name="link" widget="url"/>
+                    </group>
+                    <separator string="Content"/>
+                    <field name="content" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_blog_link" model="ir.actions.act_window">
+        <field name="name">Blog Link</field>
+        <field name="res_model">blog.link</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_blog_link" parent="website_blog.menu_website_blog_root_global" action="action_blog_link" name="Useful Link" sequence="60"/>
+</odoo>
