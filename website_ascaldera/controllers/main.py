@@ -38,10 +38,9 @@ class Website(Website):
         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
         res = requests.get(url)
         count = 0
-        if (res) {
+        if(res):
             result = res.json()
-            count = len(result['_embedded']['documents'])   
-        }
+            count = len(result['_embedded']['documents'])
         return count
     
     @http.route(auth='public')
@@ -128,10 +127,9 @@ class WebsiteBlog(WebsiteBlog):
         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
         res = requests.get(url)
         count = 0;
-        if(result) {
+        if(res):
             result = res.json()
-            count = len(result['_embedded']['documents'])   
-        }
+            count = len(result['_embedded']['documents'])
         return count
 
     def fav_tags_get(self):
@@ -286,10 +284,9 @@ class WebsiteBlog(WebsiteBlog):
                 elif post_type == 'Legislation':
                     url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
                     res = requests.get(url)
-                    result = []
-                    if (res) {
+                    result = 0
+                    if (res):
                         result = res.json()
-                    }
                     count = 0
                     vals = {}
                     for res in result['_embedded']['documents']:
@@ -323,10 +320,9 @@ class WebsiteBlog(WebsiteBlog):
                     else:
                         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
                         res = requests.get(url)
-                        result = []
-                        if (res) {
+                        result = 0
+                        if (res):
                             result = res.json()
-                        }
                         count = 0
                         vals = {}
                         for res in result['_embedded']['documents']:
@@ -561,10 +557,9 @@ class WebsiteBlog(WebsiteBlog):
         """Controller for Legislation  page."""
         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail'
         res = requests.get(url)
-        result = []
-        if (res) {
+        result = 0
+        if (res):
             result = res.json()
-        }
         vals = {}
         count = 0
         for res in result['_embedded']['documents']:
@@ -573,7 +568,7 @@ class WebsiteBlog(WebsiteBlog):
                                  'content': BeautifulSoup(base64.b64decode(res['content'])).get_text(),
                                  'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
                                  'external_post_link': res['_links']['self']['href'],
-                                 }})
+                                }})
         return request.render("website_ascaldera.blog_post_legislation", {
             'data': vals,
             'fav_tags': self.fav_tags_get(),
@@ -586,10 +581,9 @@ class WebsiteBlog(WebsiteBlog):
         name = request.params.get('name')
         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail'
         res = requests.get(url)
-        result = []
-        if (res) {
+        result = 0
+        if (res):
             result = res.json()
-        }
         for res in result['_embedded']['documents']:
             if res['name'] == name:
                 return request.render(
