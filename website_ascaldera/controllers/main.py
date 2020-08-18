@@ -285,7 +285,7 @@ class WebsiteBlog(WebsiteBlog):
                     url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
                     res = requests.get(url)
                     result = 0
-                    if (res):
+                    if(res):
                         result = res.json()
                     count = 0
                     vals = {}
@@ -321,7 +321,7 @@ class WebsiteBlog(WebsiteBlog):
                         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
                         res = requests.get(url)
                         result = 0
-                        if (res):
+                        if(res):
                             result = res.json()
                         count = 0
                         vals = {}
@@ -558,7 +558,7 @@ class WebsiteBlog(WebsiteBlog):
         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail'
         res = requests.get(url)
         result = 0
-        if (res):
+        if(res):
             result = res.json()
         vals = {}
         count = 0
@@ -582,7 +582,7 @@ class WebsiteBlog(WebsiteBlog):
         url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail'
         res = requests.get(url)
         result = 0
-        if (res):
+        if(res):
             result = res.json()
         for res in result['_embedded']['documents']:
             if res['name'] == name:
