@@ -289,23 +289,24 @@ class WebsiteBlog(WebsiteBlog):
                         result = res.json()
                     count = 0
                     vals = {}
-                    for res in result['_embedded']['documents']:
-                        name = res['name']
-                        content = res['description']
-                        if name.find(search_query) != -1:
-                            count += 1
-                            vals.update({count: {'name': res['name'],
-                                                 'content': res['description'],
-                                                 'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                 'external_post_link': res['_links']['self']['href'],
-                                                 }})
-                        elif content.find(search_query) != -1:
-                            count += 1
-                            vals.update({count: {'name': res['name'],
-                                                 'content': res['description'],
-                                                 'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                 'external_post_link': res['_links']['self']['href'],
-                                                 }})
+                    if(result != 0):
+                        for res in result['_embedded']['documents']:
+                            name = res['name']
+                            content = res['description']
+                            if name.find(search_query) != -1:
+                                count += 1
+                                vals.update({count: {'name': res['name'],
+                                                     'content': res['description'],
+                                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
+                                                     'external_post_link': res['_links']['self']['href'],
+                                                     }})
+                            elif content.find(search_query) != -1:
+                                count += 1
+                                vals.update({count: {'name': res['name'],
+                                                     'content': res['description'],
+                                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
+                                                     'external_post_link': res['_links']['self']['href'],
+                                                     }})
                     return request.render("website_ascaldera.blog_post_search", {
                         'data': vals,
                         'external_post_count': self.get_external_post_count(), })
@@ -325,25 +326,26 @@ class WebsiteBlog(WebsiteBlog):
                             result = res.json()
                         count = 0
                         vals = {}
-                        for res in result['_embedded']['documents']:
-                            name = res['name']
-                            content = res['description']
-                            if name.find(search_query) != -1:
-                                count += 1
-                                vals.update({count: {'name': res['name'],
-                                                     'content': res['description'],
-                                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                     'external_post_link': res['_links']['self']['href'],
-                                                     'fav_tags': self.fav_tags_get(),
-                                                     }})
-                            elif content.find(search_query) != -1:
-                                count += 1
-                                vals.update({count: {'name': res['name'],
-                                                     'content': res['description'],
-                                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                     'external_post_link': res['_links']['self']['href'],
-                                                     'fav_tags': self.fav_tags_get(),
-                                                     }})
+                        if(result != 0):
+                            for res in result['_embedded']['documents']:
+                                name = res['name']
+                                content = res['description']
+                                if name.find(search_query) != -1:
+                                    count += 1
+                                    vals.update({count: {'name': res['name'],
+                                                         'content': res['description'],
+                                                         'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
+                                                         'external_post_link': res['_links']['self']['href'],
+                                                         'fav_tags': self.fav_tags_get(),
+                                                         }})
+                                elif content.find(search_query) != -1:
+                                    count += 1
+                                    vals.update({count: {'name': res['name'],
+                                                         'content': res['description'],
+                                                         'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
+                                                         'external_post_link': res['_links']['self']['href'],
+                                                         'fav_tags': self.fav_tags_get(),
+                                                         }})
                         return request.render("website_ascaldera.blog_post_search", {
                             'data': vals,
                             'external_post_count': self.get_external_post_count(), })
@@ -562,13 +564,14 @@ class WebsiteBlog(WebsiteBlog):
             result = res.json()
         vals = {}
         count = 0
-        for res in result['_embedded']['documents']:
-            count += 1
-            vals.update({count: {'name': res['name'],
-                                 'content': BeautifulSoup(base64.b64decode(res['content'])).get_text(),
-                                 'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                 'external_post_link': res['_links']['self']['href'],
-                                }})
+        if(result != 0):
+            for res in result['_embedded']['documents']:
+                count += 1
+                vals.update({count: {'name': res['name'],
+                                     'content': BeautifulSoup(base64.b64decode(res['content'])).get_text(),
+                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
+                                     'external_post_link': res['_links']['self']['href'],
+                                    }})
         return request.render("website_ascaldera.blog_post_legislation", {
             'data': vals,
             'fav_tags': self.fav_tags_get(),
@@ -584,14 +587,15 @@ class WebsiteBlog(WebsiteBlog):
         result = 0
         if(res):
             result = res.json()
-        for res in result['_embedded']['documents']:
-            if res['name'] == name:
-                return request.render(
-                    "website_ascaldera.legislation_post_content",
-                    {'name': res['name'],
-                     'content': base64.b64decode(res['content']),
-                     'external_post_link': res['_links']['self']['href'],
-                     'external_post_count': self.get_external_post_count(), })
+        if(result != 0):
+            for res in result['_embedded']['documents']:
+                if res['name'] == name:
+                    return request.render(
+                        "website_ascaldera.legislation_post_content",
+                        {'name': res['name'],
+                         'content': base64.b64decode(res['content']),
+                         'external_post_link': res['_links']['self']['href'],
+                         'external_post_count': self.get_external_post_count(), })
 
     @http.route([
         '/blog/Dpo',
