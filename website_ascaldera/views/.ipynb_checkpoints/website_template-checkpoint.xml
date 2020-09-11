@@ -261,6 +261,7 @@
                                     <a href="/blog/Judicial-Practice/judgement_EU">Judgments of the European Court of Justice</a>
                                     <a href="/blog/Judicial-Practice/judgements_escp">ECHR judgments</a>
                                     <a href="/blog/Judicial-Practice/judgements_foreign">Judgments of foreign courts</a>
+                                    <a href="/blog/Judicial-Practice/edbp_guidelines">EDBP guidelines and opinions</a>
                                 </div>
                                 <!-- dodano -->
                             </li>
@@ -1227,6 +1228,73 @@
                             <div class="block">
                                 <div class="block-title">
                                     <div class="text">Judgments of the Slovenian Court</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-if="blog_type">
+                                            <t t-foreach="blog_type" t-as="type_id">
+                                                <div class="elements elements-list x1">
+                                                    <div class="element-row tight blog-list">
+                                                        <div class="element-wrapper">
+                                                            <div class="element has-image fixed">
+                                                                <div class="element-image">
+                                                                    <t t-if="type_id.blog_post_cover_image">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/></a>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }">
+                                                                            <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                        </a>
+                                                                    </t>
+                                                                </div>
+                                                                <div class="element-text">
+                                                                    <div class="element-title">
+                                                                        <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
+                                                                    </div>
+                                                                    <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
+                                                                    <div class="element-content">
+                                                                        <div class="blog-element-content">
+                                                                            <p style="text-align:left;">
+                                                                                <t t-if="type_id.post_listing_content">
+                                                                                <t t-raw="type_id.post_listing_content"/>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                   <t t-raw="type_id.post_listing_text_content"/>
+                                                                                </t>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                           <h3> There is no available blog!</h3>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+    
+    <template id="blog_post_edbp_guidelines" name="EDBP guidelines and opinions">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">EDBP guidelines and opinions</div>
                                     <div class="line"><span></span></div>
                                 </div>
                                 <div class="block-content">

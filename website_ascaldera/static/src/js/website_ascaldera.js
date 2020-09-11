@@ -31,6 +31,9 @@ odoo.define('website_ascaldera', function(require) {
         else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_escp')){
             document.getElementById("post_type").value = "ECHR judgments";
         }
+        else if (window.location.pathname.includes('/blog/Judicial-Practice/edbp_guidelines')){
+            document.getElementById("post_type").value = "EDBP guidelines and opinions";
+        }
         else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_foreign')){
             document.getElementById("post_type").value = "Judgments of foreign courts";
         }

@@ -272,7 +272,7 @@ class WebsiteBlog(WebsiteBlog):
             post_type = post.get('post_type')
             blog_post_pool = request.env['blog.post'].sudo()
             if post_type:
-                if post_type in ['News', 'Articles', 'Judicial-Practice']:
+                if post_type in ['News', 'Articles', 'Judicial-Practice', 'Legislation']:
                     posts = blog_post_pool.search(
                         ['|', '|', ('content', 'ilike', search_query),
                          ('name', 'ilike', search_query),
@@ -449,6 +449,25 @@ class WebsiteBlog(WebsiteBlog):
              ('website_published', '=', True),
              ('lang', '=', request.env.context.get('lang'))])
         return request.render("website_ascaldera.blog_post_ESCP", {
+            'blog_type': article_ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+            'external_post_count': self.get_external_post_count(), })
+    
+    
+    @http.route([
+        '/blog/Judicial-Practice/edbp_guidelines',
+    ], type='http', auth="public", website=True)
+    def blog_post_articles_4(self, **post):
+        """Controller for Article page."""
+        
+        article_name="edbp_guidelines"        
+        
+        article_ids = request.env['blog.post'].sudo().search(
+            [('sub_category_main', '=', article_name),
+             ('website_published', '=', True),
+             ('lang', '=', request.env.context.get('lang'))])
+        return request.render("website_ascaldera.blog_post_edbp_guidelines", {
             'blog_type': article_ids,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
