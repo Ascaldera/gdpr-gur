@@ -456,18 +456,18 @@ class WebsiteBlog(WebsiteBlog):
     
     
     @http.route([
-        '/blog/Judicial-Practice/edbp_guidelines',
+        '/blog/Judicial-Practice/edpb_guidelines',
     ], type='http', auth="public", website=True)
     def blog_post_articles_4(self, **post):
         """Controller for Article page."""
         
-        article_name="edbp_guidelines"        
+        article_name="edpb_guidelines"        
         
         article_ids = request.env['blog.post'].sudo().search(
             [('sub_category_main', '=', article_name),
              ('website_published', '=', True),
              ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_edbp_guidelines", {
+        return request.render("website_ascaldera.blog_post_edpb_guidelines", {
             'blog_type': article_ids,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
