@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
+    <template id="assets_frontend_website_blog_scroll" inherit_id="website.assets_frontend" name="Website blog scroll">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/website_ascaldera/static/src/css/website_blog_scroll.css"/>
+            <script type="text/javascript" src="/website_ascaldera/static/src/js/website_blog_scroll.js"/>
+        </xpath>
+    </template>
     <!-- Sider bar -->
     <template id="t_sidebar">
         
@@ -469,57 +475,25 @@
     <!-- Replace /blog main page -->
     <template id="main_blog_post" name="Blogs">
         <t t-call="website.layout">
-            <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="5000">
-                <t t-set="blog_post" t-value="request.env['blog.post'].sudo().search([('website_published', '=', True), ('lang', '=', request.env.context.get('lang')), ('blog_post_type_id', '!=', False)], limit=5, order='id desc')"/>
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"/>
-                    <li data-target="#myCarousel" data-slide-to="1"/>
-                    <li data-target="#myCarousel" data-slide-to="2"/>
-                    <t t-if="len(blog_post) >= 4">
-                        <li data-target="#myCarousel" data-slide-to="3"/>
-                        <li data-target="#myCarousel" data-slide-to="4"/>
-                    </t>
-                </ol>
-                <!-- Content -->
-                <div class="carousel-inner">
-                    <t t-set="count" t-value="0"/>
-                    <t t-foreach="blog_post" t-as="post">
-                        <t t-set="count" t-value="count+1"/>
-                        <t t-if="count==1">
-                            <div class="carousel-item active oe_custom_bg oe_img_bg pt152 pb152 js_click" t-attf-style="background-image: url(/web/binary/image?model=blog.post&amp;field=blog_post_cover_image&amp;id={{post.id}});" t-att-data-id="post.id" data-name="Slide">
-                                <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                    <div class="container">
-                                        <div class="element-image-title">
-                                            <t t-esc="post.subtitle or post.name"/>
-                                        </div>
-                                    </div>
-                                </a>
+            <!--GRID IMAGES-->
+            <div class="grid_image">
+
+                <t t-set="count" t-value="0"/>
+                <t t-foreach="grid_images_posts" t-as="post">
+                <t t-set="count" t-value="count+1"/>
+                    <div t-att-class="'grid_image_element div'+str(count)">
+                        <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+                            <img t-att-src="'data:image/png;base64,%s' % to_text(post.blog_post_cover_image)"/>
+                             <div class="grid_image_element_title text-left">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
+                                </font>
                             </div>
-                        </t>
-                        <t t-else="">
-                            <div class="carousel-item oe_custom_bg oe_img_bg pt152 pb152 js_click" t-attf-style="background-image: url(/web/binary/image?model=blog.post&amp;field=blog_post_cover_image&amp;id={{post.id}});" t-att-data-id="post.id" data-name="Slide">
-                                <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                    <div class="container">
-                                        <div class="element-image-title">
-                                            <t t-esc="post.subtitle or post.name"/>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </t>
-                    </t>
-                </div>
-                <!-- Controls -->
-                <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
-                    <span class="carousel-control-prev-icon"/>
-                    <span class="sr-only">Previous</span>
-                </div>
-                <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
-                    <span class="carousel-control-next-icon"/>
-                    <span class="sr-only">Next</span>
-                </div>
+                        </a>
+                    </div>
+                </t>
             </div>
+            <!--END GRID IMAGES-->
             <main id="main">
                 <div class="row">
                     <div class="oe_structure"/>
@@ -662,6 +636,85 @@
     <template id="blog_post_complete_1" inherit_id="website_blog.blog_post_complete">
         <xpath expr="//div[@id='title']" position="replace">
         </xpath>
+    </template>
+
+    <template id="only_posts" name="Only Posts">
+        <t t-foreach="posts" t-as="type_id">
+            <div class="elements elements-list x1">
+                <div class="element-row tight blog-list">
+                    <div class="element-wrapper">
+                        <div class="element has-image fixed">
+                            <div class="element-image">
+                                <t t-if="type_id.blog_post_cover_image">
+                                    <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/></a>
+                                </t>
+                                <t t-else="">
+                                    <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }">
+                                        <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                    </a>
+                                </t>
+                            </div>
+                            <div class="element-text">
+                                <div class="element-title">
+                                    <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><t t-esc="type_id.name"/></a>
+                                </div>
+                                <div class="element-meta"><t t-esc="(type_id.document_date).strftime('%A, %d. %B %Y')"/></div>
+                                <div class="element-content">
+                                    <div class="blog-element-content">
+                                        <p style="text-align:left;">
+                                            <t t-if="type_id.post_listing_content">
+                                            <t t-raw="type_id.post_listing_content"/>
+                                            </t>
+                                            <t t-else="">
+                                               <t t-raw="type_id.post_listing_text_content"/>
+                                            </t>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Blog Post News -->
+    <template id="blog_post_single" name="Blog Post Single">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <t t-if="not subtitle">
+                                        <div class="text"><span t-esc="blog_type.name"></span></div>
+                                        <div class="line"><span></span></div>
+                                    </t>
+                                    <t t-if="subtitle">
+                                        <div class="text"><span t-esc="subtitle"></span></div>
+                                        <div class="line"><span></span></div>
+                                    </t>
+                                </div>
+                                <div class="block-content">
+                                    <div id="post_elements" class="elements">
+                                        <t t-if="posts">
+                                            <t t-call="website_ascaldera.only_posts"/>
+                                        </t>
+                                        <t t-else="">
+                                           <h3> There is no available blog!</h3>
+                                        </t>
+                                        <div id="scroll_paginator"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
     </template>
 
     <!-- Blog Post News -->
