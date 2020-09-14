@@ -420,7 +420,7 @@ class WebsiteBlog(WebsiteBlog):
         posts = BlogPost.search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page)
         subtitle = False
         if subtype and len(posts):
-            subtitle = dict(BlogPost._fields['sub_category_main'].selection).get(posts[0].sub_category_main)
+            subtitle = dict(BlogPost._fields['sub_category_main']._description_selection(request.env)).get(posts[0].sub_category_main)
 
         render_values = {'type':type,
                          'subtype':subtype,
