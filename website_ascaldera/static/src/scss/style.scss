@@ -668,7 +668,32 @@ input:focus{
   background: $footer_color;
   height: $footer_height;
   color: $color_white;
-  
+
+  #footer-top{
+    background: #F6F6F6;
+  }
+  #footer-top-content{
+    display: block;
+    vertical-align: top;
+    width: 75%;
+    background: #F6F6F6;
+    margin: 0px auto;
+    color: #6b6b6b;
+    border: 0;
+    outline: 0;
+    -webkit-font-smoothing: antialiased;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    font-size: 12px;
+    text-align: center;
+    padding: 5em 0;
+    background: #F6F6F6;
+    font-size: 11px;
+    a{
+      color:#6b6b6b;
+    }
+  }
+
   #footer-main {
     background: $footer_color;
     height: $footer_main_height;

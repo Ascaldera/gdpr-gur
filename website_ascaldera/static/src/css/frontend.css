@@ -52,6 +52,8 @@
 	z-index: 1;
 }
 
+
+
 #main #page .sidebar_icon{
 	display:none;
     position: fixed;
@@ -203,6 +205,7 @@
 	#footer #footer-main .section-links{
 		vertical-align: middle;
 	}
+
 	.element-row.tight.news_block.inline_images{
 		width:auto;
 	}

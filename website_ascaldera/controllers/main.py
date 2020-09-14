@@ -360,9 +360,9 @@ class WebsiteBlog(WebsiteBlog):
             return request.render("website_ascaldera.blog_post_search", values)
 
 
-    def _get_blog_post_list(self, type, subtype = False, page=1,return_json_data=False, **post):
+    def _get_blog_post_list(self, type, subtype = False, page=1,_blog_post_per_page =8, **post):
         blog_subtypes = False
-        _blog_post_per_page = 8
+
         BlogType = request.env['blog.post.type']
         BlogPost = request.env['blog.post']
 
@@ -422,9 +422,11 @@ class WebsiteBlog(WebsiteBlog):
         if subtype and len(posts):
             subtitle = dict(BlogPost._fields['sub_category_main']._description_selection(request.env)).get(posts[0].sub_category_main)
 
-        render_values = {'type':type,
+        render_values = {
+                        'page':page,
+                        'type':type,
                          'subtype':subtype,
-                        'subtitle': subtitle,
+                         'subtitle': subtitle,
                          'blog_type': blog_type_id,
                          'pager': pager,
                          'posts': posts,
@@ -433,6 +435,7 @@ class WebsiteBlog(WebsiteBlog):
                          'external_post_count': self.get_external_post_count()
                          }
         return render_values
+
 
     @http.route([
         '/blog/<type>',
@@ -446,16 +449,24 @@ class WebsiteBlog(WebsiteBlog):
         return request.render('website_ascaldera.blog_post_single', render_values)
 
 
+    @http.route([
+        '/blog/full/<type>',
+        '/blog/full/<type>/<subtype>',
+    ], type='http', auth="public", website=True)
+    def full_blog_post_list(self, type, subtype=False, page=1, **post):
+        render_values = self._get_blog_post_list(type, subtype, page, 100)
+
+        return request.render('website_ascaldera.blog_post_single', render_values)
 
     @http.route('/scroll_paginator', type='json', auth='public',website=True)
     def scroll_paginator(self, type, subtype=False, page=1):
         render_values = self._get_blog_post_list(type, subtype, page)
         pager = render_values['pager']
-        if pager['page_count'] - page < 1:
-            return {'count': 0, 'data_grid': False}
+        if pager['page_count'] - page < 0:
+            return {'count': 0, 'data_grid': False,'page':page}
         else:
             response = request.env.ref('website_ascaldera.only_posts').render(render_values)
-            return {'count': pager['page_count'] - page, 'data_grid': response}
+            return {'count': pager['page_count'] - page, 'data_grid': response,'page':page}
 
 
     @http.route([
