@@ -17,15 +17,18 @@ odoo.define('website_ascaldera.scroll_paginator', function (require) {
         }
         offset = parseInt(offset);
         var last_call = 1
-        var overall_height = $(document).height() -250;
+        var wait_result = false;
+        var end = false;
+        var overall_height = document.body.scrollHeight - 400;
         if ($('#scroll_paginator').length) {
-            $(window).scroll(function() {
-                if(($(window).scrollTop() + $(window).height() > overall_height) && (count > 0)) {
+            $(window).scroll(function(ev) {
+                if ((window.innerHeight + window.scrollY) >= overall_height) {
                     try {
-                        if(($(window).scrollTop() + $(window).height() > overall_height) && (count > 0)) {
+                        if(((window.innerHeight + window.scrollY) >= overall_height) && wait_result == false) {
                             offset = ppg;
                             ppg = ppg + 8;
                             $("div#scroll_paginator").addClass('show');
+
                             var type = false;
                             var subtype = false;
                             var span_type = $("span#type");
@@ -40,41 +43,48 @@ odoo.define('website_ascaldera.scroll_paginator', function (require) {
                             }
                             if (type != false){
                                 if (count > 0){
-                                    console.log("call function");
-
                                     var next_page = page +1;
-
+                                    wait_result = true;
                                     ajax.jsonRpc("/scroll_paginator", 'call', {
                                     'type': type,
                                     'subtype': subtype,
                                     'page': next_page
                                         }).then(function (data) {
-                                            if (($(window).scrollTop() + $(window).height() > overall_height) && (next_page == last_call+1)&& (next_page == data.page)) {
-                                                try {
-                                                    console.log("return data");
-                                                    if (data) {
-                                                        if (data.count > 0){
-                                                            count = data.count;
-                                                            if (data.data_grid) {
-                                                                console.log("new_data from page");
-                                                                console.log(page);
+                                            try {
+                                                if (data && wait_result) {
+                                                    if (data.count >= 0){
+                                                        count = data.count;
+                                                        if (data.data_grid) {
+                                                            page = data.page;
+                                                            last_call = page;
+                                                            $("#post_elements div.elements-list:last").after(data.data_grid);
+                                                            overall_height = document.body.scrollHeight - 500;
+                                                            $("span#page").innerHTML = page.toString();
+                                                            wait_result = false;
 
-                                                                page = data.page;
-                                                                last_call = page;
-                                                                $("#post_elements div.elements-list:last").after(data.data_grid);
-                                                                overall_height = $(document).height() - 250;
-                                                                $("span#page").innerHTML = page.toString();
-                                                            }
                                                         }
-                                                        else{
+                                                        if (data.count == 0){
+                                                            overall_height = 9999999999;
+                                                            $("div#scroll_paginator").removeClass('show');
                                                             $("div#scroll_paginator").removeClass('show');
                                                             $("div#scroll_paginator").addClass('hide');
+                                                            end = true;
+                                                            return;
                                                         }
+
                                                     }
-                                                } catch (error) {
-                                                    console.log("" + error);
+
+                                                    else{
+                                                        $("div#scroll_paginator").removeClass('show');
+                                                        $("div#scroll_paginator").addClass('hide');
+                                                        return;
+                                                    }
                                                 }
+                                            } catch (error) {
+                                                console.log("" + error);
                                             }
+
+
 
                                         }).fail(function (error) {
                                     });
