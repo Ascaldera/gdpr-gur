@@ -683,8 +683,6 @@
     <template id="blog_post_single" name="Blog Post Single">
         <t t-call="website.layout">
             <main id="main">
-                <span id="type" class="hide" t-esc="type" />
-                <span id="subtype" class="hide" t-esc="subtype" />
                 <div id="page" class="no-mediabox">
                     <div class="wrapper container-fluid maxWidth">
                         <div id="content">
