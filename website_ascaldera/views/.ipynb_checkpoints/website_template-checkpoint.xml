@@ -683,6 +683,8 @@
     <template id="blog_post_single" name="Blog Post Single">
         <t t-call="website.layout">
             <main id="main">
+                <span id="type" class="hide" t-esc="type" />
+                <span id="subtype" class="hide" t-esc="subtype" />
                 <div id="page" class="no-mediabox">
                     <div class="wrapper container-fluid maxWidth">
                         <div id="content">
@@ -739,7 +741,7 @@
                                                             <div class="element has-image fixed">
                                                                 <div class="element-image">
                                                                     <a t-attf-href="/blog/legislation/content?name={{data[d].get('name')}}">
-                                                                        <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                        <img src="/website_ascaldera/static/src/img/IP_logo.jpg"/>
                                                                     </a>
                                                                 </div>
                                                                 <div class="element-text">

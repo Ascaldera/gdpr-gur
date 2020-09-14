@@ -741,7 +741,7 @@
                                                             <div class="element has-image fixed">
                                                                 <div class="element-image">
                                                                     <a t-attf-href="/blog/legislation/content?name={{data[d].get('name')}}">
-                                                                        <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                        <img src="/website_ascaldera/static/src/img/IP_logo.jpg"/>
                                                                     </a>
                                                                 </div>
                                                                 <div class="element-text">

@@ -183,6 +183,15 @@ msgid "Foreign legislation"
 msgstr "Tuja zakonodaja"
 
 #. module: website_ascaldera
+#: selection:blog.post,sub_category_2:0
+#: selection:blog.post,sub_category_main:0
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_edpb_guidelines
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "EDPB guidelines and opinions"
+msgstr "Mnenja in smernice EDPB"
+
+
+#. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_gdpr
 msgid "GDPR"
 msgstr ""
