@@ -421,7 +421,9 @@ class WebsiteBlog(WebsiteBlog):
         if subtype and len(posts):
             subtitle = dict(BlogPost._fields['sub_category_main'].selection).get(posts[0].sub_category_main)
 
-        render_values = {'subtitle': subtitle,
+        render_values = {'type':type,
+                         'subtype':subtype,
+                        'subtitle': subtitle,
                          'blog_type': blog_type_id,
                          'pager': pager,
                          'posts': posts,

@@ -22,51 +22,49 @@ odoo.define('website_ascaldera.scroll_paginator', function (require) {
                             offset = ppg;
                             ppg = ppg + 8;
                             $("div#scroll_paginator").addClass('show');
-                            var url = window.location.href;
-                            var splitter = url.split('/');
-                            var type = false
-                            var subtype = false
-                            type = splitter[4]
-                            var type_end = type.indexOf("?");
-                            if (type_end > 0) {
-                                type = type.substring(0, type_end);
+                            var type = false;
+                            var subtype = false;
+                            var span_type = $("span#type");
+                            var span_subtype = $("span#subtype");
+                            if (span_type.length > 0){
+                                type = span_type[0].innerText;
                             }
-                            if (splitter.length > 5) {
-                                subtype = splitter[5]
-                                var subtype_end = type.indexOf("?");
-                                if (subtype_end > 0) {
-                                    subtype = subtype.substring(0, subtype_end);
-                                }
+                            if (span_subtype.length > 0){
+                                subtype = span_subtype[0].innerText;
                             }
-                            if (count > 0){
-                                ajax.jsonRpc("/scroll_paginator", 'call', {
-                                'type': type,
-                                'subtype': subtype,
-                                'page': page + 1
-                                    }).then(function (data) {
-                                        if ($(window).scrollTop() + $(window).height() > overall_height) {
-                                            try {
-                                                if (data) {
-                                                    count = data.count;
-                                                    var path = window.location.pathname;
-                                                    if (data.data_grid) {
-                                                        page = page + 1;
+                            if (type != false){
+                                if (count > 0){
+                                    ajax.jsonRpc("/scroll_paginator", 'call', {
+                                    'type': type,
+                                    'subtype': subtype,
+                                    'page': page + 1
+                                        }).then(function (data) {
+                                            if ($(window).scrollTop() + $(window).height() > overall_height) {
+                                                try {
+                                                    if (data) {
+                                                        count = data.count;
+                                                        var path = window.location.pathname;
+                                                        if (data.data_grid) {
+                                                            page = page + 1;
+                                                        }
+                                                        $("#post_elements div.elements-list:last").after(data.data_grid);
+                                                        overall_height = $(document).height() - 250;
+                                                        if (data.count == 0) {
+                                                            $("div#scroll_paginator").removeClass('show');
+                                                            $("div#scroll_paginator").addClass('hide');
+                                                        }
                                                     }
-                                                    $("#post_elements div.elements-list:last").after(data.data_grid);
-                                                    overall_height = $(document).height() - 250;
-                                                    if (data.count == 0) {
-                                                        $("div#scroll_paginator").removeClass('show');
-                                                        $("div#scroll_paginator").addClass('hide');
-                                                    }
+                                                } catch (error) {
+                                                    console.log("" + error);
                                                 }
-                                            } catch (error) {
-                                                console.log("" + error);
                                             }
-                                        }
 
-                                    }).fail(function (error) {
-                                });
+                                        }).fail(function (error) {
+                                    });
+                                }
+
                             }
+
 
                         }
                     } catch (error) {
