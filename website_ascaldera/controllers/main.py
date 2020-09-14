@@ -392,7 +392,8 @@ class WebsiteBlog(WebsiteBlog):
                                   'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
                 'legislation_foreign': {'sub_category_main': 'foreign_legislation',
                                         'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
-
+                'edpb_guidelines': {'sub_category_main': 'edpb_guidelines',
+                                        'view_id': 'website_ascaldera.blog_post_edpb_guidelines'}
             }
 
         domain = [

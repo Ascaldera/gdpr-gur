@@ -14,6 +14,7 @@ from odoo.http import request
 import base64
 from bs4 import BeautifulSoup
 import logging
+import json
 
 def check_lang_to_installed(env, website):
     for code in ['sl_SI', 'it_IT', 'en_US']:
@@ -108,6 +109,11 @@ class Website(Website):
              ('website_published', '=', True),
              ('visits', 'in', practice_highest_visits),
              ('lang', '=', request.env.context.get('lang'))], limit=3)
+        grid_images_posts = blog_post.sudo().search(
+            [('blog_post_type_id', '=', practice_id.id),
+             ('website_published', '=', True),
+             ('visits', 'in', practice_highest_visits),
+             ('lang', '=', request.env.context.get('lang'))], limit=7)
 
         check_lang_to_installed(request.env, request.website)
         
@@ -115,6 +121,7 @@ class Website(Website):
             'most_read_news_post': most_read_news_post,
             'most_read_article_post': most_read_article_post,
             'most_read_practice_post': most_read_practice_post,
+            'grid_images_posts': grid_images_posts,
             'fav_tags': fav_tags,
             'unfav_tags': unfav_tags,
             'external_post_count': self.get_external_post_count(),
@@ -352,225 +359,102 @@ class WebsiteBlog(WebsiteBlog):
                             'external_post_count': self.get_external_post_count(), })
             return request.render("website_ascaldera.blog_post_search", values)
 
-    @http.route([
-        '/blog/News',
-    ], type='http', auth="public", website=True)
-    def blog_post_news(self, **post):
-        """Controller for News page."""
-        news_id = request.env.ref(
-            'website_ascaldera.blog_post_type_news')
-        news_ids = request.env['blog.post'].sudo().search(
-            [('blog_post_type_id', '=', news_id.id),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
 
-        return request.render("website_ascaldera.blog_post_news", {
-            'blog_type': news_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(),
-        })
+    def _get_blog_post_list(self, type, subtype = False, page=1,return_json_data=False, **post):
+        blog_subtypes = False
+        _blog_post_per_page = 8
+        BlogType = request.env['blog.post.type']
+        BlogPost = request.env['blog.post']
+
+        blog_types = {
+            'News': {'blog_post_type': 'website_ascaldera.blog_post_type_news',
+                     'view_id': 'website_ascaldera.blog_post_news', 'title': 'News'},
+            'Articles': {'blog_post_type': 'website_ascaldera.blog_post_type_article',
+                         'view_id': 'website_ascaldera.blog_post_article', 'title': 'Legislation'},
+            'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation',
+                            'view_id': 'website_ascaldera.blog_post_practice_slo'},
+            'Judicial-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_judicial_practice',
+                                  'view_id': 'website_ascaldera.blog_post_judicial_practice'},
+        }
+        if subtype and (type == 'Judicial-Practice' or type == 'Legislation'):
+            blog_subtypes = {
+                'practice_foreign_oversight': {'sub_category_main': 'foreign_practice',
+                                               'view_id': 'website_ascaldera.blog_post_foreign_practice'},
+                'judgement_EU': {'sub_category_main': 'EU_judgments',
+                                 'view_id': 'website_ascaldera.blog_post_EU_court'},
+                'judgements_escp': {'sub_category_main': 'escp_judgements',
+                                    'view_id': 'website_ascaldera.blog_post_ESCP'},
+                'judgements_foreign': {'sub_category_main': 'foreign_judgments',
+                                       'view_id': 'website_ascaldera.blog_post_foreign_court'},
+                'legislation_slo': {'sub_category_main': 'slovenian_legislation',
+                                    'view_id': 'website_ascaldera.blog_post_slovenian_legislation'},
+                'judgement_SLO': {'sub_category_main': 'SLO_judgments',
+                                  'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
+                'legislation_foreign': {'sub_category_main': 'foreign_legislation',
+                                        'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
+                'edpb_guidelines': {'sub_category_main': 'edpb_guidelines',
+                                        'view_id': 'website_ascaldera.blog_post_edpb_guidelines'}
+            }
+
+        domain = [
+            ('website_published', '=', True),
+            ('lang', '=', request.env.context.get('lang'))]
+        view_id = False
+        blog_type_id = request.env.ref(blog_types[type]['blog_post_type'])
+        # blog_type_id = BlogType.browse(type_id)
+        if not subtype:
+
+            domain.append(('blog_post_type_id', '=', blog_type_id.id))
+            view_id = blog_types[type]['view_id']
+        else:
+            domain.append(('sub_category_main', '=', blog_subtypes[subtype]['sub_category_main']))
+            view_id = blog_subtypes[subtype]['view_id']
+
+        total = len(BlogPost.sudo().search(domain))
+        pager = request.website.pager(
+            url='/blog',
+            total=total,
+            page=page,
+            step=8,
+        )
+        posts = BlogPost.search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page)
+        subtitle = False
+        if subtype and len(posts):
+            subtitle = dict(BlogPost._fields['sub_category_main'].selection).get(posts[0].sub_category_main)
+
+        render_values = {'subtitle': subtitle,
+                         'blog_type': blog_type_id,
+                         'pager': pager,
+                         'posts': posts,
+                         'fav_tags': self.fav_tags_get(),
+                         'unfav_tags': self.unfav_tags_get(),
+                         'external_post_count': self.get_external_post_count()
+                         }
+        return render_values
 
     @http.route([
-        '/blog/Articles',
+        '/blog/<type>',
+        '/blog/<type>/<subtype>',
+        '/blog/<type>/page/<int:page>',
+        '/blog/<type>/<subtype>/page/<int:page>',
     ], type='http', auth="public", website=True)
-    def blog_post_articles(self, **post):
-        """Controller for Article page."""
-        article_id = request.env.ref(
-            'website_ascaldera.blog_post_type_article')
-        article_ids = request.env['blog.post'].sudo().search(
-            [('blog_post_type_id', '=', article_id.id),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
+    def blog_post_list(self, type, subtype = False, page=1, **post):
+        render_values = self._get_blog_post_list(type,subtype,page)
 
-        return request.render("website_ascaldera.blog_post_article", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
+        return request.render('website_ascaldera.blog_post_single', render_values)
 
-    #------------------------------------------------------------------------------------------------------
-    
-    @http.route(['/blog/Legislation',],type='http',auth="public",website=True)
-    def blog_post_articles_1(self,**post):
-        """Controller for Article page."""
-        article_id = request.env.ref(
-            'website_ascaldera.blog_post_type_legislation')
-        article_ids = request.env['blog.post'].sudo().search(
-            [('blog_post_type_id', '=', article_id.id),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
 
-        return request.render("website_ascaldera.blog_post_practice_slo", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    
-    #2
-    
-    @http.route(['/blog/Judicial-Practice/practice_foreign_oversight',], type='http', auth="public", website=True)
-    def blog_post_articles_2(self, **post):
-        article_name="foreign_practice"        
-        article_ids = request.env['blog.post'].sudo().search([('sub_category_main', '=', article_name),('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_foreign_practice", {'blog_type': article_ids,'fav_tags': self.fav_tags_get(),'external_post_count': self.get_external_post_count(), })
-    
-    #3
-    
-    @http.route([
-        '/blog/Judicial-Practice/judgement_EU',
-    ], type='http', auth="public", website=True)
-    def blog_post_articles_3(self, **post):
-        """Controller for Article page."""
-        
-        article_name="EU_judgments"        
-        
-        article_ids = request.env['blog.post'].sudo().search(
-            [('sub_category_main', '=', article_name),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_EU_court", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    
-    #4
-    
-    @http.route([
-        '/blog/Judicial-Practice/judgements_escp',
-    ], type='http', auth="public", website=True)
-    def blog_post_articles_4(self, **post):
-        """Controller for Article page."""
-        
-        article_name="escp_judgements"        
-        
-        article_ids = request.env['blog.post'].sudo().search(
-            [('sub_category_main', '=', article_name),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_ESCP", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    
-    
-    @http.route([
-        '/blog/Judicial-Practice/edpb_guidelines',
-    ], type='http', auth="public", website=True)
-    def blog_post_articles_4(self, **post):
-        """Controller for Article page."""
-        
-        article_name="edpb_guidelines"        
-        
-        article_ids = request.env['blog.post'].sudo().search(
-            [('sub_category_main', '=', article_name),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_edpb_guidelines", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    
-    #5
-    
-    @http.route([
-        '/blog/Judicial-Practice/judgements_foreign',
-    ], type='http', auth="public", website=True)
-    def blog_post_articles_5(self, **post):
-        """Controller for Article page."""
-        
-        article_name="foreign_judgments"        
-        
-        article_ids = request.env['blog.post'].sudo().search(
-            [('sub_category_main', '=', article_name),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_foreign_court", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    
-    #6
-    
-    @http.route([
-        '/blog/Legislation/legislation_foreign',
-    ], type='http', auth="public", website=True)
-    def blog_post_articles_6(self, **post):
-        """Controller for Article page."""
-        
-        article_name="foreign_legislation"        
-        
-        article_ids = request.env['blog.post'].sudo().search(
-            [('sub_category_main', '=', article_name),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_foreign_legislation", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    
-    #7
-    
-    @http.route([
-        '/blog/Legislation/legislation_slo',
-    ], type='http', auth="public", website=True)
-    def blog_post_articles_7(self, **post):
-        """Controller for Article page."""
-        
-        article_name="slovenian_legislation"        
-        
-        article_ids = request.env['blog.post'].sudo().search(
-            [('sub_category_main', '=', article_name),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_slovenian_legislation", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    #8
-    @http.route([
-        '/blog/Judicial-Practice/judgement_SLO',
-    ], type='http', auth="public", website=True)
-    def blog_post_articles_8(self, **post):
-        """Controller for Article page."""
-        
-        article_name="SLO_judgments"        
-        
-        article_ids = request.env['blog.post'].sudo().search(
-            [('sub_category_main', '=', article_name),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
-        return request.render("website_ascaldera.blog_post_judgement_SLO", {
-            'blog_type': article_ids,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-    
-    #------------------------------------------------------------------------------------------------------
-    
-    @http.route([
-        '/blog/Judicial-Practice',
-    ], type='http', auth="public", website=True)
-    def blog_post_judicial_practice(self, **post):
-        """Controller for Judicial Practice  page."""
-        judicial_practice_id = request.env.ref(
-            'website_ascaldera.blog_post_type_judicial_practice')
-        judicial_practice_ids = request.env['blog.post'].sudo().search(
-            [('blog_post_type_id', '=', judicial_practice_id.id),
-             ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))])
 
-        return request.render(
-            "website_ascaldera.blog_post_judicial_practice", {
-                'blog_type': judicial_practice_ids,
-                'fav_tags': self.fav_tags_get(),
-                'external_post_count': self.get_external_post_count(), })
+    @http.route('/scroll_paginator', type='json', auth='public',website=True)
+    def scroll_paginator(self, type, subtype=False, page=1):
+        render_values = self._get_blog_post_list(type, subtype, page)
+        pager = render_values['pager']
+        if pager['page_count'] - page < 1:
+            return {'count': 0, 'data_grid': False}
+        else:
+            response = request.env.ref('website_ascaldera.only_posts').render(render_values)
+            return {'count': pager['page_count'] - page, 'data_grid': response}
+
 
     @http.route([
         '/blog/Judicial-Practice/practice_slo',
@@ -617,6 +501,8 @@ class WebsiteBlog(WebsiteBlog):
                          'external_post_link': res['_links']['self']['href'],
                          'external_post_count': self.get_external_post_count(), })
 
+
+    # END BLOG post type list
     @http.route([
         '/blog/Dpo',
     ], type='http', auth="public", website=True)
