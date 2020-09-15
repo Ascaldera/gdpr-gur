@@ -658,6 +658,23 @@ input:focus{
     }
     
   }
+  #show_more{
+    text-align: center;
+  }
+  .show_more_button {
+    border: 1px solid #a67432;
+    color: #a67432;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin-left: 10px;
+    color: #a67432;
+  }
+
+  .show_more_button:hover {
+      background: #a67432;
+      color: #ffffff;
+  }
+
 }
 
 /*

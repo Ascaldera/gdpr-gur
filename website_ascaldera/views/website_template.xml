@@ -4,7 +4,7 @@
     <template id="assets_frontend_website_blog_scroll" inherit_id="website.assets_frontend" name="Website blog scroll">
         <xpath expr="." position="inside">
             <link rel="stylesheet" href="/website_ascaldera/static/src/css/website_blog_scroll.css"/>
-            <script type="text/javascript" src="/website_ascaldera/static/src/js/website_blog_scroll.js"/>
+            <script type="text/javascript" src="/website_ascaldera/static/src/js/website_blog_show_more.js"/>
         </xpath>
     </template>
     <!-- Sider bar -->
@@ -727,7 +727,17 @@
                                         <t t-else="">
                                            <h3> There is no available blog!</h3>
                                         </t>
-                                        <div id="scroll_paginator"/>
+
+                                        <t t-if="page &lt; pager['page_count']">
+                                            <div id="show_more" class="show">
+                                                <a class="show_more_button">Show more</a>
+                                                 <div id="scroll_paginator"/>
+                                            </div>
+
+
+
+                                        </t>
+
                                     </div>
                                 </div>
                             </div>

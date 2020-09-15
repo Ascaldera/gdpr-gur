@@ -2,9 +2,7 @@
 /* See LICENSE file for full copyright and licensing details. */
 odoo.define('website_ascaldera.scroll_paginator', function (require) {
     "use strict";
-    
     var ajax = require('web.ajax');
-
     $(document).ready(function() {
         var count = 10;
         var page = 1;
@@ -65,7 +63,6 @@ odoo.define('website_ascaldera.scroll_paginator', function (require) {
                                                         }
                                                         if (data.count == 0){
                                                             overall_height = 9999999999;
-                                                            $("div#scroll_paginator").removeClass('show');
                                                             $("div#scroll_paginator").removeClass('show');
                                                             $("div#scroll_paginator").addClass('hide');
                                                             end = true;
