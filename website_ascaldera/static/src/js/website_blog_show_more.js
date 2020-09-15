@@ -5,6 +5,7 @@ odoo.define('website_ascaldera.show_more', function (require) {
     var ajax = require('web.ajax');
 
     function show_next_page(event) {
+        event.preventDefault();
         $("div#show_more").removeClass('show');
         $("div#show_more").addClass('hide');
         $("div#scroll_paginator").removeClass('hide');
@@ -82,12 +83,13 @@ odoo.define('website_ascaldera.show_more', function (require) {
 
     }
 
-    $(document).ready(function() {
+    $(document).ready(function(e) {
 
 
 
         if ($('#show_more').length) {
             $('#show_more').on('click', show_next_page);
+
 
         }
     });
