@@ -291,11 +291,29 @@
 
         <xpath expr="//footer" position="replace">
             <footer id="footer">
+                <div id="footer-top">
+                    <div id="footer-top-content">
+                        <div class="eu-razvoj">
+                            <p><b>Odvetniška družba Pirc Musar &amp; Lemut Strle</b> je nosilka naložbe v projekt »Celostna storitev upravljanja in spremljanja varstva osebnih podatkov v digitalnih okoljih« v partnerstvu s podjetjem <b>Ascaldera.</b></p><p>Inovativna storitev, ki jo bosta partnerja razvila v projektu Priv.HUB, bo pilotni projekt na področju kibernetske varnosti, s poudarkom na varovanju osebnih podatkov.
+                            V konzorciju sta dva komplementarna partnerja, ki  prihajata iz različnih branž: eno podjetje obvladuje pravne vidike varovanja osebnih podatkov, drugo pa izdelavo tehnoloških rešitev za varovanje osebnih podatkov.
+                            Podjetji tako skupaj obvladata paleto različnih poslovnih ekosistemov. Znotraj projekta Priv.HUB bosta svoje programske aplikativne rešitve in pametno IT infrastrukturo razvili v novo inovativno storitev, ki bo pilotno tehnologijo ponudila tudi v prid zaupanja posameznikov do procesov obdelav osebnih podatkov in ne le tehnoloških funkcionalnosti.</p>
+                            <p>Vrednost projekta je ocenjena na 617.186,45 EUR, 60 % del naložbe financirata konzorcijska partnerja, 40 % del <a href="http://www.eu-skladi.si/" target="_blank"><b>naložbe pa sofinancirata Republika Slovenija in Evropska unija iz Evropskega sklada za regionalni razvoj.</b></a>
+                            </p>
+                            <a href="http://www.eu-skladi.si/" target="_blank">
+                                <img src="/website_ascaldera/static/src/img/nalozba.png" alt="Evropski sklad za regionalni razvoj" data-lazy-src="/assets/2019/02/nalozba.png" data-was-processed="true"/>
+
+                            </a>
+                            <a href="http://www.eu-skladi.si/" target="_blank">
+                                <img  src="/website_ascaldera/static/src/img/ministrstvo.png" alt="Gospodarski razvoj" data-lazy-src="/assets/2019/02/ministrstvo.png" data-was-processed="true" />
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div id="footer-main">
                     <div class="wrapper container-fluid maxWidth">
                         <div class="section-logo">
                             <img src="/website_ascaldera/static/src/img/logo.png"/>
-                            <img src="/website_ascaldera/static/src/img/MGRT-logo.jpg" style="margin-left:30px"/>
                         </div>
                         <div class="section-links">
                             <ul class="menu-vertical menu-main">
@@ -542,7 +560,7 @@
                             <div class="block">
                                 <div class="block-title">
                                     <div class="text">PROFESSIONAL <b>Articles</b></div>
-                                    <div class="line"><span></span></div> 
+                                    <div class="line"><span></span></div>
                                 </div>
                                 <div class="block-content">
                                     <div class="elements">
@@ -685,6 +703,7 @@
             <main id="main">
                 <span id="type" class="hide" t-esc="type" />
                 <span id="subtype" class="hide" t-esc="subtype" />
+                <span id="page" class="hide" t-esc="page" />
                 <div id="page" class="no-mediabox">
                     <div class="wrapper container-fluid maxWidth">
                         <div id="content">

@@ -300,11 +300,11 @@
                             <p>Vrednost projekta je ocenjena na 617.186,45 EUR, 60 % del naložbe financirata konzorcijska partnerja, 40 % del <a href="http://www.eu-skladi.si/" target="_blank"><b>naložbe pa sofinancirata Republika Slovenija in Evropska unija iz Evropskega sklada za regionalni razvoj.</b></a>
                             </p>
                             <a href="http://www.eu-skladi.si/" target="_blank">
-                                <img src="/website_ascaldera/static/src/img//nalozba.png" alt="Evropski sklad za regionalni razvoj" data-lazy-src="/assets/2019/02/nalozba.png" data-was-processed="true"/>
+                                <img src="/website_ascaldera/static/src/img/nalozba.png" alt="Evropski sklad za regionalni razvoj" data-lazy-src="/assets/2019/02/nalozba.png" data-was-processed="true"/>
 
                             </a>
                             <a href="http://www.eu-skladi.si/" target="_blank">
-                                <img  src="/website_ascaldera/static/src/img//ministrstvo.png" alt="Gospodarski razvoj" data-lazy-src="/assets/2019/02/ministrstvo.png" data-was-processed="true" />
+                                <img  src="/website_ascaldera/static/src/img/ministrstvo.png" alt="Gospodarski razvoj" data-lazy-src="/assets/2019/02/ministrstvo.png" data-was-processed="true" />
 
                             </a>
                         </div>
@@ -314,7 +314,6 @@
                     <div class="wrapper container-fluid maxWidth">
                         <div class="section-logo">
                             <img src="/website_ascaldera/static/src/img/logo.png"/>
-                            <img src="/website_ascaldera/static/src/img/MGRT-logo.jpg" style="margin-left:30px"/>
                         </div>
                         <div class="section-links">
                             <ul class="menu-vertical menu-main">
@@ -761,7 +760,7 @@
                                                             <div class="element has-image fixed">
                                                                 <div class="element-image">
                                                                     <a t-attf-href="/blog/legislation/content?name={{data[d].get('name')}}">
-                                                                        <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                        <img src="/website_ascaldera/static/src/img/IP_logo.jpg"/>
                                                                     </a>
                                                                 </div>
                                                                 <div class="element-text">
