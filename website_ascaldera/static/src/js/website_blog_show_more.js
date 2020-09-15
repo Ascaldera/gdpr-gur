@@ -5,6 +5,10 @@ odoo.define('website_ascaldera.show_more', function (require) {
     var ajax = require('web.ajax');
 
     function show_next_page(event) {
+        $("div#show_more").removeClass('show');
+        $("div#show_more").addClass('hide');
+        $("div#scroll_paginator").removeClass('hide');
+        $("div#scroll_paginator").addClass('show');
         var type = false;
         var subtype = false;
         var page = 1;
@@ -24,10 +28,7 @@ odoo.define('website_ascaldera.show_more', function (require) {
         var count = 0;
         var last_call = 1;
         var wait_result = false;
-        $("div#show_more").removeClass('show');
-        $("div#show_more").addClass('hide');
-        $("div#scroll_paginator").removeClass('hide');
-        $("div#scroll_paginator").addClass('show');
+
         ajax.jsonRpc("/scroll_paginator", 'call', {
                                     'type': type,
                                     'subtype': subtype,

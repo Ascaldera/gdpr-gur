@@ -730,8 +730,9 @@
                                         <t t-if="page &lt; pager['page_count']">
                                             <div id="show_more" class="show">
                                                 <a class="show_more_button">Show more</a>
-                                                 <div id="scroll_paginator"/>
+
                                             </div>
+                                            <div id="scroll_paginator"/>
 
 
 
