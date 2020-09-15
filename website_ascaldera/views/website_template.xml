@@ -852,6 +852,24 @@
                                     <div class="line"><span></span></div>
                                 </div>
                                 <div class="block-content">
+                                    <!-- ADDED TAGS TO POST -->
+                                    <div class="elements elements-tag x1 ">
+                                        <t t-set="tags" t-value="blog_post.tag_ids"/>
+                                        <t t-foreach="tags" t-as="tag">
+                                            <div class="element-row tight">
+                                                <div class="element-wrapper list_padding">
+                                                    <div class="element background">
+                                                        <div class="element-text">
+                                                            <div class="element-title">
+                                                                <a t-attf-href="/blog/tag/#{ slug(tag) }"><t t-esc="tag.name"/></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    
                                     <t t-raw="blog_post.content"/>
                                     <div>
                                         <a t-attf-href="#{blog_post.external_post_link}"><t t-esc="blog_post.external_post_link"/></a>

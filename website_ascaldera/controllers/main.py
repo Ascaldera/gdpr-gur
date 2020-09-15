@@ -278,9 +278,10 @@ class WebsiteBlog(WebsiteBlog):
             search_query = post.get('query')
             values.update({'query': search_query})
             post_type = post.get('post_type')
+            post_subcategory = post.get('sub_category_main')
             blog_post_pool = request.env['blog.post'].sudo()
             if post_type:
-                if post_type in ['News', 'Articles', 'Judicial-Practice', 'Legislation']:
+                if post_type in ['News', 'Articles', 'Judicial-Practice', 'Legislation'] and post_subcategory != "SLO Information Commissioner\'s practice":
                     posts = blog_post_pool.search(
                         ['|', '|', ('content', 'ilike', search_query),
                          ('name', 'ilike', search_query),
@@ -289,7 +290,7 @@ class WebsiteBlog(WebsiteBlog):
                         lambda l: l.blog_post_type_id.name == post_type and l.website_published == True)
                     if blog_post:
                         values.update({'blog_post': blog_post})
-                elif post_type == 'Legislation':
+                elif post_subcategory == 'SLO Information Commissioner\'s practice':
                     url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
                     res = requests.get(url)
                     result = 0
