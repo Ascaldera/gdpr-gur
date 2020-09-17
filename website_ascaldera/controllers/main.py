@@ -110,9 +110,7 @@ class Website(Website):
              ('visits', 'in', practice_highest_visits),
              ('lang', '=', request.env.context.get('lang'))], limit=3)
         grid_images_posts = blog_post.sudo().search(
-            [('blog_post_type_id', '=', practice_id.id),
-             ('website_published', '=', True),
-             ('visits', 'in', practice_highest_visits),
+            [('website_published', '=', True),
              ('lang', '=', request.env.context.get('lang'))], limit=7)
 
         check_lang_to_installed(request.env, request.website)

@@ -252,18 +252,18 @@ msgstr "Sodbe slovenskih sodišč"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
 msgid "Judicial <b>Practices</b>"
-msgstr "Sodna <b>Praksa</b>"
+msgstr "Pravna <b>Praksa</b>"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judicial_practice
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Judicial Practice"
-msgstr "Sodna praksa"
+msgstr "Pravna praksa"
 
 #. module: website_ascaldera
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_judicial_practice
 msgid "Judicial-Practice"
-msgstr "Sodna praksa"
+msgstr "Pravna praksa"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__lang
