@@ -355,7 +355,7 @@
                                                                 <t t-if="post.blog_post_cover_image">
                                                                     <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
 <!--                                                                        <img t-attf-src="data:image/*;base64,{{post.blog_post_cover_image}}"/>-->
-                                                                        <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                        <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
                                                                     </a>
                                                                 </t>
                                                                 <t t-else="">
@@ -455,7 +455,7 @@
                                                                 <t t-if="blog_post_id.blog_post_cover_image">
                                                                     <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }">
 <!--                                                                        <img t-attf-src="data:image/*;base64,{{blog_post_id.blog_post_cover_image}}"/>-->
-                                                                        <img t-attf-src="/website/image/blog.post/{{ blog_post_id.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                        <img t-attf-src="/website/image/blog.post/{{ blog_post_id.id }}/blog_post_cover_image" />
                                                                     </a>
                                                                 </t>
                                                                 <t t-else="">
@@ -510,10 +510,10 @@
                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
                             <t t-if="post_index==0">
 <!--                                <img t-att-src="'data:image/png;base64,%s' % to_text(post.blog_post_cover_image)"/>-->
-                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image/0x400/no_crop" />
+                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
                             </t>
                             <t t-if="post_index&gt; 0">
-                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image/0x250/no_crop" />
+                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
 <!--                                <img t-att-src="'data:image/png;base64,%s' % to_text(post.blog_post_cover_image)"/>-->
                             </t>
 
@@ -550,7 +550,7 @@
                                                             <t t-if="news_post.blog_post_cover_image">
                                                                 <a t-attf-href="/blog/#{ slug(news_post.blog_id) }/post/#{ slug(news_post) }">
 <!--                                                                    <img t-attf-src="data:image/*;base64,{{news_post.blog_post_cover_image}}"/>-->
-                                                                    <img t-attf-src="/website/image/blog.post/{{ news_post.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                    <img t-attf-src="/website/image/blog.post/{{ news_post.id }}/blog_post_cover_image" />
                                                                     <div class="element-image-title text-left">
                                                                         <font style="vertical-align: inherit;">
                                                                             <font style="vertical-align: inherit;"><t t-esc="news_post.name"/></font>
@@ -589,7 +589,7 @@
                                                             <t t-if="article_post.blog_post_cover_image">
                                                                 <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }">
 <!--                                                                    <img t-attf-src="data:image/*;base64,{{article_post.blog_post_cover_image}}"/>-->
-                                                                    <img t-attf-src="/website/image/blog.post/{{ article_post.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                    <img t-attf-src="/website/image/blog.post/{{ article_post.id }}/blog_post_cover_image" />
                                                                 </a>
                                                             </t>
                                                             <t t-else="">
@@ -686,7 +686,7 @@
                                 <t t-if="type_id.blog_post_cover_image">
                                     <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }">
 <!--                                        <img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/>-->
-                                        <img t-attf-src="/website/image/blog.post/{{ type_id.id }}/blog_post_cover_image/0x250/no_crop" />
+                                        <img t-attf-src="/website/image/blog.post/{{ type_id.id }}/blog_post_cover_image" />
                                     </a>
 
                                 </t>
@@ -783,7 +783,7 @@
                                                                 <t t-if="news_post.blog_post_cover_image">
                                                                     <a t-attf-href="/blog/#{ slug(news_post.blog_id) }/post/#{ slug(news_post) }">
 <!--                                                                        <img t-attf-src="data:image/*;base64,{{news_post.blog_post_cover_image}}"/>-->
-                                                                        <img t-attf-src="/website/image/blog.post/{{ news_post.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                        <img t-attf-src="/website/image/blog.post/{{ news_post.id }}/blog_post_cover_image" />
                                                                         <div class="element-image-title text-left">
                                                                             <font style="vertical-align: inherit;">
                                                                                 <font style="vertical-align: inherit;"><t t-esc="news_post.name"/></font>
