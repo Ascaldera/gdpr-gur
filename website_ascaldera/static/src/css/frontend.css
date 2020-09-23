@@ -60,7 +60,7 @@
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  z-index: 9999999;
   line-height: 20px;
 }
 
@@ -119,9 +119,9 @@
 	#header #header-nav-menu .menu-vertical > li a{
 		padding: 5px;
 	}
-	.elements .element-column .element-wrapper .element.fixed, .elements .element-row .element-wrapper .element.fixed{
-		height: auto;
-	}
+	/*.elements .element-column .element-wrapper .element.fixed, .elements .element-row .element-wrapper .element.fixed{*/
+	/*	height: auto;*/
+	/*}*/
 	.elements .element-column.tight .element-wrapper .element .element-image, .elements .element-row.tight .element-wrapper .element .element-image{
 		width: 100%;
 	}

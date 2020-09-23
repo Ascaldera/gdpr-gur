@@ -105,12 +105,9 @@
                                     <div class="element tight-element tight-content">
                                         <div class="element-text">
                                             <div class="element-title">
-                                                <t t-if="post_type.with_context(lang='en_US').name == 'Judicial-Practice'">
-                                                    <t t-set="count" t-value="external_post_count + request.env['blog.post'].sudo().search_count([('blog_post_type_id.name', '=', post_type.name), ('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-set="count" t-value="request.env['blog.post'].sudo().search_count([('blog_post_type_id.name', '=', post_type.name), ('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])"/>
-                                                </t>
+
+                                                <t t-set="count" t-value="request.env['blog.post'].sudo().search_count([('blog_post_type_id.name', '=', post_type.name), ('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])"/>
+
                                                 <a t-attf-href="/blog/#{post_type.with_context(lang='en_US').name}"><t t-esc="post_type.name"/><span><t t-esc="count"/></span></a>
                                             </div>
                                         </div>
@@ -356,10 +353,16 @@
                                                         <div class="element has-image fixed">
                                                             <div class="element-image">
                                                                 <t t-if="post.blog_post_cover_image">
-                                                                    <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><img t-attf-src="data:image/*;base64,{{post.blog_post_cover_image}}"/></a>
+                                                                    <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+<!--                                                                        <img t-attf-src="data:image/*;base64,{{post.blog_post_cover_image}}"/>-->
+                                                                        <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                    </a>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                                    <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+                                                                        <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+
+                                                                    </a>
                                                                 </t>
                                                             </div>
                                                             <div class="element-text">
@@ -450,7 +453,10 @@
                                                         <div class="element has-image fixed">
                                                             <div class="element-image">
                                                                 <t t-if="blog_post_id.blog_post_cover_image">
-                                                                    <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }"><img t-attf-src="data:image/*;base64,{{blog_post_id.blog_post_cover_image}}"/></a>
+                                                                    <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }">
+<!--                                                                        <img t-attf-src="data:image/*;base64,{{blog_post_id.blog_post_cover_image}}"/>-->
+                                                                        <img t-attf-src="/website/image/blog.post/{{ blog_post_id.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                    </a>
                                                                 </t>
                                                                 <t t-else="">
                                                                     <a t-attf-href="/blog/#{ slug(blog_post_id.blog_id) }/post/#{ slug(blog_post_id) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
@@ -500,8 +506,18 @@
                 <t t-foreach="grid_images_posts" t-as="post">
                 <t t-set="count" t-value="count+1"/>
                     <div t-att-class="'grid_image_element div'+str(count)">
+
                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                            <img t-att-src="'data:image/png;base64,%s' % to_text(post.blog_post_cover_image)"/>
+                            <t t-if="post_index==0">
+<!--                                <img t-att-src="'data:image/png;base64,%s' % to_text(post.blog_post_cover_image)"/>-->
+                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image/0x400/no_crop" />
+                            </t>
+                            <t t-if="post_index&gt; 0">
+                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image/0x250/no_crop" />
+<!--                                <img t-att-src="'data:image/png;base64,%s' % to_text(post.blog_post_cover_image)"/>-->
+                            </t>
+
+<!--                            <img t-att-src="'data:image/png;base64,%s' % to_text(post.blog_post_cover_image)"/>-->
                              <div class="grid_image_element_title text-left">
                                 <font style="vertical-align: inherit;">
                                     <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
@@ -533,7 +549,8 @@
                                                         <div class="element-image">
                                                             <t t-if="news_post.blog_post_cover_image">
                                                                 <a t-attf-href="/blog/#{ slug(news_post.blog_id) }/post/#{ slug(news_post) }">
-                                                                    <img t-attf-src="data:image/*;base64,{{news_post.blog_post_cover_image}}"/>
+<!--                                                                    <img t-attf-src="data:image/*;base64,{{news_post.blog_post_cover_image}}"/>-->
+                                                                    <img t-attf-src="/website/image/blog.post/{{ news_post.id }}/blog_post_cover_image/0x250/no_crop" />
                                                                     <div class="element-image-title text-left">
                                                                         <font style="vertical-align: inherit;">
                                                                             <font style="vertical-align: inherit;"><t t-esc="news_post.name"/></font>
@@ -570,11 +587,14 @@
                                                     <div class="element has-image fixed">
                                                         <div class="element-image">
                                                             <t t-if="article_post.blog_post_cover_image">
-                                                                <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }"><img t-attf-src="data:image/*;base64,{{article_post.blog_post_cover_image}}"/>
+                                                                <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }">
+<!--                                                                    <img t-attf-src="data:image/*;base64,{{article_post.blog_post_cover_image}}"/>-->
+                                                                    <img t-attf-src="/website/image/blog.post/{{ article_post.id }}/blog_post_cover_image/0x250/no_crop" />
                                                                 </a>
                                                             </t>
                                                             <t t-else="">
-                                                                <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }"><img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
+                                                                <a t-attf-href="/blog/#{ slug(article_post.blog_id) }/post/#{ slug(article_post) }">
+                                                                    <img src="/website_ascaldera/static/src/img/default_image.jpg"/></a>
                                                             </t>
                                                         </div>
                                                         <div class="element-text">
@@ -664,7 +684,11 @@
                         <div class="element has-image fixed">
                             <div class="element-image">
                                 <t t-if="type_id.blog_post_cover_image">
-                                    <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }"><img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/></a>
+                                    <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }">
+<!--                                        <img t-attf-src="data:image/*;base64,{{type_id.blog_post_cover_image}}"/>-->
+                                        <img t-attf-src="/website/image/blog.post/{{ type_id.id }}/blog_post_cover_image/0x250/no_crop" />
+                                    </a>
+
                                 </t>
                                 <t t-else="">
                                     <a t-attf-href="/blog/#{ slug(type_id.blog_id) }/post/#{ slug(type_id) }">
@@ -704,20 +728,97 @@
                 <span id="type" class="hide" t-esc="type" />
                 <span id="subtype" class="hide" t-esc="subtype" />
                 <span id="page" class="hide" t-esc="page" />
+                <t t-if="not subtitle"><t t-set='main_title_list' t-value="blog_type.name.split(' ')"/></t>
+                <t t-if="subtitle"><t t-set='main_title_list' t-value="subtitle.split(' ')"/></t>
+                <t t-if="not subtitle"><t t-set='main_title' t-value="blog_type.name"/></t>
+                <t t-if="subtitle"><t t-set='main_title' t-value="subtitle"/></t>
                 <div id="page" class="no-mediabox">
+
+                    <div class="block-title-main">
+                        <div class="line-top"></div>
+                        <div class="wrapper container-fluid maxWidth">
+                            <t t-if="main_title">
+                                 <div class="text">
+
+                                    <span>
+                                        <t t-foreach='main_title_list' t-as='m_title'>
+                                            <t t-if="m_title_index == 0">
+                                                <t t-esc='m_title'/>
+                                            </t>
+                                            <t t-if="m_title_index &gt; 0">
+                                                <b><t t-esc='m_title'/></b>
+                                            </t>
+                                        </t>
+                                    </span>
+                                </div>
+                            </t>
+
+
+                        </div>
+                        <div class="line-bottom"></div>
+                    </div>
                     <div class="wrapper container-fluid maxWidth">
+                        <div id="content-top-full-width">
+
+                            <div class="block">
+
+
+                                <t t-if="len(most_read_posts)">
+
+                                    <div class="block-title">
+                                        <div class="text">Most Read
+                                            <b>
+                                               <t t-esc="main_title"/>
+                                            </b>
+                                        </div>
+                                        <div class="line"><span></span></div>
+                                    </div>
+                                    <div class="block-content">
+                                        <div class="elements inline_images_wrapper">
+                                            <t t-foreach="most_read_posts" t-as="news_post">
+                                                <div class="element-row tight news_block inline_images">
+                                                    <div class="element-wrapper">
+                                                        <div class="element has-image fixed">
+                                                            <div class="element-image">
+                                                                <t t-if="news_post.blog_post_cover_image">
+                                                                    <a t-attf-href="/blog/#{ slug(news_post.blog_id) }/post/#{ slug(news_post) }">
+<!--                                                                        <img t-attf-src="data:image/*;base64,{{news_post.blog_post_cover_image}}"/>-->
+                                                                        <img t-attf-src="/website/image/blog.post/{{ news_post.id }}/blog_post_cover_image/0x250/no_crop" />
+                                                                        <div class="element-image-title text-left">
+                                                                            <font style="vertical-align: inherit;">
+                                                                                <font style="vertical-align: inherit;"><t t-esc="news_post.name"/></font>
+                                                                            </font>
+                                                                        </div>
+                                                                    </a>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <a t-attf-href="/blog/#{ slug(news_post.blog_id) }/post/#{ slug(news_post) }">
+                                                                        <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                                        <div class="element-image-title text-left">
+                                                                            <t t-esc="news_post.name"/>
+                                                                        </div>
+                                                                    </a>
+                                                                </t>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
-                                    <t t-if="not subtitle">
-                                        <div class="text"><span t-esc="blog_type.name"></span></div>
+                                        <div class="text">Last Published
+                                            <b>
+                                               <t t-esc="main_title"/>
+                                            </b>
+                                        </div>
                                         <div class="line"><span></span></div>
-                                    </t>
-                                    <t t-if="subtitle">
-                                        <div class="text"><span t-esc="subtitle"></span></div>
-                                        <div class="line"><span></span></div>
-                                    </t>
-                                </div>
+                                    </div>
                                 <div class="block-content">
                                     <div id="post_elements" class="elements">
                                         <t t-if="posts">

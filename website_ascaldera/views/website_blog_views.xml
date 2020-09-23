@@ -13,6 +13,8 @@
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <!-- Attributes have been added -->
                 <field name="blog_post_type_id" widget='selection'/>
+                <field name="api_sync"/>
+                <field name="api_id"/>
             </xpath>
             <xpath expr="//field[@name='post_date']" position="after">
                 <!-- Attributes have been added -->
@@ -25,8 +27,8 @@
                 
                 <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
                 
-                <field name="save_name" attrs ="{'invisible':1}"/>
-                <field name="sub_category_main" attrs ="{'invisible':1}"/>
+                <field name="save_name" />
+                <field name="sub_category_main" />
                 <field name="sub_category_1" attrs ="{'invisible':[('save_name','!=','blog.post.type(3,)')]}"/>
                 <field name="sub_category_2" attrs ="{'invisible':[('save_name','!=','blog.post.type(4,)')]}"/>
                 
