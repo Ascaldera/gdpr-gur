@@ -61,6 +61,7 @@ msgstr ""
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_article
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_article
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_articles
 msgid "Articles"
 msgstr "Strokovni članki"
 
@@ -156,8 +157,13 @@ msgstr "E-novice"
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_ESCP
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgements_escp
 msgid "ECHR judgments"
 msgstr "Sodbe ESČP"
+
+#: model:website.menu,name:website_ascaldera.menu_new
+msgid "New"
+msgstr "Novo"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
@@ -179,6 +185,7 @@ msgstr "IZ <b>VSEBINE</b>"
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_legislation
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_legislation_sub_foreign_legislation
 msgid "Foreign legislation"
 msgstr "Tuja zakonodaja"
 
@@ -187,6 +194,7 @@ msgstr "Tuja zakonodaja"
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_edpb_guidelines
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_edpb_guidelines
 msgid "EDPB guidelines and opinions"
 msgstr "Mnenja in smernice EDPB"
 
@@ -230,6 +238,7 @@ msgstr "Italija"
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_court
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgements_foreign
 msgid "Judgments of foreign courts"
 msgstr "Sodbe tujih sodišč"
 
@@ -238,6 +247,7 @@ msgstr "Sodbe tujih sodišč"
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_EU_court
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgement_eu
 msgid "Judgments of the European Court of Justice"
 msgstr "Sodbe Sodišča EU"
 
@@ -246,6 +256,7 @@ msgstr "Sodbe Sodišča EU"
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judgement_SLO
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgement_slo
 msgid "Judgments of the Slovenian Court"
 msgstr "Sodbe slovenskih sodišč"
 
@@ -257,6 +268,8 @@ msgstr "Pravna <b>Praksa</b>"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judicial_practice
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_practice
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_judicial_practice
 msgid "Judicial Practice"
 msgstr "Sodna praksa"
 
@@ -298,6 +311,8 @@ msgstr ""
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_legislation
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_legislation
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_legislation
+#: model:website.menu,name:website_ascaldera.menu_legislation_sub_legislation
 msgid "Legislation"
 msgstr "Zakonodaja"
 
@@ -336,6 +351,8 @@ msgstr "Naziv"
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_news
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_news
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_news
+
 msgid "News"
 msgstr "Novice"
 
@@ -394,6 +411,7 @@ msgstr ""
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_practice_slo
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_practice_slo
 msgid "SLO Information Commissioner's practice"
 msgstr "Praksa SLO Informacijskega pooblaščenca"
 
@@ -437,8 +455,20 @@ msgstr "Slovenija"
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_slovenian_legislation
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_legislation_sub_legislation_slo
 msgid "Slovenian legislation"
 msgstr "Slovenska zakonodaja"
+
+#. module: website_ascaldera
+#: model:website.menu,name:website_ascaldera.menu_pricelist
+msgid "Pricelist"
+msgstr "Cenik"
+
+#. module: website_ascaldera
+#: model:website.menu,name:website_ascaldera.menu_about_us
+msgid "About us"
+msgstr "O nas"
+
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_1
@@ -446,6 +476,7 @@ msgstr "Slovenska zakonodaja"
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_main
 msgid "Subcategory"
 msgstr "Podkategorija"
+
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
@@ -462,6 +493,7 @@ msgstr ""
 #: selection:blog.post,sub_category_main:0
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_practice
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_practice_foreign_oversight
 msgid "The practice of foreign oversight bodies"
 msgstr "Praksa tujih nadzornih organov"
 

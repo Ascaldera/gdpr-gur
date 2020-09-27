@@ -223,6 +223,10 @@ class WebsiteBlog(WebsiteBlog):
             search_list.append(x[0])
         return request.env['blog.tag'].sudo().search([('id','in',search_list)])
 
+    @http.route([ '/blog_orig',], type='http', auth="public", website=True)
+    def blogs(self, **post):
+        return self.blog()
+
     @http.route([
         '/blog',
     ], type='http', auth="public", website=True)
@@ -332,7 +336,7 @@ class WebsiteBlog(WebsiteBlog):
             'tag_ids': tag_id,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
-            'blog_post_ids': tag_id.post_ids.filtered(lambda r: r.lang == request.env.context.get('lang')),
+            'posts': tag_id.post_ids.filtered(lambda r: r.lang == request.env.context.get('lang')),
             'external_post_count': self.get_external_post_count(),
         })
 
@@ -356,7 +360,7 @@ class WebsiteBlog(WebsiteBlog):
                     blog_post = posts.filtered(
                         lambda l: l.blog_post_type_id.name == post_type and l.website_published == True)
                     if blog_post:
-                        values.update({'blog_post': blog_post})
+                        values.update({'posts': blog_post})
                 elif post_subcategory == 'SLO Information Commissioner\'s practice':
                     url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
                     res = requests.get(url)
@@ -393,38 +397,8 @@ class WebsiteBlog(WebsiteBlog):
                          ('name', 'ilike', search_query),
                          ('subtitle', 'ilike', search_query)])
                     if blog_post:
-                        values.update({'blog_post': blog_post})
-                    else:
-                        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
-                        res = requests.get(url)
-                        result = 0
-                        if(res):
-                            result = res.json()
-                        count = 0
-                        vals = {}
-                        if(result != 0):
-                            for res in result['_embedded']['documents']:
-                                name = res['name']
-                                content = res['description']
-                                if name.find(search_query) != -1:
-                                    count += 1
-                                    vals.update({count: {'name': res['name'],
-                                                         'content': res['description'],
-                                                         'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                         'external_post_link': res['_links']['self']['href'],
-                                                         'fav_tags': self.fav_tags_get(),
-                                                         }})
-                                elif content.find(search_query) != -1:
-                                    count += 1
-                                    vals.update({count: {'name': res['name'],
-                                                         'content': res['description'],
-                                                         'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                         'external_post_link': res['_links']['self']['href'],
-                                                         'fav_tags': self.fav_tags_get(),
-                                                         }})
-                        return request.render("website_ascaldera.blog_post_search", {
-                            'data': vals,
-                            'external_post_count': self.get_external_post_count(), })
+                        values.update({'posts': blog_post})
+
             return request.render("website_ascaldera.blog_post_search", values)
 
 

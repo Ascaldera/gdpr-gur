@@ -18,6 +18,8 @@ This module develops website sitemap with different blog posts of type:
     'depends': ['website_blog', 'auth_oauth'],
     'data': [
         'security/ir.model.access.csv',
+        'data/website_menu.xml',
+
         'data/blog_data.xml',
         'views/website_blog_views.xml',
         'views/assets.xml',
