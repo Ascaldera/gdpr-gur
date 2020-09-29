@@ -126,11 +126,12 @@
 	/*	height: auto;*/
 	/*}*/
 	.elements .element-column.tight .element-wrapper .element .element-image, .elements .element-row.tight .element-wrapper .element .element-image{
-		width: 100%;
+		width: 30%;
 	}
 	.elements .element-column .element-wrapper .element.has-image .element-text, .elements .element-row .element-wrapper .element.has-image .element-text{
-		display: block;
-		width: 100%;
+		/*display: block;*/
+		padding-left: 10px;
+		width: 60%;
 	    /*height: 150px;*/
 	    overflow-y: auto;
 	    margin: 10px 0px;
@@ -166,6 +167,17 @@
 		width:auto;
 	}
 	.elements.inline_images_wrapper{
-		display: block;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	 .elements.inline_images_wrapper>div {
+		flex: 0 33%;
+	  }
+	 .blog-list .element.has-image{
+		 margin: 0;
+
+	 }
+	.blog-list .element-content{
+		padding-bottom: 0px;
 	}
 }

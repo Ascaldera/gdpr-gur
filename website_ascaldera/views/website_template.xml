@@ -165,7 +165,10 @@
         </t>
     </template>
 
-
+    <template id="remove_user_in_menu" inherit_id="portal.frontend_layout">
+        <xpath expr="//li[hasclass('nav-item')]/a[hasclass('dropdown-toggle')]/.." position="replace">
+        </xpath>
+    </template>
 
     <!-- Replace website Header and Footer  -->
     <template id="new_header" inherit_id="website.layout">
@@ -508,19 +511,21 @@
                     <div t-att-class="'grid_image_element div'+str(count)" data-scrim-bottom="9">
 
                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                            <t t-if="post_index==0">
+                            <div class="hover_effect">
+                                <t t-if="post_index==0">
 
-                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-                            </t>
-                            <t t-if="post_index&gt; 0">
-                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                </t>
+                                <t t-if="post_index&gt; 0">
+                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
 
-                            </t>
-                            <div class="overlay">
-                                <div class="grid_image_element_title text-left">
-                                    <font style="vertical-align: inherit;">
-                                        <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
-                                    </font>
+                                </t>
+                                <div class="overlay">
+                                    <div class="grid_image_element_title text-left">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
+                                        </font>
+                                    </div>
                                 </div>
                             </div>
 
