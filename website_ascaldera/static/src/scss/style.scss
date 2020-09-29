@@ -179,8 +179,14 @@ input:focus{
             vertical-align: top;
           }
           .element-text {
+            @media screen and (min-width: 1024px) {
+              width:calc(60% - 25px);
+            }
+            @media screen and (max-width: 1024px) {
+              width:calc(55% - 25px);
+            }
             display: inline-block;
-            width:calc(60% - 25px);
+
             margin-left: 20px;
           }
         }
@@ -343,9 +349,16 @@ input:focus{
         _padding: $element_spacing / 2;
         
         .element {
+
           .element-image {
-            width:30%;
-          }         
+            @media screen and (min-width: 1024px) {
+              width: 30%;
+            }
+            @media screen and (max-width: 1024px) {
+              width: 45%;
+            }
+
+          }
         }
       }
       &:last-of-type {

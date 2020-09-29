@@ -125,17 +125,17 @@
 	/*.elements .element-column .element-wrapper .element.fixed, .elements .element-row .element-wrapper .element.fixed{*/
 	/*	height: auto;*/
 	/*}*/
-	.elements .element-column.tight .element-wrapper .element .element-image, .elements .element-row.tight .element-wrapper .element .element-image{
-		width: 30%;
-	}
-	.elements .element-column .element-wrapper .element.has-image .element-text, .elements .element-row .element-wrapper .element.has-image .element-text{
-		/*display: block;*/
-		padding-left: 10px;
-		width: 60%;
-	    /*height: 150px;*/
-	    overflow-y: auto;
-	    margin: 10px 0px;
-	}
+	/*.elements .element-column.tight .element-wrapper .element .element-image, .elements .element-row.tight .element-wrapper .element .element-image{*/
+	/*	width: 30%;*/
+	/*}*/
+	/*.elements .element-column .element-wrapper .element.has-image .element-text, .elements .element-row .element-wrapper .element.has-image .element-text{*/
+	/*	!*display: block;*!*/
+	/*	padding-left: 10px;*/
+	/*	width: 60%;*/
+	/*    !*height: 150px;*!*/
+	/*    overflow-y: auto;*/
+	/*    margin: 10px 0px;*/
+	/*}*/
 	#main #page #content{
 		width: 100%;
 	}
@@ -171,8 +171,12 @@
 		flex-wrap: wrap;
 	}
 	 .elements.inline_images_wrapper>div {
-		flex: 0 33%;
+		flex: 0 50%;
+		 padding-top: 1em;
 	  }
+	 #home_page .elements.inline_images_wrapper>div{
+		 flex: 0 33%;
+	 }
 	 .blog-list .element.has-image{
 		 margin: 0;
 

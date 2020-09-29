@@ -539,7 +539,7 @@
                     <div class="oe_structure"/>
                 </div>
                 <div id="page">
-                    <div class="wrapper container-fluid maxWidth">
+                    <div class="wrapper container-fluid maxWidth"  id="home_page">
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
