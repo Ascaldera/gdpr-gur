@@ -18,7 +18,7 @@
     z-index: 1000;
 }
 .element-row.tight.news_block.inline_images{
-	width:33%;
+	width:100%;
 }
 .elements .element-column .element-wrapper .element.fixed, .elements .element-row.inline_images .element-wrapper .element.fixed{
 	height:100%;

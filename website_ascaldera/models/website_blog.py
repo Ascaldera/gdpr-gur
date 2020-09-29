@@ -173,8 +173,21 @@ class BlogPost(models.Model):
     @api.multi
     def _get_text_content(self):
         for post in self:
-            soup = BeautifulSoup(post.content)
-            post.post_listing_text_content = soup.get_text()
+            soup = False
+            if post.post_listing_content and post.post_listing_content != "":
+                soup = BeautifulSoup(post.post_listing_content)
+            else:
+                soup = BeautifulSoup(post.content)
+            if soup:
+                text = soup.get_text()
+                if len(text) < 260:
+                    post.post_listing_text_content = text
+                else:
+                    new_text = text[0:260]
+                    sub_end = new_text.rfind(' ')
+                    new_text = new_text[0:sub_end]
+                    post.post_listing_text_content = new_text + "..."
+
 
 
 class BlogLink(models.Model):

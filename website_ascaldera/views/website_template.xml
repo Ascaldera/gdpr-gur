@@ -165,6 +165,8 @@
         </t>
     </template>
 
+
+
     <!-- Replace website Header and Footer  -->
     <template id="new_header" inherit_id="website.layout">
         <!--        <xpath expr="//div[@id='wrapwrap']//header" position="attributes">-->
@@ -190,12 +192,14 @@
 
 
         </xpath>
-        <xpath expr="//nav[hasclass('navbar-expand-md')][1]"  position="inside">
-            <ul class=" side-menu-style">
-                <li><a href="/blog/Dpo">DPO</a></li>
-                <li><a href="/blog/Hubapp">HUB APP</a></li>
-            </ul>
-        </xpath>
+
+
+<!--        <xpath expr="//nav[hasclass('navbar-expand-md')][1]"  position="inside">-->
+<!--            <ul class=" side-menu-style">-->
+<!--                <li><a href="/blog/Dpo">DPO</a></li>-->
+<!--                <li><a href="/blog/Hubapp">HUB APP</a></li>-->
+<!--            </ul>-->
+<!--        </xpath>-->
 
         <xpath expr="//div[@id='wrapwrap']//header" position="before">
             <header id="header">
@@ -334,18 +338,21 @@
 
 <!--    MOST READ SECTION-->
     <template id="most_read_post" name="Most Read post">
-        <div class="element-row tight news_block inline_images">
+        <div class="element-row tight most_read_post inline_images">
             <div class="element-wrapper">
-                <div class="element has-image fixed">
-                    <div class="element-image">
+                <div class="aspect-ratio-box-16-9">
+                    <div class="aspect-ratio-box-inside">
                         <t t-if="post.blog_post_cover_image">
                             <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
                                 <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-                                <div class="element-image-title text-left">
+                                <div class="overlay">
+                                     <div class="element-image-title text-left">
                                     <font style="vertical-align: inherit;">
                                         <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
                                     </font>
                                 </div>
+                                </div>
+
                             </a>
                         </t>
                         <t t-else="">
@@ -366,35 +373,47 @@
         <div class="elements elements-list x1">
             <div class="element-row tight blog-list">
                 <div class="element-wrapper">
-                    <div class="element has-image fixed">
+                    <div class="element has-image">
                         <div class="element-image">
-                            <t t-if="post.blog_post_cover_image">
-                                <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                    <!--                                        <img t-attf-src="data:image/*;base64,{{post.blog_post_cover_image}}"/>-->
-                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-                                </a>
+                            <div class="aspect-ratio-box-16-9">
+                                <div class="aspect-ratio-box-inside">
+                                    <t t-if="post.blog_post_cover_image">
+                                        <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+                                            <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                        </a>
 
-                            </t>
-                            <t t-else="">
-                                <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                    <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
-                                </a>
-                            </t>
+                                    </t>
+                                    <t t-else="">
+                                        <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+                                            <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                        </a>
+                                    </t>
+
+                                </div>
+                            </div>
+
                         </div>
                         <div class="element-text">
                             <div class="element-title">
                                 <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><t t-esc="post.name"/></a>
                             </div>
-                            <div class="element-meta"><t t-esc="(post.document_date).strftime('%A, %d. %B %Y')"/></div>
+                            <div class="element-meta"><span t-field="post.document_date" t-options='{"widget": "date"}'/>
+                           <span>  objavil </span><span t-esc="post.sudo().author_id.name"/>
+                            </div>
+<!--                            <span t-field="post.document_date" t-options='{"format": "A"}'/>-->
+<!--                            <t t-esc="(post.document_date).strftime('%A')"/>-->
+
+
                             <div class="element-content">
                                 <div class="blog-element-content">
                                     <p style="text-align:left;">
                                         <t t-if="post.post_listing_content">
-                                            <t t-raw="post.post_listing_content"/>
+                                            <t t-esc="post.post_listing_text_content"/>
+
                                         </t>
-                                        <t t-else="">
-                                            <t t-raw="post.post_listing_text_content"/>
-                                        </t>
+<!--                                        <t t-else="">-->
+<!--                                            <t t-raw="post.post_listing_text_content"/>-->
+<!--                                        </t>-->
                                     </p>
                                 </div>
                             </div>
@@ -486,7 +505,7 @@
                 <t t-set="count" t-value="0"/>
                 <t t-foreach="grid_images_posts" t-as="post">
                     <t t-set="count" t-value="count+1"/>
-                    <div t-att-class="'grid_image_element div'+str(count)">
+                    <div t-att-class="'grid_image_element div'+str(count)" data-scrim-bottom="9">
 
                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
                             <t t-if="post_index==0">
@@ -497,11 +516,14 @@
                                 <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
 
                             </t>
-                            <div class="grid_image_element_title text-left">
-                                <font style="vertical-align: inherit;">
-                                    <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
-                                </font>
+                            <div class="overlay">
+                                <div class="grid_image_element_title text-left">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
+                                    </font>
+                                </div>
                             </div>
+
                         </a>
                     </div>
                 </t>

@@ -11,21 +11,46 @@ div.container {
     padding: 0px;
     margin: 0px;
 }
-.element-image-title {
-    position: absolute;
-    display: block;
-    top: 250px;
-    left: 0px;
-    width: 100%;
-    height: auto;
-    z-index: 999;
-    border: none;
-    padding: 15px;
-    color: #fff;
-    text-align: center;
-  font{
-    font-weight: bold;
+@media (min-width: 1200px){
+    .container {
+      max-width: 100%;
   }
+}
+
+.grid_image{
+  .overlay{
+      position: absolute;
+      top: auto;
+      bottom:0;
+      left: 0;
+      height: 50%; /* Overlay half of the image */
+      width: 100%;
+
+      /* Create linear gradient */
+      //background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+      background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.6)
+    );
+  }
+  .element-image-title {
+      position: absolute;
+      display: block;
+      bottom: 0;
+      left: 0px;
+      width: 100%;
+      height: auto;
+      z-index: 999;
+      border: none;
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      font{
+        font-weight: bold;
+      }
+  }
+
 }
 
 .carousel {
@@ -187,11 +212,27 @@ input:focus{
                 //object-fit: cover;
             }
           }
+          .overlay{
+              position: absolute;
+              top: auto;
+              bottom: 23px;
+              left: 0;
+              height: 50%; /* Overlay half of the image */
+              width: 100%;
+
+              /* Create linear gradient */
+              //background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+              background: linear-gradient(
+              to bottom,
+              rgba(0, 0, 0, 0),
+              rgba(0, 0, 0, 0.6)
+            );
+          }
           .element-image-title {
             position: absolute;
             display: block;
             top: auto;
-            bottom: 20px;
+            bottom: 0;
             left: 0px;
             width: 100%;
             height: auto;
@@ -199,9 +240,18 @@ input:focus{
             border: none;
             padding: 15px;
             color: #fff;
-            
-            &.background {
-              background: rgba(255, 255, 255, 0.5);
+
+          color: #fff;
+          display: inline;
+          padding: 0.5rem;
+            background:
+              linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0),
+                rgba(0, 0, 0, 0.6)
+              );
+            font{
+              font-weight: bold;
             }
             &.tight {
               width: auto;
@@ -282,7 +332,7 @@ input:focus{
         
         .element {
           .element-image {
-            width:40%;
+            width:30%;
           }         
         }
       }
@@ -936,7 +986,7 @@ input:focus{
 	border: none;
 	padding: 15px;
 	color: #fff;
-	background-color: rgba(0, 0, 0, .2);
+
 	color: #fff;
 	display: inline;
 	padding: 0.5rem;
@@ -1034,8 +1084,82 @@ input:focus{
 
 }
 
-.element-row:not(:last-child){
-    @media (min-width: 768px) {
-      padding-right: 2em;
-    }
+#top_menu.element-row:not(:last-child),
+.most_read_post.element-row:not(:last-child){
+  @media (min-width: 768px) {
+    padding-right: 2em;
+  }
 }
+.aspect-ratio-box-16-9 {
+  height: 0;
+  overflow: hidden;
+  padding-top: 56.25%;
+  background: white;
+  position: relative;
+}
+.aspect-ratio-box-4-3 {
+  height: 0;
+  overflow: hidden;
+  padding-top: 75%;
+  background: white;
+  position: relative;
+}
+.aspect-ratio-box-inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.aspect-ratio-box-inside img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.blog-list .has-image{
+    display: inline-table;
+    margin: 0em;
+    height: auto;
+}
+.blog-list .element-content {
+  padding-bottom: 5px;
+}
+.most_read_post{
+  .element-image-title{
+    position: absolute;
+    display: block;
+    top: auto;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    border: none;
+    padding: 15px;
+    color: #fff;
+    color: #fff;
+    display: inline;
+    padding: 0.5rem;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    font{
+      font-weight: bold;
+    }
+  }
+
+}
+.most_read_post .overlay{
+              position: absolute;
+              top: auto;
+              bottom: 0;
+              left: 0;
+              height: 50%; /* Overlay half of the image */
+              width: 100%;
+
+              /* Create linear gradient */
+              //background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+              background: linear-gradient(
+              to bottom,
+              rgba(0, 0, 0, 0),
+              rgba(0, 0, 0, 0.6)
+            );
+          }
