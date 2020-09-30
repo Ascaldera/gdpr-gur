@@ -19,6 +19,37 @@ import json
 import odoo
 from odoo.tools import crop_image, topological_sort, html_escape, pycompat
 
+BLOG_TYPES = {
+    'News': {'blog_post_type': 'website_ascaldera.blog_post_type_news',
+             'view_id': 'website_ascaldera.blog_post_news', 'title': 'News'},
+    'Articles': {'blog_post_type': 'website_ascaldera.blog_post_type_article',
+                 'view_id': 'website_ascaldera.blog_post_article', 'title': 'Legislation'},
+    'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation',
+                    'view_id': 'website_ascaldera.blog_post_practice_slo'},
+    'Judicial-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_judicial_practice',
+                          'view_id': 'website_ascaldera.blog_post_judicial_practice'},
+}
+BLOG_SUBTYPES = {
+    'practice_foreign_oversight': {'sub_category_main': 'foreign_practice',
+                                   'view_id': 'website_ascaldera.blog_post_foreign_practice'},
+    'judgement_EU': {'sub_category_main': 'EU_judgments',
+                     'view_id': 'website_ascaldera.blog_post_EU_court'},
+    'judgements_escp': {'sub_category_main': 'escp_judgements',
+                        'view_id': 'website_ascaldera.blog_post_ESCP'},
+    'judgements_foreign': {'sub_category_main': 'foreign_judgments',
+                           'view_id': 'website_ascaldera.blog_post_foreign_court'},
+    'legislation_slo': {'sub_category_main': 'slovenian_legislation',
+                        'view_id': 'website_ascaldera.blog_post_slovenian_legislation'},
+    'judgement_SLO': {'sub_category_main': 'SLO_judgments',
+                      'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
+    'legislation_foreign': {'sub_category_main': 'foreign_legislation',
+                            'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
+    'edpb_guidelines': {'sub_category_main': 'edpb_guidelines',
+                        'view_id': 'website_ascaldera.blog_post_edpb_guidelines'},
+    'practice_slo': {'sub_category_main': 'slo_practice', 'view_id': 'website_ascaldera.website_ascaldera'}
+}
+
+
 def check_lang_to_installed(env, website):
     for code in ['sl_SI', 'it_IT', 'en_US']:
         lang = env['res.lang'].search([('code', '=', code)], limit=1)
@@ -343,115 +374,74 @@ class WebsiteBlog(WebsiteBlog):
     @http.route([
         '/blog/search',
     ], type='http', auth="public", website=True)
-    def blog_post_search(self, **post):
+    def blog_post_search(self, _blog_post_per_page =8,**post):
         values = {'external_post_count': self.get_external_post_count(), }
+        BlogPost = request.env['blog.post']
+
         if post:
             search_query = post.get('query')
             values.update({'query': search_query})
             post_type = post.get('post_type')
+            blog_post_type = False
+            if post_type != None and post_type != 'All':
+                try:
+                    blog_post_type = request.env['blog.post'].browse(int(post_type))
+                except:
+                    blog_post_type = False
+
+            page = post.get('page')
+            if page == None:
+                page = 1
+            else:
+                page = int(page)
             post_subcategory = post.get('sub_category_main')
+            domain = ['|', '|', ('content', 'ilike', search_query),
+                      ('name', 'ilike', search_query),
+                      ('subtitle', 'ilike', search_query)]
+
             blog_post_pool = request.env['blog.post'].sudo()
-            if post_type:
-                if post_type in ['News', 'Articles', 'Judicial-Practice', 'Legislation'] and post_subcategory != "SLO Information Commissioner\'s practice":
-                    posts = blog_post_pool.search(
-                        ['|', '|', ('content', 'ilike', search_query),
-                         ('name', 'ilike', search_query),
-                         ('subtitle', 'ilike', search_query)])
-                    blog_post = posts.filtered(
-                        lambda l: l.blog_post_type_id.name == post_type and l.website_published == True)
-                    if blog_post:
-                        values.update({'posts': blog_post})
-                elif post_subcategory == 'SLO Information Commissioner\'s practice':
-                    url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
-                    res = requests.get(url)
-                    result = 0
-                    if(res):
-                        result = res.json()
-                    count = 0
-                    vals = {}
-                    if(result != 0):
-                        for res in result['_embedded']['documents']:
-                            name = res['name']
-                            content = res['description']
-                            if name.find(search_query) != -1:
-                                count += 1
-                                vals.update({count: {'name': res['name'],
-                                                     'content': res['description'],
-                                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                     'external_post_link': res['_links']['self']['href'],
-                                                     }})
-                            elif content.find(search_query) != -1:
-                                count += 1
-                                vals.update({count: {'name': res['name'],
-                                                     'content': res['description'],
-                                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
-                                                     'external_post_link': res['_links']['self']['href'],
-                                                     }})
-                    return request.render("website_ascaldera.blog_post_search", {
-                        'data': vals,
-                        'external_post_count': self.get_external_post_count(), })
-                else:
-                    blog_post = blog_post_pool.search(
-                        ['|', '|',
-                         ('content', 'ilike', search_query),
-                         ('name', 'ilike', search_query),
-                         ('subtitle', 'ilike', search_query)])
-                    if blog_post:
-                        values.update({'posts': blog_post})
+            if not blog_post_type:
+                post_type = 'All'
+            if blog_post_type:
+                domain.append(('blog_post_type_id', '=', blog_post_type.id))
+                post_type = str(blog_post_type.id)
+            domain.append(('website_published', '=', True))
+            domain.append(('lang', '=', request.env.context.get('lang')))
+
+            total = len(BlogPost.sudo().search(domain))
+            pager = request.website.pager(
+                url='/blog',
+                total=total,
+                page=page,
+                step=8,
+            )
+            posts = blog_post_pool.search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page)
+            values.update({'query': search_query,  'page': page, 'pager': pager, 'post_type': post_type})
+            if posts:
+                values.update({ 'posts': posts,})
 
             return request.render("website_ascaldera.blog_post_search", values)
 
 
     def _get_blog_post_list(self, type, subtype = False, page=1,_blog_post_per_page =8, **post):
-        blog_subtypes = False
+        BLOG_SUBTYPES = False
 
         BlogType = request.env['blog.post.type']
         BlogPost = request.env['blog.post']
-
-        blog_types = {
-            'News': {'blog_post_type': 'website_ascaldera.blog_post_type_news',
-                     'view_id': 'website_ascaldera.blog_post_news', 'title': 'News'},
-            'Articles': {'blog_post_type': 'website_ascaldera.blog_post_type_article',
-                         'view_id': 'website_ascaldera.blog_post_article', 'title': 'Legislation'},
-            'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation',
-                            'view_id': 'website_ascaldera.blog_post_practice_slo'},
-            'Judicial-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_judicial_practice',
-                                  'view_id': 'website_ascaldera.blog_post_judicial_practice'},
-        }
-        if subtype and (type == 'Judicial-Practice' or type == 'Legislation'):
-            blog_subtypes = {
-                'practice_foreign_oversight': {'sub_category_main': 'foreign_practice',
-                                               'view_id': 'website_ascaldera.blog_post_foreign_practice'},
-                'judgement_EU': {'sub_category_main': 'EU_judgments',
-                                 'view_id': 'website_ascaldera.blog_post_EU_court'},
-                'judgements_escp': {'sub_category_main': 'escp_judgements',
-                                    'view_id': 'website_ascaldera.blog_post_ESCP'},
-                'judgements_foreign': {'sub_category_main': 'foreign_judgments',
-                                       'view_id': 'website_ascaldera.blog_post_foreign_court'},
-                'legislation_slo': {'sub_category_main': 'slovenian_legislation',
-                                    'view_id': 'website_ascaldera.blog_post_slovenian_legislation'},
-                'judgement_SLO': {'sub_category_main': 'SLO_judgments',
-                                  'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
-                'legislation_foreign': {'sub_category_main': 'foreign_legislation',
-                                        'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
-                'edpb_guidelines': {'sub_category_main': 'edpb_guidelines',
-                                        'view_id': 'website_ascaldera.blog_post_edpb_guidelines'},
-                'practice_slo':{'sub_category_main':'slo_practice','view_id':'website_ascaldera.website_ascaldera'}
-            }
 
         domain = [
             ('website_published', '=', True),
             ('lang', '=', request.env.context.get('lang'))]
         view_id = False
-        blog_type_id = request.env.ref(blog_types[type]['blog_post_type'])
+        blog_type_id = request.env.ref(BLOG_TYPES[type]['blog_post_type'])
         # blog_type_id = BlogType.browse(type_id)
         if not subtype:
 
             domain.append(('blog_post_type_id', '=', blog_type_id.id))
-            view_id = blog_types[type]['view_id']
+            view_id = BLOG_TYPES[type]['view_id']
         else:
-            domain.append(('sub_category_main', '=', blog_subtypes[subtype]['sub_category_main']))
-            view_id = blog_subtypes[subtype]['view_id']
+            domain.append(('sub_category_main', '=', BLOG_SUBTYPES[subtype]['sub_category_main']))
+            view_id = BLOG_SUBTYPES[subtype]['view_id']
 
         total = len(BlogPost.sudo().search(domain))
         pager = request.website.pager(
@@ -467,7 +457,7 @@ class WebsiteBlog(WebsiteBlog):
         if blog_type_id and len(blog_type_id):
             title = blog_type_id.display_name
         if subtype:
-            subtitle = dict(BlogPost._fields['sub_category_main']._description_selection(request.env)).get(blog_subtypes[subtype]['sub_category_main'])
+            subtitle = dict(BlogPost._fields['sub_category_main']._description_selection(request.env)).get(BLOG_SUBTYPES[subtype]['sub_category_main'])
             title = subtitle
         render_values = {
                         'page':page,
@@ -480,7 +470,6 @@ class WebsiteBlog(WebsiteBlog):
                          'most_read_posts': most_read_posts,
                          'fav_tags': self.fav_tags_get(),
                          'unfav_tags': self.unfav_tags_get(),
-                         'external_post_count': self.get_external_post_count(),
                          'additional_title': title
                          }
         return render_values

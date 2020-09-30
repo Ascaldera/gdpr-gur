@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="website_menus_form_view_blog_type" model="ir.ui.view">
+            <field name="name">website.menu.blog.type.form</field>
+            <field name="model">website.menu</field>
+            <field name="inherit_id" ref="website.website_menus_form_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="is_blog_type" />
+                    <field name="blog_type_id" attrs="{'invisible': [('is_blog_type', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+</odoo>

@@ -170,6 +170,28 @@
         </xpath>
     </template>
 
+    <template id="search_menu" >
+        <div class="search_menu">
+            <ul class="nav navbar-nav text-left">
+                <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                    <li t-if="submenu.is_visible and not has_visible_submenu and submenu.is_blog_type" class="nav-item">
+
+<!--                            -->
+                        <a t-att-href="request.httprequest.path + '?' + keep_query('*', post_type=submenu.blog_type_id.id)"
+                            t-attf-class="#{'active' if str(submenu.blog_type_id.id) == str(post_type) else ''}"
+                            role="menuitem"
+                            t-ignore="true"
+                            t-att-target="'_blank' if submenu.new_window else None">
+                            <span t-field="submenu.name"/>
+                        </a>
+                    </li>
+                </t>
+            </ul>
+
+        </div>
+    </template>
+
+
     <!-- Replace website Header and Footer  -->
     <template id="new_header" inherit_id="website.layout">
         <!--        <xpath expr="//div[@id='wrapwrap']//header" position="attributes">-->
@@ -248,8 +270,9 @@
                         <div id="div_search" class="section-search">
                             <div class="field-input has-icon">
                                 <form action="/blog/search" method="GET">
-                                    <input id="search_query" name="query" type="text" placeholder="Search"/>
-                                    <input id="post_type" name="post_type" type="hidden"/>
+                                    <input id="search_query" name="query" type="text" t-att-value="query" placeholder="Search"/>
+                                    <input id="post_type" name="post_type" t-att-value="post_type" type="hidden"/>
+                                    <input id="page" name="page" type="hidden" t-att-value="page"/>
                                     <button type="submit" class="action search js_search_post"></button>
                                 </form>
                             </div>
@@ -402,7 +425,7 @@
                                 <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><t t-esc="post.name"/></a>
                             </div>
                             <div class="element-meta"><span t-field="post.document_date" t-options='{"widget": "date"}'/>
-                           <span>  objavil </span><span t-esc="post.sudo().author_id.name"/>
+                           <span>  published </span><span t-esc="post.sudo().author_id.name"/>
                             </div>
 <!--                            <span t-field="post.document_date" t-options='{"format": "A"}'/>-->
 <!--                            <t t-esc="(post.document_date).strftime('%A')"/>-->
@@ -439,6 +462,30 @@
         <t t-call="website.layout">
             <main id="main">
                 <div id="page" class="no-mediabox">
+                    <div class="block-title-main search_section">
+                        <div class="line-top"></div>
+                            <div class="wrapper container-fluid maxWidth">
+
+                                <div class="text">
+                                    <div id="div_search" class="section-search">
+                                        <div class="field-input has-icon">
+                                            <form action="/blog/search" method="GET">
+                                                <input id="search_query" name="query" type="text" placeholder="Search"/>
+                                                <input id="post_type" name="post_type" t-att-value="post_type" type="hidden"/>
+                                                <input id="page" name="page" type="hidden" t-att-value="page"/>
+                                                <button type="submit" class="action search js_search_post"></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <t t-call="website_ascaldera.search_menu"/>
+
+                                </div>
+
+
+                            </div>
+
+                        <div class="line-bottom"></div>
+                    </div>
                     <div class="wrapper container-fluid maxWidth">
                         <div id="content">
                             <div class="block">
@@ -633,6 +680,7 @@
 
 
                         </div>
+
                         <div class="line-bottom"></div>
                     </div>
                     <div class="wrapper container-fluid maxWidth">
@@ -774,6 +822,11 @@
                                             </div>
                                         </t>
                                     </div>
+                                    <div class="info_publish">
+                                          <span t-field="blog_post.document_date" t-options='{"widget": "date"}'/>
+                                          <span>  published </span><span t-esc="blog_post.sudo().author_id.name"/>
+                                    </div>
+
 
                                     <t t-raw="blog_post.content"/>
                                     <div>

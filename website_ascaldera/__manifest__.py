@@ -24,6 +24,8 @@ This module develops website sitemap with different blog posts of type:
         'views/website_blog_views.xml',
         'views/assets.xml',
         'views/website_template.xml',
+        'views/website_menu.xml',
+
     ],
     'qweb': ['static/src/xml/template.xml'],
     'installable': True,

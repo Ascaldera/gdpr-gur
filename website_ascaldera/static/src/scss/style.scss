@@ -1218,4 +1218,43 @@ input:focus{
 .blog-list .overlay{
   bottom: 0px !important;
 }
+.info_publish{
+  padding-bottom: 15px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: bold;
+  color: #999;
+  width: 100%;
+}
+.search_section{
+  .js_search_post{
+    background-color: $link_color !important;
+    background-image: url(../img/iconfinder_icon-ios7-search-strong_211817_white.png) !important;
+  }
+
+}
+.search_menu{
+  padding-top: 20px;
+
+  ul.navbar-nav{
+    flex-direction: row;
+    .nav-item > a.active > span,
+
+    {
+
+      border-bottom: 0.15em solid $link_color;;
+      padding-bottom:0.2em;
+
+    }
+    li{
+      padding-right: 3em;
+      font-size: 20px;
+      text-transform: uppercase;
+
+      a{
+        color:#000000;
+      }
+    }
+  }
+}
 

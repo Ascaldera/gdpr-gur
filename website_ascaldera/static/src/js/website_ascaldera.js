@@ -4,48 +4,48 @@ odoo.define('website_ascaldera', function(require) {
     var ajax = require('web.ajax');
 
     $(document).ready(function () {
-        if (window.location.pathname.includes('/blog/News')){
-            document.getElementById("post_type").value = "News";
-        }
-        else if (window.location.pathname.includes('/blog/Articles')){
-            document.getElementById("post_type").value = "Articles";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice')){
-            document.getElementById("post_type").value = "Judicial-Practice";
-        }
-        else if (window.location.pathname.includes('/blog/Legislation')){
-            document.getElementById("post_type").value = "Legislation";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice/practice_slo')){
-            document.getElementById("post_type").value = "SLO Information Commissioner's practice";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice/judgement_SLO')){
-            document.getElementById("post_type").value = "Judgments of the Slovenian Court";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice/practice_foreign_oversight')){
-            document.getElementById("post_type").value = "The practice of foreign oversight bodies";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice/judgement_EU')){
-            document.getElementById("post_type").value = "Judgments of the European Court of Justice";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_escp')){
-            document.getElementById("post_type").value = "ECHR judgments";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice/edpb_guidelines')){
-            document.getElementById("post_type").value = "EDPB guidelines and opinions";
-        }
-        else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_foreign')){
-            document.getElementById("post_type").value = "Judgments of foreign courts";
-        }
-        else if (window.location.pathname.includes('/blog/Legislation/legislation_foreign')){
-            document.getElementById("post_type").value = "Foreign legislation";
-        }
-        else if (window.location.pathname.includes('/blog/Legislation/legislation_slo')){
-            document.getElementById("post_type").value = "Slovenian legislation";
-        }
-        else {
-            document.getElementById("post_type").value = "All";
-        }
+        // if (window.location.pathname.includes('/blog/News')){
+        //     document.getElementById("post_type").value = "News";
+        // }
+        // else if (window.location.pathname.includes('/blog/Articles')){
+        //     document.getElementById("post_type").value = "Articles";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice')){
+        //     document.getElementById("post_type").value = "Judicial-Practice";
+        // }
+        // else if (window.location.pathname.includes('/blog/Legislation')){
+        //     document.getElementById("post_type").value = "Legislation";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice/practice_slo')){
+        //     document.getElementById("post_type").value = "SLO Information Commissioner's practice";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice/judgement_SLO')){
+        //     document.getElementById("post_type").value = "Judgments of the Slovenian Court";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice/practice_foreign_oversight')){
+        //     document.getElementById("post_type").value = "The practice of foreign oversight bodies";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice/judgement_EU')){
+        //     document.getElementById("post_type").value = "Judgments of the European Court of Justice";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_escp')){
+        //     document.getElementById("post_type").value = "ECHR judgments";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice/edpb_guidelines')){
+        //     document.getElementById("post_type").value = "EDPB guidelines and opinions";
+        // }
+        // else if (window.location.pathname.includes('/blog/Judicial-Practice/judgements_foreign')){
+        //     document.getElementById("post_type").value = "Judgments of foreign courts";
+        // }
+        // else if (window.location.pathname.includes('/blog/Legislation/legislation_foreign')){
+        //     document.getElementById("post_type").value = "Foreign legislation";
+        // }
+        // else if (window.location.pathname.includes('/blog/Legislation/legislation_slo')){
+        //     document.getElementById("post_type").value = "Slovenian legislation";
+        // }
+        // else {
+        //     document.getElementById("post_type").value = "All";
+        // }
 
         $('[id^=redirect_gdpr]').on("click",function() {
             var url = $(this).attr('data-id');
