@@ -28,7 +28,7 @@ class BlogBlog(models.Model):
         records = []
         count = 0
         #/website_ascaldera/static/src/img/IP_logo.jpg
-        img_path = get_module_resource('website_ascaldera', 'static/src/img', 'IP_logo.jpg')
+        img_path = get_module_resource('website_ascaldera', 'static/src/img', 'informacijski-pooblascenec.jpg')
         img_base = False
         if img_path:
             with open(img_path, 'rb') as f:
