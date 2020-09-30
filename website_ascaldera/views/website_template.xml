@@ -383,6 +383,7 @@
                                     <t t-if="post.blog_post_cover_image">
                                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
                                             <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                            <div class="overlay"/>
                                         </a>
 
                                     </t>
