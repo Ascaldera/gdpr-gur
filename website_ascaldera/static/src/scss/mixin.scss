@@ -9,12 +9,40 @@
 	#{$property}: -o-calc(#{$expression})#{$imp};
 	#{$property}: calc(#{$expression})#{$imp};
 }
+@mixin position($position,$top:null,$right:null,$bottom:null,$left:null) {
+  position:$position;
+  top:$top;
+  right:$right;
+  bottom:$bottom;
+  left:$left;
+}
+@mixin style($size,$color,$family:null,$height:null,$transform:null)
+{
+  font-size:$size;
+  color:$color;
+  font-family:$family;
+  line-height:$height;
+  text-transform:$transform;
+}
+@mixin border($border-width,$border-color,$border-style)
+{
+  border-width:$border-width;
+  border-color:$link_color;
+  border-style:$border-style;
+}
 
 @mixin gradient($direction, $list) { 
 	background: -webkit-linear-gradient($direction, $list);
 	background: -moz-linear-gradient($direction, $list);
 	background: -o-linear-gradient($direction, $list);
 	background: linear-gradient($direction, $list);  
+}
+@mixin transform($x,$y:null){
+      -webkit-transform: $x,$y;
+      -moz-transform: $x,$y;
+      -ms-transform: $x,$y;
+      -o-transform: $x,$y;
+      transform: $x,$y;
 }
 
 @mixin background_linear_gradient($direction, $color1, $color2, $important: false) {

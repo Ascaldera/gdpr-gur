@@ -17,36 +17,25 @@ from bs4 import BeautifulSoup
 import logging
 import json
 import odoo
+from odoo import http, models, fields, _
 from odoo.tools import crop_image, topological_sort, html_escape, pycompat
 
 BLOG_TYPES = {
-    'News': {'blog_post_type': 'website_ascaldera.blog_post_type_news',
-             'view_id': 'website_ascaldera.blog_post_news', 'title': 'News'},
-    'Articles': {'blog_post_type': 'website_ascaldera.blog_post_type_article',
-                 'view_id': 'website_ascaldera.blog_post_article', 'title': 'Legislation'},
-    'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation',
-                    'view_id': 'website_ascaldera.blog_post_practice_slo'},
-    'Judicial-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_judicial_practice',
-                          'view_id': 'website_ascaldera.blog_post_judicial_practice'},
+    'News': {'blog_post_type': 'website_ascaldera.blog_post_type_news','title': 'News'},
+    'Articles': {'blog_post_type': 'website_ascaldera.blog_post_type_article', 'title': 'Legislation'},
+    'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation'},
+    'Judicial-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_judicial_practice'},
 }
 BLOG_SUBTYPES = {
-    'practice_foreign_oversight': {'sub_category_main': 'foreign_practice',
-                                   'view_id': 'website_ascaldera.blog_post_foreign_practice'},
-    'judgement_EU': {'sub_category_main': 'EU_judgments',
-                     'view_id': 'website_ascaldera.blog_post_EU_court'},
-    'judgements_escp': {'sub_category_main': 'escp_judgements',
-                        'view_id': 'website_ascaldera.blog_post_ESCP'},
-    'judgements_foreign': {'sub_category_main': 'foreign_judgments',
-                           'view_id': 'website_ascaldera.blog_post_foreign_court'},
-    'legislation_slo': {'sub_category_main': 'slovenian_legislation',
-                        'view_id': 'website_ascaldera.blog_post_slovenian_legislation'},
-    'judgement_SLO': {'sub_category_main': 'SLO_judgments',
-                      'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
-    'legislation_foreign': {'sub_category_main': 'foreign_legislation',
-                            'view_id': 'website_ascaldera.blog_post_judgement_SLO'},
-    'edpb_guidelines': {'sub_category_main': 'edpb_guidelines',
-                        'view_id': 'website_ascaldera.blog_post_edpb_guidelines'},
-    'practice_slo': {'sub_category_main': 'slo_practice', 'view_id': 'website_ascaldera.website_ascaldera'}
+    'practice_foreign_oversight': {'sub_category_main': 'foreign_practice'},
+    'judgement_EU': {'sub_category_main': 'EU_judgments'},
+    'judgements_escp': {'sub_category_main': 'escp_judgements'},
+    'judgements_foreign': {'sub_category_main': 'foreign_judgments',},
+    'legislation_slo': {'sub_category_main': 'slovenian_legislation'},
+    'judgement_SLO': {'sub_category_main': 'SLO_judgments'},
+    'legislation_foreign': {'sub_category_main': 'foreign_legislation'},
+    'edpb_guidelines': {'sub_category_main': 'edpb_guidelines'},
+    'practice_slo': {'sub_category_main': 'slo_practice'},
 }
 
 
@@ -136,14 +125,7 @@ class Binary(http.Controller):
 class Website(Website):
     """Controller Website."""
 
-    def get_external_post_count(self):
-        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
-        res = requests.get(url)
-        count = 0
-        if(res):
-            result = res.json()
-            count = len(result['_embedded']['documents'])
-        return count
+
     
     @http.route(auth='public')
     def index(self, data={}, **kw):
@@ -180,7 +162,7 @@ class Website(Website):
         most_read_news_post = blog_post.sudo().search(
             [('blog_post_type_id', '=', news_id.id),
              ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))], limit=3,order='visits,published_date desc')
+             ('lang', '=', request.env.context.get('lang'))], limit=3,order='visits,document_date desc')
 
 
         # Get max three article posts
@@ -190,7 +172,7 @@ class Website(Website):
         most_read_article_post = blog_post.sudo().search(
             [('blog_post_type_id', '=', article_id.id),
              ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))], order='visits,published_date desc',limit=3)
+             ('lang', '=', request.env.context.get('lang'))], order='visits,document_date desc',limit=3)
         # Get max three practice posts
         practice_id = request.env.ref(
             'website_ascaldera.blog_post_type_judicial_practice')
@@ -198,10 +180,10 @@ class Website(Website):
         most_read_practice_post = blog_post.sudo().search(
             [('blog_post_type_id', '=', practice_id.id),
              ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))], order='visits,published_date desc', limit=3)
+             ('lang', '=', request.env.context.get('lang'))], order='visits,document_date desc', limit=3)
         grid_images_posts = blog_post.sudo().search(
             [('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))],order='published_date desc', limit=7)
+             ('lang', '=', request.env.context.get('lang'))],order='document_date desc', limit=7)
 
         check_lang_to_installed(request.env, request.website)
         
@@ -212,21 +194,12 @@ class Website(Website):
             'grid_images_posts': grid_images_posts,
             'fav_tags': fav_tags,
             'unfav_tags': unfav_tags,
-            'external_post_count': self.get_external_post_count(),
         })
 
 
 class WebsiteBlog(WebsiteBlog):
     """Controller WebsiteBlog."""
 
-    def get_external_post_count(self):
-        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon'
-        res = requests.get(url)
-        count = 0;
-        if(res):
-            result = res.json()
-            count = len(result['_embedded']['documents'])
-        return count
 
     def fav_tags_get(self):
         fav_tags = request.env['blog.tag'].sudo().search([])
@@ -323,7 +296,6 @@ class WebsiteBlog(WebsiteBlog):
             'most_read_practice_post': most_read_practice_post,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(),
         })
 
     @http.route([
@@ -337,7 +309,6 @@ class WebsiteBlog(WebsiteBlog):
             'unfav_tags': self.unfav_tags_get(),
             'blog_post': blog_post,
             'main_object': blog_post,
-            'external_post_count': self.get_external_post_count(),
         }
         response = request.render("website_ascaldera.blog_post_content", values)
         request.session[request.session.sid] = request.session.get(request.session.sid, [])
@@ -358,73 +329,224 @@ class WebsiteBlog(WebsiteBlog):
         url = '/blog/%s/post/%s' % (slug(blog_post.blog_id), slug(blog_post))
         return url
 
+    def _get_blog_post_tag_list(self, tag_ids=False,  page=1, order='visits,document_date desc', _blog_post_per_page=8, ):
+        BlogPost = request.env['blog.post']
+        BlogType = request.env['blog.post.type']
+        domain = [('tag_ids', 'in', tag_ids.ids)]
+        domain.append(('website_published', '=', True))
+        domain.append(('lang', '=', request.env.context.get('lang')))
+        all_posts = BlogPost.sudo().search(domain)
+
+        # Types
+        BlogType = request.env['blog.post.type']
+        types = BlogType.sudo().search([ ('blog_post_ids', 'in', all_posts.ids)])
+        types_list = request.httprequest.args.getlist('type')
+        types_set = {int(v) for v in types_list}
+        type_ids = []
+        if types_set and len(types_set):
+
+            # for x in range(0, len(type_set) - 1):
+            #     domain += ['|']
+            # attrib = None
+            type_ids = []
+            for value in types_set:
+                type_ids.append(value)
+            domain += [('blog_post_type_id', 'in', type_ids)]
+        all_posts = BlogPost.sudo().search(domain)
+        posts = BlogPost.sudo().search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page,order=order)
+        total = len(all_posts)
+        pager = request.website.pager(
+            url='/blog',
+            total=total,
+            page=page,
+            step=_blog_post_per_page,
+        )
+        title = _("Oznaka:")
+        for tag in tag_ids:
+            title += " "+tag.name
+        values = {
+            'tag_ids': tag_ids,
+            'list_tag_ids':tag_ids.ids,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+            'posts': posts,
+            'pager': pager,
+            'total': total,
+            'page': page,
+            'count': pager['page_count'] - page,
+            'order':order,
+            'types':types,
+            'types_list':types_list,
+            'types_set':types_set,
+            'additional_title': title,
+
+
+        }
+        return values
     @http.route([
         '''/blog/tag/<model("blog.tag"):tag_id>''',
     ], type='http', auth="public", website=True)
-    def blog_tag(self, tag_id, **post):
+    def blog_tag(self, tag_id, page=1,order='visits,document_date desc', **post):
         """Controller to fetch blog based on tags."""
-        return request.render("website_ascaldera.blog_post_tags", {
-            'tag_ids': tag_id,
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-            'posts': tag_id.post_ids.filtered(lambda r: r.lang == request.env.context.get('lang')),
-            'external_post_count': self.get_external_post_count(),
-        })
+        values = self._get_blog_post_tag_list(tag_id, page,order)
+        return request.render("website_ascaldera.blog_post_tags", values )
+
+    @http.route('/tag_js_call', type='json', auth='public', website=True)
+    def tag_js_call(self, tag_ids,page = 1,order='visits,document_date desc'):
+        tag_ids = request.env['blog.tag'].sudo().browse(tag_ids)
+        render_values = self._get_blog_post_tag_list(tag_ids, page, order)
+        pager = render_values['pager']
+        if pager['page_count'] - page < 0:
+            return {'count': 0, 'data_grid': False, 'page': page}
+        else:
+            response = request.env.ref('website_ascaldera.only_posts').render(render_values)
+            return {'count': pager['page_count'] - page, 'data_grid': response, 'page': page, 'order':order}
+
+
+    def _get_blog_post_search_list(self, search_query='',blog_post_type = False,page = 1,order='visits,document_date desc',_blog_post_per_page =8,):
+        values = {}
+        BlogPost = request.env['blog.post']
+        values.update({'query': search_query})
+        if page == None or page == '':
+            page = 1
+        else:
+            page = int(page)
+        domain = ['|', '|', ('content', 'ilike', search_query),
+                  ('name', 'ilike', search_query),
+                  ('subtitle', 'ilike', search_query)]
+
+        blog_post_pool = request.env['blog.post'].sudo()
+
+        if blog_post_type  :
+            domain.append(('blog_post_type_id', '=', blog_post_type.id))
+            post_type = str(blog_post_type.id)
+        else:
+            post_type = 'All'
+        domain.append(('website_published', '=', True))
+        domain.append(('lang', '=', request.env.context.get('lang')))
+        all_posts = BlogPost.sudo().search(domain)
+
+
+        # Types
+        BlogType = request.env['blog.post.type']
+
+        types_list = request.httprequest.args.getlist('type')
+        types_set = {int(v) for v in types_list}
+        type_ids = []
+        type_domain = []
+        if types_set and len(types_set):
+
+            # for x in range(0, len(type_set) - 1):
+            #     domain += ['|']
+            # attrib = None
+            type_ids = []
+            for value in types_set:
+                type_ids.append(value)
+            type_domain += [('blog_post_type_id', 'in', type_ids)]
+
+
+
+        # TAGS
+        BlogTag = request.env['blog.tag']
+
+        tags_list = request.httprequest.args.getlist('tag')
+        tags_set = {int(v) for v in tags_list}
+        tag_domain = []
+        if tags_set and len(tags_set):
+
+            for x in range(0, len(tags_set) - 1):
+                tag_domain += ['|']
+            attrib = None
+            tag_ids = []
+            for value in tags_set:
+                attrib = value
+                tag_ids.append(value)
+                tag_domain += [('tag_ids', 'in', value)]
+        types = False
+        tags = False
+
+        #NONE
+        if not(types_list and len(types_list)) and not(tags_list and len(tags_list)):
+            types = BlogType.sudo().search([('blog_post_ids', 'in', all_posts.ids)])
+            tags = BlogTag.sudo().search([('post_ids', '!=', False), ('post_ids', 'in', all_posts.ids)])
+        #TAG LIST
+        elif not(types_list and len(types_list)) and (tags_list and len(tags_list)) :
+            tags = BlogTag.sudo().search([('post_ids', '!=', False), ('post_ids', 'in', all_posts.ids)])
+            domain += tag_domain
+            all_posts = BlogPost.sudo().search(domain)
+            types = BlogType.sudo().search([('blog_post_ids', 'in', all_posts.ids)])
+        #TYPE LIST
+        elif types_list and len(types_list) and not(tags_list and len(tags_list)):
+            types = BlogType.sudo().search([('blog_post_ids', 'in', all_posts.ids)])
+            domain += type_domain
+            all_posts = BlogPost.sudo().search(domain)
+            tags = BlogTag.sudo().search([('post_ids', '!=', False), ('post_ids', 'in', all_posts.ids)])
+
+        #TYPE LIST and TAG LIST
+        elif types_list and len(types_list) and tags_list and len(tags_list):
+            types = BlogType.sudo().search([('blog_post_ids', 'in', all_posts.ids)])
+            domain += type_domain
+            all_posts = BlogPost.sudo().search(domain)
+            domain += tag_domain
+            tags = BlogTag.sudo().search([('post_ids', '!=', False), ('post_ids', 'in', all_posts.ids)])
+
+        all_posts = BlogPost.sudo().search(domain)
+        values.update({'types': types, 'types_list': types_list, 'types_set': types_set})
+        values.update({'tags': tags, 'tags_list': tags_list, 'tags_set': tags_set})
+
+        posts = blog_post_pool.search(domain, order=order, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page)
+        total = len(all_posts)
+        pager = request.website.pager(
+            url='/blog',
+            total=total,
+            page=page,
+            step=8,
+        )
+        title = _("Search: ")
+        if search_query and search_query != "":
+            title += search_query
+        values.update({'query': search_query, 'page': page, 'pager': pager, 'post_type': post_type, 'total': total,'order':order,'additional_title': title})
+        if posts:
+            values.update({'posts': posts, })
+        return values
 
     @http.route([
         '/blog/search',
     ], type='http', auth="public", website=True)
-    def blog_post_search(self, _blog_post_per_page =8,**post):
-        values = {'external_post_count': self.get_external_post_count(), }
-        BlogPost = request.env['blog.post']
-
+    def blog_post_search(self, _blog_post_per_page =8,order = 'visits,document_date desc',**post):
         if post:
             search_query = post.get('query')
-            values.update({'query': search_query})
+
             post_type = post.get('post_type')
             blog_post_type = False
             if post_type != None and post_type != 'All':
                 try:
-                    blog_post_type = request.env['blog.post'].browse(int(post_type))
+                    blog_post_type = request.env['blog.post.type'].browse(int(post_type))
                 except:
                     blog_post_type = False
 
             page = post.get('page')
-            if page == None:
-                page = 1
-            else:
-                page = int(page)
-            post_subcategory = post.get('sub_category_main')
-            domain = ['|', '|', ('content', 'ilike', search_query),
-                      ('name', 'ilike', search_query),
-                      ('subtitle', 'ilike', search_query)]
 
-            blog_post_pool = request.env['blog.post'].sudo()
-            if not blog_post_type:
-                post_type = 'All'
-            if blog_post_type:
-                domain.append(('blog_post_type_id', '=', blog_post_type.id))
-                post_type = str(blog_post_type.id)
-            domain.append(('website_published', '=', True))
-            domain.append(('lang', '=', request.env.context.get('lang')))
-
-            total = len(BlogPost.sudo().search(domain))
-            pager = request.website.pager(
-                url='/blog',
-                total=total,
-                page=page,
-                step=8,
-            )
-            posts = blog_post_pool.search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page)
-            values.update({'query': search_query,  'page': page, 'pager': pager, 'post_type': post_type})
-            if posts:
-                values.update({ 'posts': posts,})
+            values =self._get_blog_post_search_list(search_query,blog_post_type,page,order)
 
             return request.render("website_ascaldera.blog_post_search", values)
 
+    @http.route('/search_js_call', type='json', auth='public', website=True)
+    def search_js_call(self, search_query='',blog_post_type = False,page = 1,order = 'visits,document_date desc'):
+        if blog_post_type != 'All':
+            blog_post_type = request.env['blog.post.type'].browse(int(blog_post_type))
+        else:
+            blog_post_type = False
+        render_values = self._get_blog_post_search_list(search_query,blog_post_type, page, order)
+        pager = render_values['pager']
+        if pager['page_count'] - page < 0:
+            return {'count': 0, 'data_grid': False, 'page': page}
+        else:
+            response = request.env.ref('website_ascaldera.only_posts').render(render_values)
+            return {'count': pager['page_count'] - page, 'data_grid': response, 'page': page,'order':order}
 
-    def _get_blog_post_list(self, type, subtype = False, page=1,_blog_post_per_page =8, **post):
-        BLOG_SUBTYPES = False
+
+    def _get_blog_post_list(self, type, subtype = False, page=1,order='document_date desc',_blog_post_per_page =8, **post):
 
         BlogType = request.env['blog.post.type']
         BlogPost = request.env['blog.post']
@@ -432,26 +554,47 @@ class WebsiteBlog(WebsiteBlog):
         domain = [
             ('website_published', '=', True),
             ('lang', '=', request.env.context.get('lang'))]
+
+
+
+
+
         view_id = False
         blog_type_id = request.env.ref(BLOG_TYPES[type]['blog_post_type'])
-        # blog_type_id = BlogType.browse(type_id)
         if not subtype:
 
             domain.append(('blog_post_type_id', '=', blog_type_id.id))
-            view_id = BLOG_TYPES[type]['view_id']
         else:
             domain.append(('sub_category_main', '=', BLOG_SUBTYPES[subtype]['sub_category_main']))
-            view_id = BLOG_SUBTYPES[subtype]['view_id']
 
-        total = len(BlogPost.sudo().search(domain))
+        all_posts = BlogPost.sudo().search(domain)
+
+        most_read_posts = BlogPost.search(domain, limit=4,order='visits,document_date desc')
+        # TAGS
+        BlogTag = request.env['blog.tag']
+        tags = BlogTag.sudo().search([('post_ids', '!=', False), ('post_ids', 'in', all_posts.ids)])
+        tags_list = request.httprequest.args.getlist('tag')
+        tags_set = {int(v) for v in tags_list}
+        if tags_set and len(tags_set):
+
+            for x in range(0, len(tags_set)-1):
+                domain += ['|']
+            attrib = None
+            tag_ids = []
+            for value in tags_set:
+                attrib = value
+                tag_ids.append(value)
+                domain += [('tag_ids', 'in', value)]
+
+        all_posts = BlogPost.sudo().search(domain)
+        posts = BlogPost.search(domain, offset=(page - 1) * _blog_post_per_page, order=order, limit=_blog_post_per_page)
+        total = len(all_posts)
         pager = request.website.pager(
             url='/blog',
             total=total,
             page=page,
             step=8,
         )
-        posts = BlogPost.search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page)
-        most_read_posts = BlogPost.search(domain, limit=4,order='visits,published_date desc')
         subtitle = False
         title = ""
         if blog_type_id and len(blog_type_id):
@@ -470,7 +613,11 @@ class WebsiteBlog(WebsiteBlog):
                          'most_read_posts': most_read_posts,
                          'fav_tags': self.fav_tags_get(),
                          'unfav_tags': self.unfav_tags_get(),
-                         'additional_title': title
+                         'additional_title': title,
+                         'order':order,
+                         'tags':tags,
+                         'tags_list':tags_list,
+                          'tags_set': tags_set
                          }
         return render_values
 
@@ -481,30 +628,23 @@ class WebsiteBlog(WebsiteBlog):
         '/blog/<type>/page/<int:page>',
         '/blog/<type>/<subtype>/page/<int:page>',
     ], type='http', auth="public", website=True)
-    def blog_post_list(self, type, subtype = False, page=1, **post):
-        render_values = self._get_blog_post_list(type,subtype,page)
+    def blog_post_list(self, type, subtype = False, page=1,order='document_date desc', **post):
+        render_values = self._get_blog_post_list(type,subtype,page,order)
 
         return request.render('website_ascaldera.blog_post_single', render_values)
 
 
-    @http.route([
-        '/blog/full/<type>',
-        '/blog/full/<type>/<subtype>',
-    ], type='http', auth="public", website=True)
-    def full_blog_post_list(self, type, subtype=False, page=1, **post):
-        render_values = self._get_blog_post_list(type, subtype, page, 100)
 
-        return request.render('website_ascaldera.blog_post_single', render_values)
 
     @http.route('/scroll_paginator', type='json', auth='public',website=True)
-    def scroll_paginator(self, type, subtype=False, page=1):
-        render_values = self._get_blog_post_list(type, subtype, page)
+    def scroll_paginator(self, type, subtype=False, page=1,order='document_date desc',):
+        render_values = self._get_blog_post_list(type, subtype, page, order)
         pager = render_values['pager']
         if pager['page_count'] - page < 0:
             return {'count': 0, 'data_grid': False,'page':page}
         else:
             response = request.env.ref('website_ascaldera.only_posts').render(render_values)
-            return {'count': pager['page_count'] - page, 'data_grid': response,'page':page}
+            return {'count': pager['page_count'] - page, 'data_grid': response,'page':page,'order':order}
 
 
     @http.route([
@@ -532,26 +672,7 @@ class WebsiteBlog(WebsiteBlog):
             'data': vals,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
-            'external_post_count': self.get_external_post_count(), })
-
-    @http.route('/blog/legislation/content',
-                type='http', auth="public", website=True)
-    def display_legislation_content(self, **post):
-        name = request.params.get('name')
-        url = 'http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail'
-        res = requests.get(url)
-        result = 0
-        if(res):
-            result = res.json()
-        if(result != 0):
-            for res in result['_embedded']['documents']:
-                if res['name'] == name:
-                    return request.render(
-                        "website_ascaldera.legislation_post_content",
-                        {'name': res['name'],
-                         'content': base64.b64decode(res['content']),
-                         'external_post_link': res['_links']['self']['href'],
-                         'external_post_count': self.get_external_post_count(), })
+             })
 
 
     # END BLOG post type list
@@ -560,13 +681,11 @@ class WebsiteBlog(WebsiteBlog):
     ], type='http', auth="public", website=True)
     def blog_post_dpo(self, **post):
         """Controller for DPO  page."""
-        return request.render("website_ascaldera.blog_post_dpo", {
-            'external_post_count': self.get_external_post_count(), })
+        return request.render("website_ascaldera.blog_post_dpo", )
 
     @http.route([
         '/blog/Hubapp',
     ], type='http', auth="public", website=True)
     def blog_post_hubapp(self, **post):
         """Controller for HUBAPP  page."""
-        return request.render("website_ascaldera.blog_post_hubapp", {
-            'external_post_count': self.get_external_post_count(), })
+        return request.render("website_ascaldera.blog_post_hubapp", )

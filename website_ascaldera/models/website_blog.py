@@ -38,7 +38,7 @@ class BlogBlog(models.Model):
             for res in result['_embedded']['documents']:
                 count += 1
                 values= {
-                                    'name': res['name'],
+                                    'name': res['name'].replace('τ','š'),
                                     'blog_id': blog_id,
                                     'blog_post_type_id': blog_type_id.id,
                                     'sub_category_main':subtype_selection,
@@ -84,7 +84,7 @@ class BlogBlog(models.Model):
 
 
         blog_post_object.search([('lang', '=', language), ('api_sync', '=', True), ('id','not in', all_blog_post)]).write({'website_published':False})
-
+        blog_post_object.search([('visits', '=', False)]).write({'visits': 0})
 
 
     def sync_api_slo_blog(self):
@@ -97,11 +97,13 @@ class BlogPostType(models.Model):
     _name = "blog.post.type"
 
     name = fields.Char(string='Name', translate=True)
+    blog_post_ids = fields.One2many('blog.post', 'blog_post_type_id', string='Blog Posts')
 
 
 class BlogPost(models.Model):
     _inherit = "blog.post"
     _order = 'document_date desc'
+    visits = fields.Integer('No of Views', copy=False,default=0)
 
     blog_post_type_id = fields.Many2one('blog.post.type',
                                         string='Blog Post Type',

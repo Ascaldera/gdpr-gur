@@ -792,22 +792,8 @@ input:focus{
     }
     
   }
-  #show_more{
-    text-align: center;
-  }
-  .show_more_button {
-    border: 1px solid #a67432;
-    color: #a67432;
-    padding: 5px 10px;
-    text-decoration: none;
-    margin-left: 10px;
-    color: #a67432;
-  }
 
-  .show_more_button:hover {
-      background: #a67432;
-      color: #ffffff;
-  }
+
 
 }
 
@@ -1231,11 +1217,25 @@ input:focus{
     background-color: $link_color !important;
     background-image: url(../img/iconfinder_icon-ios7-search-strong_211817_white.png) !important;
   }
+  form{
+    font-size: 14px;
+  }
 
 }
 .search_menu{
-  padding-top: 20px;
-
+    padding-top: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    flex-basis: auto;
+    width: 70%;
+  @media screen and (max-width: 992px) {
+    width: 80%;
+    line-height: 1em;
+  }
+  @media screen and (max-width: 767px) {
+    width: 85%;
+  }
+    display: inline-block;
   ul.navbar-nav{
     flex-direction: row;
     .nav-item > a.active > span,
@@ -1248,6 +1248,9 @@ input:focus{
     }
     li{
       padding-right: 3em;
+      @media screen and (max-width: 992px) {
+        padding-right: 1em;
+      }
       font-size: 20px;
       text-transform: uppercase;
 
@@ -1257,4 +1260,249 @@ input:focus{
     }
   }
 }
+.main_search_menu{
+    flex-flow: row nowrap;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
 
+
+
+
+}
+#post_elements{
+    #show_more{
+      text-align: center;
+      .show_more_button {
+        border: 1px solid #a67432;
+        color: #a67432;
+        padding: 5px 10px;
+        text-decoration: none;
+        margin-left: 10px;
+        color: #a67432;
+      }
+      .show_more_button:hover {
+          background: #a67432;
+          color: #ffffff;
+      }
+    }
+   #show_more_search{
+      text-align: center;
+      .show_more_button {
+        border: 1px solid #a67432;
+        color: #a67432;
+        padding: 5px 10px;
+        text-decoration: none;
+        margin-left: 10px;
+        color: #a67432;
+      }
+      .show_more_button:hover {
+          background: #a67432;
+          color: #ffffff;
+      }
+    }
+  #show_more_tag{
+      text-align: center;
+      .show_more_button {
+        border: 1px solid #a67432;
+        color: #a67432;
+        padding: 5px 10px;
+        text-decoration: none;
+        margin-left: 10px;
+        color: #a67432;
+      }
+      .show_more_button:hover {
+          background: #a67432;
+          color: #ffffff;
+      }
+    }
+}
+.total_results{
+  width: 29%;
+  @media screen and (max-width: 992px) {
+    width: 19%;
+  }
+  @media screen and (max-width: 767px) {
+    width: 13%;
+  }
+  display: inline-block;
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+  color: #999;
+}
+.fake-radio {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    vertical-align: middle;
+    background:  url(../img/fake_radio_17x17.png);
+    cursor: pointer;
+    text-indent: -99em;
+}
+.fake-radio.active {
+    background-position: 0 -17px;
+    cursor: default;
+}
+
+
+.js_attributes{
+	& .nav-item{
+		& ul.nav-pills{
+			margin-left:0;
+			& label.nav-link{
+				margin: 0 !important;
+				padding: 0.5rem 0rem;
+				@include position(relative,0,0,0,0);
+				max-width: 250px;
+				& span{
+					@include style(3,25,inherit,null,capitalize);
+					display: block;
+				}
+			}
+			& label.active{
+				background-color:nth($f_color,1);
+			}
+		}
+		& ul.nav.nav-pills.open_ul{
+		    clear:both;
+		}
+	}
+  //CHECKBOX
+	[type="checkbox"]:not(:checked),
+	[type="checkbox"]:checked {
+	  	@include position(absolute,auto,auto,auto,5px);
+	  	-moz-appearance: none;
+		width: 17px;
+		height: 17px;
+		opacity: 0.001;
+		cursor:pointer;
+		z-index: 9999;
+	}
+	[type="checkbox"]:not(:checked) + span,
+	[type="checkbox"]:checked + span {
+	  	@include position(relative);
+	  	padding-left: 2.30em;
+	  	cursor: pointer;
+	}
+
+	/*--------- checkbox aspect---------- */
+	[type="checkbox"]:not(:checked) + span:before,
+	[type="checkbox"]:checked + span:before {
+	  	content: '';
+	  	@include position(absolute,3px,auto,auto,7px);
+	  	width: 12px;
+	  	height: 12px;
+	  	@include border(1px,11,solid);
+	  	background: nth($f_color,3);
+	  	@include border-radius(1px)
+	}
+	/*-------------- checked mark aspect-------------- */
+	[type="checkbox"]:not(:checked) + span:after,
+	[type="checkbox"]:checked + span:after {
+	  	content: '';
+	  	@include position(absolute,6px,auto,auto,10px);
+	  	@include transition(all,.2s)
+	  	background-color:nth($f_color,1);
+	  	width: 6px;
+		height: 6px;
+	}
+	/*----------- checked mark aspect changes------------- */
+	[type="checkbox"]:not(:checked) + span:after {
+	  	opacity: 0;
+	  	@include transform(scale(0))
+	}
+	[type="checkbox"]:checked + span:after {
+	  	opacity: 1;
+	  	@include transform(scale(1))
+	}
+
+
+    //  RADIO
+  	[type="radio"]:not(:checked),
+	[type="radio"]:checked {
+	  	@include position(absolute,auto,auto,auto,5px);
+	  	-moz-appearance: none;
+		width: 17px;
+		height: 17px;
+		opacity: 0.001;
+		cursor:pointer;
+		z-index: 9999;
+	}
+	[type="radio"]:not(:checked) + span,
+	[type="radio"]:checked + span {
+	  	@include position(relative);
+	  	padding-left: 2.30em;
+	  	cursor: pointer;
+	}
+
+	/*--------- checkbox aspect---------- */
+	[type="radio"]:not(:checked) + span:before,
+	[type="radio"]:checked + span:before {
+	  	content: '';
+	  	@include position(absolute,3px,auto,auto,7px);
+	  	width: 12px;
+	  	height: 12px;
+	  	@include border(1px,11,solid);
+	  	background: nth($f_color,3);
+	  	@include border-radius(15px)
+	}
+	/*-------------- checked mark aspect-------------- */
+	[type="radio"]:not(:checked) + span:after,
+	[type="radio"]:checked + span:after {
+	  	content: '';
+	  	@include position(absolute,6px,auto,auto,10px);
+	  	@include transition(all,.2s)
+	  	background-color:nth($f_color,1);
+	  	width: 6px;
+		height: 6px;
+        @include border-radius(6px)
+	}
+	/*----------- checked mark aspect changes------------- */
+	[type="radio"]:not(:checked) + span:after {
+	  	opacity: 0;
+	  	@include transform(scale(0))
+	}
+	[type="radio"]:checked + span:after {
+	  	opacity: 1;
+	  	@include transform(scale(1))
+	}
+
+
+
+
+}
+.te_attr_title{
+	@include style(1,3);
+	padding: 14px 1px 0;
+	cursor: pointer;
+	@include position(relative);
+	&:after
+	{
+		content: "\f067";
+		font-family: "FontAwesome";
+		width: 0.8rem;
+    	display: block;
+		float: right;
+		@include style(3,22);
+		position: absolute;
+        right: 5px;
+        top: 50%;
+        -ms-transform: translate(-15%);
+        transform: translateY(-15%);
+	}
+	& .te_clear_all_variant{
+		float:right;
+		display:none;
+		color:nth($f_color,4) !important;
+		font-size:11px;
+		cursor: pointer;
+		z-index:98;
+	}
+}
+.te_fa-minus
+{
+	&:after
+	{
+		content: "\f068";
+	}
+}

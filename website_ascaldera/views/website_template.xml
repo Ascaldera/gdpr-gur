@@ -8,7 +8,120 @@
         </xpath>
     </template>
 
-    <!-- Sider bar -->
+    <template id="sort_blog" active="True" name="Show Sort by">
+        <!-- SORT BY-->
+        <t t-set="document_date_desc_label">Published date: High to Low</t>
+                    <t t-set="document_date_asc_label">Published date: Low to High</t>
+                    <t t-set="popularity_desc_label">Popularity - DESC</t>
+                    <t t-set="popularity_asc_label">Popularity - ASC</t>
+                    <t t-set="name_asc_label">Name - ASC</t>
+                    <t t-set="name_desc_label">Name - DESC</t>
+                    <t t-set="website_blog_sortable" t-value="[
+                        (document_date_desc_label, 'document_date desc'),
+                        (document_date_asc_label, 'document_date asc'),
+                         (name_asc_label, 'name asc'),
+                        (name_desc_label, 'name desc'),
+                        (popularity_desc_label, 'visits desc'),
+                        (popularity_asc_label, 'visits asc'),
+                    ]"/>
+        <t t-set="website_blog_sortable_current" t-value="[sort for sort in website_blog_sortable if sort[1]==request.params.get('order', '')]"/>
+        <div class="block">
+            <div class="block-title">
+                 <div t-attf-class="text te_attr_title #{'te_fa-minus' if website_blog_sortable_current else ''}"> <span>Sort <b>By</b></span>
+                    </div>
+                <div class="line">
+                    <span></span>
+                </div>
+            </div>
+            <div class="block-content">
+                <div id="sort_blog" >
+                    <div  id="wsale_products_attributes_collapse">
+                         <ul t-attf-class="nav flex-column #{'open_ul' if website_blog_sortable_current else ''}"  t-att-style="'' if website_blog_sortable_current else 'display: none;' ">
+                            <t t-foreach="website_blog_sortable" t-as="sortby">
+
+                                <li class="nav-item">
+                                    <label t-attf-class="#{' active' if len(website_blog_sortable_current) and website_blog_sortable_current[0][0] == sortby[0] else ''">
+                                        <input type="radio" name="order" t-att-value="sortby[1]" t-att-checked="'checked' if len(website_blog_sortable_current) and website_blog_sortable_current[0][0] == sortby[0] else None" />
+                                        <span style="font-weight: normal" t-esc="sortby[0]" />
+                                    </label>
+                                </li>
+                            </t>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </template>
+
+    <template id="tag_filter" name="Tag Filter">
+        <!-- SORT BY-->
+        <div id="tag_filter">
+            <div class="block">
+                <div class="block-title">
+                    <div t-attf-class="text te_attr_title #{'te_fa-minus' if tags_set else ''}"> <span>Filter <b>Tags</b></span>
+                    </div>
+                    <div class="line">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="block-content">
+
+                    <div  id="wsale_products_attributes_collapse">
+                        <ul t-attf-class="nav flex-column #{'open_ul' if tags_set else ''}"  t-att-style="'' if tags_set else 'display: none;' ">
+                            <t t-foreach="tags" t-as="tag">
+                                <li class="nav-item">
+                                    <label t-attf-class="#{' active' if tag.id in tags_set else ''}">
+                                        <input type="checkbox" name="tag" t-att-value="tag.id" t-att-checked="'checked' if tag.id in tags_set else None" />
+                                        <span style="font-weight: normal" t-field="tag.name" />
+                                    </label>
+                                </li>
+                            </t>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </template>
+
+    <template id="type_filter" name="Tag Filter">
+        <!-- SORT BY-->
+
+        <div id="type_filter">
+            <div class="block">
+                <div class="block-title">
+
+                     <div t-attf-class="text te_attr_title #{'te_fa-minus' if types_set else ''}"> <span>Filter <b>Types</b></span>
+                    </div>
+                    <div class="line">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="block-content">
+
+                    <div  id="wsale_products_attributes_collapse">
+
+                        <ul t-attf-class="nav flex-column #{'open_ul' if types_set else ''}"  t-att-style="'' if types_set else 'display: none;' ">
+                            <t t-foreach="types" t-as="type">
+                                <li class="nav-item">
+                                    <label t-attf-class="#{' active' if type.id in types_set else ''}">
+                                        <input type="checkbox" name="type" t-att-value="type.id" t-att-checked="'checked' if type.id in types_set else None" />
+                                        <span style="font-weight: normal" t-field="type.name" />
+                                    </label>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </template>
+
+    <!-- RIGHT Sider bar -->
     <template id="t_sidebar">
         <div class="sidebar_icon">
             <img src="/website_ascaldera/static/src/img/icon-arrow-large-left.svg" id="sidebar_arrow" data-visible="False"/>
@@ -142,6 +255,37 @@
         </div>
     </template>
 
+
+    <!-- RIGHT Sider bar -->
+    <template id="l_sidebar">
+        <div class="sidebar_icon">
+            <img src="/website_ascaldera/static/src/img/icon-arrow-large-left.svg" id="sidebar_arrow" data-visible="False"/>
+        </div>
+        <div class="sidebar_bg">
+        </div>
+        <div id="sidebar">
+            <form class="js_attributes mb-2" method="get">
+                <t t-if="query">
+                    <input  name="query" type="hidden" t-att-value="query"/>
+                    <input  name="post_type" t-att-value="post_type" type="hidden"/>
+                    <input  name="page" type="hidden" t-att-value="page"/>
+                </t>
+
+
+
+                <t t-call="website_ascaldera.sort_blog"/>
+
+                <t t-if="types">
+                    <t t-call="website_ascaldera.type_filter"/>
+                </t>
+                <t t-if="tags">
+                    <t t-call="website_ascaldera.tag_filter"/>
+                </t>
+            </form>
+
+        </div>
+    </template>
+
     <template id="blog_post_link">
         <t t-call="website.layout">
             <main id="main">
@@ -171,23 +315,29 @@
     </template>
 
     <template id="search_menu" >
-        <div class="search_menu">
-            <ul class="nav navbar-nav text-left">
-                <t t-foreach="website.menu_id.child_id" t-as="submenu">
-                    <li t-if="submenu.is_visible and not has_visible_submenu and submenu.is_blog_type" class="nav-item">
+        <div class="main_search_menu">
+            <div class="search_menu">
+                <ul class="nav navbar-nav text-left">
+                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                        <li t-if="submenu.is_visible and not has_visible_submenu and submenu.is_blog_type" class="nav-item">
 
-<!--                            -->
-                        <a t-att-href="request.httprequest.path + '?' + keep_query('*', post_type=submenu.blog_type_id.id)"
-                            t-attf-class="#{'active' if str(submenu.blog_type_id.id) == str(post_type) else ''}"
-                            role="menuitem"
-                            t-ignore="true"
-                            t-att-target="'_blank' if submenu.new_window else None">
-                            <span t-field="submenu.name"/>
-                        </a>
-                    </li>
-                </t>
-            </ul>
+                            <!--                            -->
+                            <a t-att-href="request.httprequest.path + '?' + keep_query('*', post_type=submenu.blog_type_id.id)"
+                               t-attf-class="#{'active' if str(submenu.blog_type_id.id) == str(post_type) else ''}"
+                               role="menuitem"
+                               t-ignore="true"
 
+                               t-att-target="'_blank' if submenu.new_window else None">
+                                <span t-field="submenu.name"/>
+                            </a>
+                        </li>
+                    </t>
+                </ul>
+
+            </div>
+            <div class="total_results">
+                <span t-esc="total"/> <span > results</span>
+            </div>
         </div>
     </template>
 
@@ -219,12 +369,12 @@
         </xpath>
 
 
-<!--        <xpath expr="//nav[hasclass('navbar-expand-md')][1]"  position="inside">-->
-<!--            <ul class=" side-menu-style">-->
-<!--                <li><a href="/blog/Dpo">DPO</a></li>-->
-<!--                <li><a href="/blog/Hubapp">HUB APP</a></li>-->
-<!--            </ul>-->
-<!--        </xpath>-->
+        <xpath expr="//nav[hasclass('navbar-expand-md')][1]"  position="inside">
+            <ul class=" side-menu-style">
+                <li><a href="/blog/Dpo">DPO</a></li>
+                <li><a href="/blog/Hubapp">HUB APP</a></li>
+            </ul>
+        </xpath>
 
         <xpath expr="//div[@id='wrapwrap']//header" position="before">
             <header id="header">
@@ -270,7 +420,10 @@
                         <div id="div_search" class="section-search">
                             <div class="field-input has-icon">
                                 <form action="/blog/search" method="GET">
-                                    <input id="search_query" name="query" type="text" t-att-value="query" placeholder="Search"/>
+                                    <input id="search_query" name="query" type="text"
+                                           t-att-value="query"
+                                           t-att-placeholder="query"
+                                    />
                                     <input id="post_type" name="post_type" t-att-value="post_type" type="hidden"/>
                                     <input id="page" name="page" type="hidden" t-att-value="page"/>
                                     <button type="submit" class="action search js_search_post"></button>
@@ -362,7 +515,7 @@
         </xpath>
     </template>
 
-<!--    MOST READ SECTION-->
+    <!--    MOST READ SECTION-->
     <template id="most_read_post" name="Most Read post">
         <div class="element-row tight most_read_post inline_images">
             <div class="element-wrapper">
@@ -372,11 +525,11 @@
                             <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
                                 <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
                                 <div class="overlay">
-                                     <div class="element-image-title text-left">
-                                    <font style="vertical-align: inherit;">
-                                        <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
-                                    </font>
-                                </div>
+                                    <div class="element-image-title text-left">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
+                                        </font>
+                                    </div>
                                 </div>
 
                             </a>
@@ -425,10 +578,10 @@
                                 <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }"><t t-esc="post.name"/></a>
                             </div>
                             <div class="element-meta"><span t-field="post.document_date" t-options='{"widget": "date"}'/>
-                           <span>  published </span><span t-esc="post.sudo().author_id.name"/>
+                                <span>  published </span><span t-esc="post.sudo().author_id.name"/>
                             </div>
-<!--                            <span t-field="post.document_date" t-options='{"format": "A"}'/>-->
-<!--                            <t t-esc="(post.document_date).strftime('%A')"/>-->
+                            <!--                            <span t-field="post.document_date" t-options='{"format": "A"}'/>-->
+                            <!--                            <t t-esc="(post.document_date).strftime('%A')"/>-->
 
 
                             <div class="element-content">
@@ -438,9 +591,9 @@
                                             <t t-esc="post.post_listing_text_content"/>
 
                                         </t>
-<!--                                        <t t-else="">-->
-<!--                                            <t t-raw="post.post_listing_text_content"/>-->
-<!--                                        </t>-->
+                                        <!--                                        <t t-else="">-->
+                                        <!--                                            <t t-raw="post.post_listing_text_content"/>-->
+                                        <!--                                        </t>-->
                                     </p>
                                 </div>
                             </div>
@@ -464,29 +617,34 @@
                 <div id="page" class="no-mediabox">
                     <div class="block-title-main search_section">
                         <div class="line-top"></div>
-                            <div class="wrapper container-fluid maxWidth">
+                        <div class="wrapper container-fluid maxWidth">
 
-                                <div class="text">
-                                    <div id="div_search" class="section-search">
-                                        <div class="field-input has-icon">
-                                            <form action="/blog/search" method="GET">
-                                                <input id="search_query" name="query" type="text" placeholder="Search"/>
-                                                <input id="post_type" name="post_type" t-att-value="post_type" type="hidden"/>
-                                                <input id="page" name="page" type="hidden" t-att-value="page"/>
-                                                <button type="submit" class="action search js_search_post"></button>
-                                            </form>
-                                        </div>
+                            <div class="text">
+                                <div id="div_search" class="section-search">
+                                    <div class="field-input has-icon">
+                                        <form action="/blog/search" method="GET">
+                                            <input id="search_query" name="query" type="text" t-att-placeholder="query" t-att-value="query"/>
+                                            <input id="post_type" name="post_type" t-att-value="post_type" type="hidden"/>
+                                            <input id="page" name="page" type="hidden" t-att-value="page"/>
+                                            <button type="submit" class="action search js_search_post"></button>
+                                        </form>
                                     </div>
-                                    <t t-call="website_ascaldera.search_menu"/>
-
                                 </div>
+
+
+                                <t t-call="website_ascaldera.search_menu"/>
+
 
 
                             </div>
 
+
+                        </div>
+
                         <div class="line-bottom"></div>
                     </div>
                     <div class="wrapper container-fluid maxWidth">
+                        <t t-call="website_ascaldera.l_sidebar"/>
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
@@ -497,16 +655,26 @@
                                     <div class="line"><span></span></div>
                                 </div>
                                 <div class="block-content">
-                                    <div class="elements">
-                                         <t t-if="posts">
+                                    <div id="post_elements" class="elements">
+                                        <t t-if="posts">
                                             <t t-call="website_ascaldera.only_posts"/>
+                                            <t t-if="page &lt; pager['page_count']">
+                                                <div id="show_more_search" class="show">
+                                                    <a href="#" class="show_more_button">Show more</a>
+                                                </div>
+                                                <div id="scroll_paginator"/>
+                                            </t>
+                                        </t>
+
+                                        <t t-else="">
+                                            <h3> There is no available blog!</h3>
                                         </t>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <t t-call="website_ascaldera.t_sidebar"/>
+
                     </div>
                 </div>
             </main>
@@ -517,29 +685,32 @@
     <template id="blog_post_tags" name="Blog Post Tags">
         <t t-call="website.layout">
             <main id="main">
+                <span id="tag_ids" class="hide" t-esc="list_tag_ids" />
+                <span id="page" class="hide" t-esc="page" />
                 <div id="page" class="no-mediabox">
                     <div class="wrapper container-fluid maxWidth">
+                        <t t-call="website_ascaldera.l_sidebar"/>
                         <div id="content">
                             <div class="block">
-                                <div class="block-title">
-                                    <t t-foreach="tag_ids" t-as="tag_id">
-                                        <div class="text">
-                                            Tags:
-                                            <b><t t-esc="tag_id.name"/></b>
-                                        </div>
-                                        <div class="line"><span></span></div>
-                                    </t>
-                                </div>
+
                                 <div class="block-content">
-                                    <div class="elements">
-                                         <t t-if="posts">
+                                    <div id="post_elements" class="elements">
+                                        <t t-if="posts">
                                             <t t-call="website_ascaldera.only_posts"/>
+                                            <t t-if="page &lt; pager['page_count']">
+                                                <div id="show_more_tag" class="show">
+                                                    <a href="#" class="show_more_button">Show more</a>
+                                                </div>
+                                                <div id="scroll_paginator"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <h3> There is no available blog!</h3>
                                         </t>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <t t-call="website_ascaldera.t_sidebar"/>
                     </div>
                 </div>
             </main>
@@ -710,6 +881,7 @@
                                 </t>
                             </div>
                         </div>
+                        <t t-call="website_ascaldera.l_sidebar"/>
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
@@ -724,27 +896,24 @@
                                     <div id="post_elements" class="elements">
                                         <t t-if="posts">
                                             <t t-call="website_ascaldera.only_posts"/>
+                                            <t t-if="page &lt; pager['page_count']">
+                                                <div  id="show_more" class="show">
+                                                    <a href="#" class="show_more_button">Show more</a>
+                                                </div>
+                                                <div id="scroll_paginator"/>
+
+                                            </t>
                                         </t>
                                         <t t-else="">
                                             <h3> There is no available blog!</h3>
                                         </t>
 
-                                        <t t-if="page &lt; pager['page_count']">
-                                            <div  id="show_more" class="show">
-                                                <a href="#" class="show_more_button">Show more</a>
 
-                                            </div>
-                                            <div id="scroll_paginator"/>
-
-
-
-                                        </t>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <t t-call="website_ascaldera.t_sidebar"/>
                     </div>
                 </div>
             </main>
@@ -823,8 +992,8 @@
                                         </t>
                                     </div>
                                     <div class="info_publish">
-                                          <span t-field="blog_post.document_date" t-options='{"widget": "date"}'/>
-                                          <span>  published </span><span t-esc="blog_post.sudo().author_id.name"/>
+                                        <span t-field="blog_post.document_date" t-options='{"widget": "date"}'/>
+                                        <span>  published </span><span t-esc="blog_post.sudo().author_id.name"/>
                                     </div>
 
 

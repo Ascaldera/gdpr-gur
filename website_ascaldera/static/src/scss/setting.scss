@@ -4,13 +4,14 @@ $color_blue: #143d52;
 $color_black: #000000;
 $color_white: #ffffff;
 
+
 $font_family: 'Nunito', sans-serif;
 $font_family_bold: 'Nunito', sans-serif;
 $font_size: 14px;
 $font_line_height: 18px;
 $link_color: $color_brown;
 $link_color_hover: $color_brown;
-
+$f_color :           		 $color_brown,#bcb6b6,transparent,#333333,inherit,  !default;
 
 /* Header */
 $header_height: 240px;

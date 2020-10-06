@@ -13,6 +13,7 @@
         </xpath>
         <xpath expr="//script[last()]" position="after">
             <script type="text/javascript" src="/website_ascaldera/static/src/js/website_ascaldera.js"></script>
+            <script type="text/javascript" src="/website_ascaldera/static/src/js/website_blog_attributes.js"></script>
         </xpath>
     </template>
 </odoo>

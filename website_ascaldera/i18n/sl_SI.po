@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0+e\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-27 08:21+0000\n"
-"PO-Revision-Date: 2020-02-27 08:21+0000\n"
+"POT-Creation-Date: 2020-10-04 17:21+0000\n"
+"PO-Revision-Date: 2020-10-04 17:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,15 +21,44 @@ msgid "<b>E-news</b>"
 msgstr "<b>E-novice</b>"
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
-msgid "<span class=\"carousel-control-next-icon\"/>\n"
-"                    <span class=\"sr-only\">Next</span>"
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "<b>Odvetniška družba Pirc Musar &amp; Lemut Strle</b> je nosilka naložbe v projekt »Celostna storitev upravljanja in spremljanja varstva osebnih podatkov v digitalnih okoljih« v partnerstvu s podjetjem <b>Ascaldera.</b>"
 msgstr ""
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
-msgid "<span class=\"carousel-control-prev-icon\"/>\n"
-"                    <span class=\"sr-only\">Previous</span>"
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "<b>naložbe pa sofinancirata Republika Slovenija in Evropska unija iz Evropskega sklada za regionalni razvoj.</b>"
+msgstr ""
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_content
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.only_post
+msgid "<span>  published </span>"
+msgstr "<span>  objavil/a </span>"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.search_menu
+msgid "<span> results</span>"
+msgstr "<span> Rezultati</span>"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.tag_filter
+msgid "<span>Filter <b>Tags</b></span>"
+msgstr "<span>Filter&amp;nbsp;<b>Oznak</b></span>"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.type_filter
+msgid "<span>Filter <b>Types</b></span>"
+msgstr "<span>Filter&amp;nbsp;<b>Kategorij</b></span>"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
+msgid "<span>Sort <b>By</b></span>"
+msgstr "Razvrsti&amp;nbsp;<b>PO</b>"
+
+#. module: website_ascaldera
+#: model:website.menu,name:website_ascaldera.menu_about_us
+msgid "About Us"
 msgstr ""
 
 #. module: website_ascaldera
@@ -58,9 +87,27 @@ msgid "Advertising"
 msgstr ""
 
 #. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__api_id
+msgid "Api Id"
+msgstr ""
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__api_last_modified_at
+msgid "Api last modified at"
+msgstr ""
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__api_link
+msgid "Api link"
+msgstr ""
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__api_sync
+msgid "Api sync"
+msgstr ""
+
+#. module: website_ascaldera
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_article
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_article
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_articles
 msgid "Articles"
 msgstr "Strokovni članki"
@@ -84,8 +131,19 @@ msgstr "Članek na blogu"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__blog_post_type_id
+#: model:ir.model.fields,field_description:website_ascaldera.field_website_menu__blog_type_id
 msgid "Blog Post Type"
 msgstr ""
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post_type__blog_post_ids
+msgid "Blog Posts"
+msgstr ""
+
+#. module: website_ascaldera
+#: model:ir.model,name:website_ascaldera.model_blog_blog
+msgid "Blogs"
+msgstr "Blogi"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
@@ -148,6 +206,11 @@ msgid "Display Name"
 msgstr "Prikazni naziv"
 
 #. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__document_date
+msgid "Document Date"
+msgstr ""
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
 msgid "E-news"
 msgstr "E-novice"
@@ -155,19 +218,25 @@ msgstr "E-novice"
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_1:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_ESCP
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgements_escp
 msgid "ECHR judgments"
 msgstr "Sodbe ESČP"
 
-#: model:website.menu,name:website_ascaldera.menu_new
-msgid "New"
-msgstr "Novo"
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_1:0
+#: selection:blog.post,sub_category_main:0
+#: model:website.menu,name:website_ascaldera.menu_judicial_sub_edpb_guidelines
+msgid "EDPB guidelines and opinions"
+msgstr "Mnenja in smernice EDPB"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "English"
+msgstr ""
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Evropski sklad za regionalni razvoj"
 msgstr ""
 
 #. module: website_ascaldera
@@ -183,21 +252,9 @@ msgstr "IZ <b>VSEBINE</b>"
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_2:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_legislation
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_legislation_sub_foreign_legislation
 msgid "Foreign legislation"
 msgstr "Tuja zakonodaja"
-
-#. module: website_ascaldera
-#: selection:blog.post,sub_category_2:0
-#: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_edpb_guidelines
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
-#: model:website.menu,name:website_ascaldera.menu_judicial_sub_edpb_guidelines
-msgid "EDPB guidelines and opinions"
-msgstr "Mnenja in smernice EDPB"
-
 
 #. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_gdpr
@@ -210,6 +267,11 @@ msgstr ""
 #: code:addons/website_ascaldera/static/src/xml/template.xml:4
 #, python-format
 msgid "Go to Website"
+msgstr ""
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Gospodarski razvoj"
 msgstr ""
 
 #. module: website_ascaldera
@@ -230,14 +292,24 @@ msgstr ""
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Inovativna storitev, ki jo bosta partnerja razvila v projektu Priv.HUB, bo pilotni projekt na področju kibernetske varnosti, s poudarkom na varovanju osebnih podatkov.\n"
+"                            V konzorciju sta dva komplementarna partnerja, ki  prihajata iz različnih branž: eno podjetje obvladuje pravne vidike varovanja osebnih podatkov, drugo pa izdelavo tehnoloških rešitev za varovanje osebnih podatkov.\n"
+"                            Podjetji tako skupaj obvladata paleto različnih poslovnih ekosistemov. Znotraj projekta Priv.HUB bosta svoje programske aplikativne rešitve in pametno IT infrastrukturo razvili v novo inovativno storitev, ki bo pilotno tehnologijo ponudila tudi v prid zaupanja posameznikov do procesov obdelav osebnih podatkov in ne le tehnoloških funkcionalnosti."
+msgstr ""
+
+#. module: website_ascaldera
+#: model:ir.model.fields,field_description:website_ascaldera.field_website_menu__is_blog_type
+msgid "Is blog type?"
+msgstr ""
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Italy"
 msgstr "Italija"
 
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_1:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_court
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgements_foreign
 msgid "Judgments of foreign courts"
 msgstr "Sodbe tujih sodišč"
@@ -245,8 +317,6 @@ msgstr "Sodbe tujih sodišč"
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_1:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_EU_court
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgement_eu
 msgid "Judgments of the European Court of Justice"
 msgstr "Sodbe Sodišča EU"
@@ -254,8 +324,6 @@ msgstr "Sodbe Sodišča EU"
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_1:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judgement_SLO
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_judicial_sub_judgement_slo
 msgid "Judgments of the Slovenian Court"
 msgstr "Sodbe slovenskih sodišč"
@@ -266,33 +334,15 @@ msgid "Judicial <b>Practices</b>"
 msgstr "Pravna <b>Praksa</b>"
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
-msgid "Last Published"
-msgstr "Zadnje Objavljeni"
-
-#. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
-msgid "Show more"
-msgstr "Prikaži več"
-
-#. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
-msgid "Most Read"
-msgstr "Najbolj Brani"
-
-#. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judicial_practice
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_judicial_practice
 #: model:website.menu,name:website_ascaldera.menu_judicial_sub_judicial_practice
 msgid "Judicial Practice"
-msgstr "Pravna praksa"
+msgstr "Sodna praksa"
 
 #. module: website_ascaldera
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_judicial_practice
 msgid "Judicial-Practice"
-msgstr "Pravna praksa"
+msgstr "Sodna praksa"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__lang
@@ -305,6 +355,11 @@ msgstr "Jezik"
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post_type____last_update
 msgid "Last Modified on"
 msgstr "Zadnjič spremenjeno"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
+msgid "Last Published"
+msgstr "Zadnje Objavljeni"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__write_uid
@@ -325,8 +380,6 @@ msgstr ""
 
 #. module: website_ascaldera
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_legislation
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_legislation
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_legislation
 #: model:website.menu,name:website_ascaldera.menu_legislation_sub_legislation
 msgid "Legislation"
@@ -354,6 +407,11 @@ msgid "Logout"
 msgstr "Odjava"
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
+msgid "Most Read"
+msgstr "Najbolj Brani"
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
 msgid "Most Read <b>News</b>"
 msgstr "Najbolj Brane <b>Novice</b>"
@@ -364,18 +422,31 @@ msgid "Name"
 msgstr "Naziv"
 
 #. module: website_ascaldera
-#: model:blog.post.type,name:website_ascaldera.blog_post_type_news
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_news
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
-#: model:website.menu,name:website_ascaldera.menu_news
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
+msgid "Name - ASC"
+msgstr "Naslov A-Ž"
 
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
+msgid "Name - DESC"
+msgstr "Naslov Ž-A"
+
+#. module: website_ascaldera
+#: model:blog.post.type,name:website_ascaldera.blog_post_type_news
+#: model:website.menu,name:website_ascaldera.menu_news
 msgid "News"
 msgstr "Novice"
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
-msgid "Next"
-msgstr "Naprej"
+#: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__visits
+msgid "No of Views"
+msgstr "Število ogledov"
+
+#. module: website_ascaldera
+#: code:addons/website_ascaldera/controllers/main.py:364
+#, python-format
+msgid "Oznaka:"
+msgstr ""
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
@@ -383,14 +454,24 @@ msgid "PROFESSIONAL <b>Articles</b>"
 msgstr "Strokovni <b>Članki</b>"
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
+msgid "Popularity - ASC"
+msgstr "Popularnost naraščajoče"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
+msgid "Popularity - DESC"
+msgstr "Popularnost padajoče"
+
+#. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__post_listing_text_content
 msgid "Post Listing Text Content"
 msgstr ""
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
-msgid "Previous"
-msgstr "Nazaj"
+#: model:website.menu,name:website_ascaldera.menu_pricelist
+msgid "Pricelist"
+msgstr "Cenik"
 
 #. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_privacy
@@ -413,9 +494,19 @@ msgid "Profiling"
 msgstr ""
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
+msgid "Published date: High to Low"
+msgstr "Datumu padajoče"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
+msgid "Published date: Low to High"
+msgstr "Datumu naraščajoče"
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_search
 msgid "Result For:"
-msgstr ""
+msgstr "Rezultat za:"
 
 #. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_rights
@@ -425,11 +516,14 @@ msgstr ""
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_1:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_practice_slo
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_judicial_sub_practice_slo
 msgid "SLO Information Commissioner's practice"
 msgstr "Praksa SLO Informacijskega pooblaščenca"
+
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_main:0
+msgid "SLO Information Commissioners practice"
+msgstr ""
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__save_name
@@ -437,12 +531,14 @@ msgid "Saved name"
 msgstr ""
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
-msgid "Search"
-msgstr "Iskanje"
+#: code:addons/website_ascaldera/controllers/main.py:505
+#, python-format
+msgid "Search: "
+msgstr ""
 
 #. module: website_ascaldera
 #: model:ir.model.fields,help:website_ascaldera.field_blog_post__blog_post_type_id
+#: model:ir.model.fields,help:website_ascaldera.field_website_menu__blog_type_id
 msgid "Select blog post type"
 msgstr ""
 
@@ -457,9 +553,16 @@ msgid "Select language for useful link content"
 msgstr ""
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_tags
+msgid "Show more"
+msgstr "Prikaži več"
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Sign up"
-msgstr "Registracija"
+msgstr "Prijavi"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
@@ -469,22 +572,9 @@ msgstr "Slovenija"
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_2:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_slovenian_legislation
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_legislation_sub_legislation_slo
 msgid "Slovenian legislation"
 msgstr "Slovenska zakonodaja"
-
-#. module: website_ascaldera
-#: model:website.menu,name:website_ascaldera.menu_pricelist
-msgid "Pricelist"
-msgstr "Cenik"
-
-#. module: website_ascaldera
-#: model:website.menu,name:website_ascaldera.menu_about_us
-msgid "About us"
-msgstr "O nas"
-
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__sub_category_1
@@ -493,39 +583,29 @@ msgstr "O nas"
 msgid "Subcategory"
 msgstr "Podkategorija"
 
-
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
 msgid "Subscribe to our newsletter and we will keep you updated on all the latest news, professional articles, changes."
 msgstr "Prijavite se na naše e-novice in obveščali vas bomo o vseh aktualnih novicah, strokovnih člankih, spremembah."
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_tags
-msgid "Tags:"
+#: model:ir.actions.server,name:website_ascaldera.ir_cron_sync_api_blog_ir_actions_server
+#: model:ir.cron,cron_name:website_ascaldera.ir_cron_sync_api_blog
+#: model:ir.cron,name:website_ascaldera.ir_cron_sync_api_blog
+msgid "Sync API blog"
 msgstr ""
 
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_1:0
 #: selection:blog.post,sub_category_main:0
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_practice
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 #: model:website.menu,name:website_ascaldera.menu_judicial_sub_practice_foreign_oversight
 msgid "The practice of foreign oversight bodies"
 msgstr "Praksa tujih nadzornih organov"
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_ESCP
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_EU_court
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_article
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_court
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_legislation
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_foreign_practice
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judgement_SLO
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_judicial_practice
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_legislation
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_news
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_practice_slo
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_slovenian_legislation
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_search
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_tags
 msgid "There is no available blog!"
 msgstr "Blog ni na voljo!"
 
@@ -533,6 +613,11 @@ msgstr "Blog ni na voljo!"
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__title
 msgid "Title"
 msgstr "Naziv"
+
+#. module: website_ascaldera
+#: model:website.menu,name:website_ascaldera.top_menu
+msgid "Top Menu"
+msgstr ""
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
@@ -550,9 +635,19 @@ msgid "Useful Links"
 msgstr "Koristne Povezave"
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Vrednost projekta je ocenjena na 617.186,45 EUR, 60 % del naložbe financirata konzorcijska partnerja, 40 % del"
+msgstr ""
+
+#. module: website_ascaldera
 #: model:ir.model,name:website_ascaldera.model_website
 msgid "Website"
 msgstr "Spletna stran"
+
+#. module: website_ascaldera
+#: model:ir.model,name:website_ascaldera.model_website_menu
+msgid "Website Menu"
+msgstr "Meni spletne strani"
 
 #. module: website_ascaldera
 #: model:ir.model,name:website_ascaldera.model_blog_post_type

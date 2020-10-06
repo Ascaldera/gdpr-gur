@@ -1,0 +1,26 @@
+.cc-cookies {
+    position: fixed;
+    z-index: 1100;
+}
+#website_cookie_notice {
+	position: fixed;
+    bottom: 0;
+    left: 0;
+    //opacity: 0.7;
+    z-index: 100;
+    background: white;
+    border: 0px;
+    color:#000000;
+}
+
+#website_cookie_notice {
+    a{
+
+        color:#000000;
+    }
+    .btn-primary{
+        color: #FFFFFF;
+        background-color: #B69B58;
+        border-color: #B69B58;
+    }
+}
