@@ -121,6 +121,40 @@
 
     </template>
 
+    <template id="year_filter" name="Year Filter">
+        <!-- SORT BY-->
+        <div id="year_filter">
+            <div class="block">
+                <div class="block-title">
+                    <div t-attf-class="text te_attr_title #{'te_fa-minus' if year_set else ''}"> <span>Filter <b>Years</b></span>
+                    </div>
+                    <div class="line">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="block-content">
+
+                    <div  id="wsale_products_attributes_collapse">
+                        <ul t-attf-class="nav flex-column #{'open_ul' if year_set else ''}"  t-att-style="'' if year_set else 'display: none;' ">
+                            <t t-foreach="years" t-as="year">
+                                <t t-set="year_int"  t-value="int(year)"/>
+                                <li class="nav-item">
+
+                                    <label t-attf-class="#{' active' if year_int in year_set else ''}">
+                                        <input type="checkbox" name="year" t-att-value="year" t-att-checked="'checked' if year_int in year_set else None" />
+                                        <span style="font-weight: normal" t-esc="year" />
+                                    </label>
+                                </li>
+                            </t>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </template>
+
     <!-- RIGHT Sider bar -->
     <template id="t_sidebar">
         <div class="sidebar_icon">
@@ -263,7 +297,7 @@
         </div>
         <div class="sidebar_bg">
         </div>
-        <div id="sidebar">
+        <div id="sidebar"  class="left_sidebar">
             <form class="js_attributes mb-2" method="get">
                 <t t-if="query">
                     <input  name="query" type="hidden" t-att-value="query"/>
@@ -280,6 +314,9 @@
                 </t>
                 <t t-if="tags">
                     <t t-call="website_ascaldera.tag_filter"/>
+                </t>
+                 <t t-if="years">
+                    <t t-call="website_ascaldera.year_filter"/>
                 </t>
             </form>
 

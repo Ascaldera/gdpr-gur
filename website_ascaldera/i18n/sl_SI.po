@@ -44,12 +44,18 @@ msgstr "<span> Rezultati</span>"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.tag_filter
 msgid "<span>Filter <b>Tags</b></span>"
-msgstr "<span>Filter&amp;nbsp;<b>Oznak</b></span>"
+msgstr "<span>Filter <b>Oznak</b></span>"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.type_filter
 msgid "<span>Filter <b>Types</b></span>"
-msgstr "<span>Filter&amp;nbsp;<b>Kategorij</b></span>"
+msgstr "<span>Filter <b>Kategorij</b></span>"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.year_filter
+msgid "<span>Filter <b>Years</b></span>"
+msgstr "<span>Filter <b>Let</b></span>"
+
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
@@ -433,6 +439,12 @@ msgstr "Naslov Ž-A"
 
 #. module: website_ascaldera
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_news
+#: model:website.menu,name:website_ascaldera.menu_home
+msgid "Home"
+msgstr "Domov"
+
+#. module: website_ascaldera
+#: model:blog.post.type,name:website_ascaldera.blog_post_type_news
 #: model:website.menu,name:website_ascaldera.menu_news
 msgid "News"
 msgstr "Novice"
@@ -523,7 +535,7 @@ msgstr "Praksa SLO Informacijskega pooblaščenca"
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_main:0
 msgid "SLO Information Commissioners practice"
-msgstr ""
+msgstr "Praksa SLO Informacijskega pooblaščenca"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__save_name
@@ -534,7 +546,7 @@ msgstr ""
 #: code:addons/website_ascaldera/controllers/main.py:505
 #, python-format
 msgid "Search: "
-msgstr ""
+msgstr "Išči: "
 
 #. module: website_ascaldera
 #: model:ir.model.fields,help:website_ascaldera.field_blog_post__blog_post_type_id

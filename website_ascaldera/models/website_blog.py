@@ -130,7 +130,15 @@ class BlogPost(models.Model):
         for r in self:
             if r.document_date==False and r.create_date:
                 r.document_date=r.create_date
-    
+
+    @api.onchange('blog_post_type_id')
+    def _show_sub_category(self):
+        show_type_ids = [self.env.ref('website_ascaldera.blog_post_type_judicial_practice').id,self.env.ref('website_ascaldera.blog_post_type_legislation').id]
+        for record in self:
+            if record.blog_post_type_id and len(record.blog_post_type_id) and record.blog_post_type_id.id in show_type_ids:
+                record.show_subcategory = True
+            else:
+                record.show_subcategory = False
     #ADDITION
     #------------------------------------------------------------------------------------------------------------------------------
     
@@ -142,6 +150,7 @@ class BlogPost(models.Model):
                                     selection=[('SLO_commissioner_practice','SLO Information Commissioner\'s practice'), ('SLO_judgments','Judgments of the Slovenian Court'), ('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions')])
     sub_category_2=fields.Selection(string="Subcategory", 
                                     selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation')])
+    show_subcategory = fields.Boolean('Show sub category',default=_show_sub_category,compute=_show_sub_category)
     
     #Function to populate the main subcategory selection field or erase data from that field if something else was selected
     #Function to save the name of the blog_post_type_id field
@@ -171,7 +180,10 @@ class BlogPost(models.Model):
             self.save_name=""
     
     #------------------------------------------------------------------------------------------------------------------------------
-    
+
+
+
+
     @api.multi
     def _get_text_content(self):
         for post in self:

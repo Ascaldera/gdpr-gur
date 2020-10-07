@@ -929,8 +929,7 @@ input:focus{
     height: 100%;
     transition: transform .5s ease;
     overflow: hidden;
-
-    //object-fit: cover;
+    object-fit: cover;
 }
 .grid_image .hover_effect{
   overflow: hidden;
@@ -1505,4 +1504,8 @@ input:focus{
 	{
 		content: "\f068";
 	}
+}
+.left_sidebar{
+  margin-left: 0 !important;
+  margin-right: 1.5%;
 }
