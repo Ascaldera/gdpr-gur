@@ -2,10 +2,14 @@
 #V1.3
 
 import heapq
-
+from urllib import parse
 import requests
-from dateutil.parser import parse
-
+from dateutil.parser import parser
+import pytz
+import babel.dates
+import itertools
+from collections import OrderedDict
+from operator import itemgetter
 from odoo import http
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import Website
@@ -200,6 +204,42 @@ class Website(Website):
 class WebsiteBlog(WebsiteBlog):
     """Controller WebsiteBlog."""
 
+    def new_blog_nav_list(self, dom=None):
+
+        groups = request.env['blog.post']._read_group_raw(
+            dom,
+            ['name', 'document_date'],
+            groupby=["document_date"], orderby="document_date desc")
+        for group in groups:
+            (r, label) = group['document_date']
+
+
+            start, end = r.split('/')
+            start = pytz.UTC.localize(fields.Datetime.from_string(start))
+            tzinfo = pytz.timezone(request.context.get('tz', 'utc') or 'utc')
+            locale = request.context.get('lang') or 'en_US'
+            str_year = babel.dates.format_datetime(start, format='YYYY', tzinfo=tzinfo, locale=locale)
+            label = str_year
+            start = str_year +'-01-01 00:00:00'
+            end = str_year + '-12-31 23:59:59'
+
+            group['post_date'] = label
+            group['date_begin'] = start
+            group['date_end'] = end
+
+            start = pytz.UTC.localize(fields.Datetime.from_string(start))
+
+
+            group['month'] = babel.dates.format_datetime(start, format='MMMM', tzinfo=tzinfo, locale=locale)
+            group['year'] = babel.dates.format_datetime(start, format='YYYY', tzinfo=tzinfo, locale=locale)
+
+
+        ordered_dist_years = OrderedDict((year, [m for m in months]) for year, months in itertools.groupby(groups, lambda g: g['year']))
+        dist_years = {}
+        for year in ordered_dist_years:
+            if not year in dist_years:
+                dist_years[year] = ordered_dist_years[year][0]
+        return dist_years
 
     def fav_tags_get(self):
         fav_tags = request.env['blog.tag'].sudo().search([])
@@ -329,7 +369,7 @@ class WebsiteBlog(WebsiteBlog):
         url = '/blog/%s/post/%s' % (slug(blog_post.blog_id), slug(blog_post))
         return url
 
-    def _get_blog_post_tag_list(self, tag_ids=False,  page=1, order='visits,document_date desc', _blog_post_per_page=8, ):
+    def _get_blog_post_tag_list(self, tag_ids=False,  page=1, order='visits,document_date desc',types_list = False, year_list=False, _blog_post_per_page=8, ):
         BlogPost = request.env['blog.post']
         BlogType = request.env['blog.post.type']
         domain = [('tag_ids', 'in', tag_ids.ids)]
@@ -340,7 +380,8 @@ class WebsiteBlog(WebsiteBlog):
         # Types
         BlogType = request.env['blog.post.type']
         types = BlogType.sudo().search([ ('blog_post_ids', 'in', all_posts.ids)])
-        types_list = request.httprequest.args.getlist('type')
+        if not types_list:
+            types_list = request.httprequest.args.getlist('type')
         types_set = {int(v) for v in types_list}
         type_ids = []
         if types_set and len(types_set):
@@ -352,6 +393,36 @@ class WebsiteBlog(WebsiteBlog):
             for value in types_set:
                 type_ids.append(value)
             domain += [('blog_post_type_id', 'in', type_ids)]
+
+        # YEARS
+        if not year_list:
+            year_list = request.httprequest.args.getlist('year')
+        year_set = {int(v) for v in year_list}
+
+        year_domain = []
+        years = self.new_blog_nav_list(domain)
+        pre_sub_year_domain = []
+
+        if pre_sub_year_domain and not pre_sub_year_domain == []:
+            domain += pre_sub_year_domain
+        count_operators = 0
+        for year_item in year_set:
+            if year_item and str(year_item) in years:
+                count_operators += 1
+        i = 0
+        # for x in range(0, count_operators - 1):
+        #     domain += ['|', '&']
+
+        for year_item in year_set:
+            i += 1
+
+            sub_year_domain = []
+            if year_item and str(year_item) in years:
+                if count_operators > 1 and i < count_operators:
+                    domain += ['|', '&']
+                sub_year_domain.append(('document_date', '>=', years[str(year_item)]['date_begin']))
+                sub_year_domain.append(('document_date', '<', years[str(year_item)]['date_end']))
+                domain += sub_year_domain
         all_posts = BlogPost.sudo().search(domain)
         posts = BlogPost.sudo().search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page,order=order)
         total = len(all_posts)
@@ -379,7 +450,8 @@ class WebsiteBlog(WebsiteBlog):
             'types_list':types_list,
             'types_set':types_set,
             'additional_title': title,
-
+            'years':years,
+            'year_set':year_set
 
         }
         return values
@@ -393,8 +465,19 @@ class WebsiteBlog(WebsiteBlog):
 
     @http.route('/tag_js_call', type='json', auth='public', website=True)
     def tag_js_call(self, tag_ids,page = 1,order='visits,document_date desc'):
+        query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
+        order = False
+        type_list = False
+        year_list = False
+        if 'order' in query_def:
+            order = query_def['order'][0]
+        if 'type' in query_def:
+            type_list = query_def['type_list']
+        if 'year' in query_def:
+            year_list = query_def['year']
+
         tag_ids = request.env['blog.tag'].sudo().browse(tag_ids)
-        render_values = self._get_blog_post_tag_list(tag_ids, page, order)
+        render_values = self._get_blog_post_tag_list(tag_ids, page, order,type_list, year_list)
         pager = render_values['pager']
         if pager['page_count'] - page < 0:
             return {'count': 0, 'data_grid': False, 'page': page}
@@ -403,7 +486,7 @@ class WebsiteBlog(WebsiteBlog):
             return {'count': pager['page_count'] - page, 'data_grid': response, 'page': page, 'order':order}
 
 
-    def _get_blog_post_search_list(self, search_query='',blog_post_type = False,page = 1,order='visits,document_date desc',_blog_post_per_page =8,):
+    def _get_blog_post_search_list(self, search_query='',blog_post_type = False,page = 1,order='visits,document_date desc',types_list=False, tags_list=False, year_list = False,_blog_post_per_page =8,):
         values = {}
         BlogPost = request.env['blog.post']
         values.update({'query': search_query})
@@ -426,11 +509,10 @@ class WebsiteBlog(WebsiteBlog):
         domain.append(('lang', '=', request.env.context.get('lang')))
         all_posts = BlogPost.sudo().search(domain)
 
-
         # Types
         BlogType = request.env['blog.post.type']
-
-        types_list = request.httprequest.args.getlist('type')
+        if not types_list:
+            types_list = request.httprequest.args.getlist('type')
         types_set = {int(v) for v in types_list}
         type_ids = []
         type_domain = []
@@ -448,8 +530,8 @@ class WebsiteBlog(WebsiteBlog):
 
         # TAGS
         BlogTag = request.env['blog.tag']
-
-        tags_list = request.httprequest.args.getlist('tag')
+        if not tags_list:
+            tags_list = request.httprequest.args.getlist('tag')
         tags_set = {int(v) for v in tags_list}
         tag_domain = []
         if tags_set and len(tags_set):
@@ -464,6 +546,38 @@ class WebsiteBlog(WebsiteBlog):
                 tag_domain += [('tag_ids', 'in', value)]
         types = False
         tags = False
+
+        # YEARS
+        if not year_list:
+            year_list = request.httprequest.args.getlist('year')
+        year_set = {int(v) for v in year_list}
+
+        year_domain = []
+        years = self.new_blog_nav_list(domain)
+        pre_sub_year_domain = []
+
+        if pre_sub_year_domain and not pre_sub_year_domain == []:
+            domain += pre_sub_year_domain
+        count_operators = 0
+        for year_item in year_set:
+            if year_item and str(year_item) in years:
+                count_operators += 1
+        i = 0
+        # for x in range(0, count_operators - 1):
+        #     domain += ['|', '&']
+
+        for year_item in year_set:
+            i += 1
+
+            sub_year_domain = []
+            if year_item and str(year_item) in years:
+                if count_operators > 1 and i < count_operators:
+                    domain += ['|', '&']
+                sub_year_domain.append(('document_date', '>=', years[str(year_item)]['date_begin']))
+                sub_year_domain.append(('document_date', '<', years[str(year_item)]['date_end']))
+                domain += sub_year_domain
+
+        values.update({'years': years,'year_set': year_set})
 
         #NONE
         if not(types_list and len(types_list)) and not(tags_list and len(tags_list)):
@@ -533,11 +647,24 @@ class WebsiteBlog(WebsiteBlog):
 
     @http.route('/search_js_call', type='json', auth='public', website=True)
     def search_js_call(self, search_query='',blog_post_type = False,page = 1,order = 'visits,document_date desc'):
+        query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
+        order = False
+        tags_list = False
+        year_list = False
+        type_list = False
+        if 'order' in query_def:
+            order = query_def['order'][0]
+        if 'tag' in query_def:
+            tags_list = query_def['tag']
+        if 'year' in query_def:
+            year_list = query_def['year']
+        if 'type' in query_def:
+            type_list = query_def['type']
         if blog_post_type != 'All':
             blog_post_type = request.env['blog.post.type'].browse(int(blog_post_type))
         else:
             blog_post_type = False
-        render_values = self._get_blog_post_search_list(search_query,blog_post_type, page, order)
+        render_values = self._get_blog_post_search_list(search_query,blog_post_type, page, order,type_list, tags_list,year_list)
         pager = render_values['pager']
         if pager['page_count'] - page < 0:
             return {'count': 0, 'data_grid': False, 'page': page}
@@ -545,8 +672,7 @@ class WebsiteBlog(WebsiteBlog):
             response = request.env.ref('website_ascaldera.only_posts').render(render_values)
             return {'count': pager['page_count'] - page, 'data_grid': response, 'page': page,'order':order}
 
-
-    def _get_blog_post_list(self, type, subtype = False, page=1,order='document_date desc',_blog_post_per_page =8, **post):
+    def _get_blog_post_list(self, type, subtype = False, page=1,order='document_date desc',tags_list = False, year_list = False,_blog_post_per_page =8, **post):
 
         BlogType = request.env['blog.post.type']
         BlogPost = request.env['blog.post']
@@ -554,10 +680,6 @@ class WebsiteBlog(WebsiteBlog):
         domain = [
             ('website_published', '=', True),
             ('lang', '=', request.env.context.get('lang'))]
-
-
-
-
 
         view_id = False
         blog_type_id = request.env.ref(BLOG_TYPES[type]['blog_post_type'])
@@ -567,13 +689,16 @@ class WebsiteBlog(WebsiteBlog):
         else:
             domain.append(('sub_category_main', '=', BLOG_SUBTYPES[subtype]['sub_category_main']))
 
+
+
         all_posts = BlogPost.sudo().search(domain)
 
         most_read_posts = BlogPost.search(domain, limit=4,order='visits,document_date desc')
         # TAGS
         BlogTag = request.env['blog.tag']
         tags = BlogTag.sudo().search([('post_ids', '!=', False), ('post_ids', 'in', all_posts.ids)])
-        tags_list = request.httprequest.args.getlist('tag')
+        if not tags_list:
+            tags_list = request.httprequest.args.getlist('tag')
         tags_set = {int(v) for v in tags_list}
         if tags_set and len(tags_set):
 
@@ -585,6 +710,36 @@ class WebsiteBlog(WebsiteBlog):
                 attrib = value
                 tag_ids.append(value)
                 domain += [('tag_ids', 'in', value)]
+
+        # YEARS
+        if not year_list:
+            year_list = request.httprequest.args.getlist('year')
+        year_set = {int(v) for v in year_list}
+
+        year_domain = []
+        years = self.new_blog_nav_list(domain)
+        pre_sub_year_domain = []
+
+        if pre_sub_year_domain and not pre_sub_year_domain == []:
+            domain += pre_sub_year_domain
+        count_operators = 0
+        for year_item in year_set:
+            if year_item and str(year_item) in years:
+                count_operators += 1
+        i = 0
+        # for x in range(0, count_operators - 1):
+        #     domain += ['|', '&']
+
+        for year_item in year_set:
+            i += 1
+
+            sub_year_domain = []
+            if year_item and str(year_item) in years:
+                if count_operators > 1 and i < count_operators:
+                    domain += ['|', '&']
+                sub_year_domain.append(('document_date', '>=', years[str(year_item)]['date_begin']))
+                sub_year_domain.append(('document_date', '<', years[str(year_item)]['date_end']))
+                domain += sub_year_domain
 
         all_posts = BlogPost.sudo().search(domain)
         posts = BlogPost.search(domain, offset=(page - 1) * _blog_post_per_page, order=order, limit=_blog_post_per_page)
@@ -601,6 +756,7 @@ class WebsiteBlog(WebsiteBlog):
             title = blog_type_id.display_name
         if subtype:
             subtitle = dict(BlogPost._fields['sub_category_main']._description_selection(request.env)).get(BLOG_SUBTYPES[subtype]['sub_category_main'])
+
             title = subtitle
         render_values = {
                         'page':page,
@@ -617,7 +773,9 @@ class WebsiteBlog(WebsiteBlog):
                          'order':order,
                          'tags':tags,
                          'tags_list':tags_list,
-                          'tags_set': tags_set
+                          'tags_set': tags_set,
+                         'years': years,
+                        'year_set': year_set,
                          }
         return render_values
 
@@ -628,7 +786,11 @@ class WebsiteBlog(WebsiteBlog):
         '/blog/<type>/page/<int:page>',
         '/blog/<type>/<subtype>/page/<int:page>',
     ], type='http', auth="public", website=True)
-    def blog_post_list(self, type, subtype = False, page=1,order='document_date desc', **post):
+    def blog_post_list(self, type, subtype = False, page=1,order = False,year=False, **post):
+        if order == False and subtype and subtype == 'legislation_foreign':
+            order = 'name asc'
+        elif order == False:
+            order = 'document_date desc'
         render_values = self._get_blog_post_list(type,subtype,page,order)
 
         return request.render('website_ascaldera.blog_post_single', render_values)
@@ -637,14 +799,27 @@ class WebsiteBlog(WebsiteBlog):
 
 
     @http.route('/scroll_paginator', type='json', auth='public',website=True)
-    def scroll_paginator(self, type, subtype=False, page=1,order='document_date desc',):
-        render_values = self._get_blog_post_list(type, subtype, page, order)
+    def scroll_paginator(self, type, subtype=False, page=1,order='document_date desc'):
+        query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
+        order = False
+        tags_list = False
+        year_list = False
+        if 'order' in query_def:
+            order = query_def['order'][0]
+        if 'tag' in query_def:
+            tags_list = query_def['tag']
+        if 'year' in query_def:
+            year_list = query_def['year']
+
+        render_values = self._get_blog_post_list(type, subtype, page, order, tags_list, year_list)
+
         pager = render_values['pager']
         if pager['page_count'] - page < 0:
             return {'count': 0, 'data_grid': False,'page':page}
         else:
+
             response = request.env.ref('website_ascaldera.only_posts').render(render_values)
-            return {'count': pager['page_count'] - page, 'data_grid': response,'page':page,'order':order}
+            return {'count': pager['page_count'] - page, 'data_grid': response,'page':page}
 
 
     @http.route([
@@ -664,7 +839,7 @@ class WebsiteBlog(WebsiteBlog):
                 count += 1
                 vals.update({count: {'name': res['name'],
                                      'content': BeautifulSoup(base64.b64decode(res['content'])).get_text(),
-                                     'post_date': parse(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
+                                     'post_date': parser(res['lastModifiedAt']).strftime('%A, %d. %B %Y'),
                                      'external_post_link': res['_links']['self']['href'],
                                     }})
 
