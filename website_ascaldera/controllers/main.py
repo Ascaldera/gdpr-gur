@@ -395,34 +395,27 @@ class WebsiteBlog(WebsiteBlog):
             domain += [('blog_post_type_id', 'in', type_ids)]
 
         # YEARS
+        # NEW CODE
         if not year_list:
             year_list = request.httprequest.args.getlist('year')
         year_set = {int(v) for v in year_list}
 
-        year_domain = []
         years = self.new_blog_nav_list(domain)
         pre_sub_year_domain = []
-
-        if pre_sub_year_domain and not pre_sub_year_domain == []:
-            domain += pre_sub_year_domain
-        count_operators = 0
+        year_posts_ids = []
+        pre_post_domain = domain
         for year_item in year_set:
-            if year_item and str(year_item) in years:
-                count_operators += 1
-        i = 0
-        # for x in range(0, count_operators - 1):
-        #     domain += ['|', '&']
-
-        for year_item in year_set:
-            i += 1
-
             sub_year_domain = []
             if year_item and str(year_item) in years:
-                if count_operators > 1 and i < count_operators:
-                    domain += ['|', '&']
+                sub_year_domain = []
                 sub_year_domain.append(('document_date', '>=', years[str(year_item)]['date_begin']))
                 sub_year_domain.append(('document_date', '<', years[str(year_item)]['date_end']))
-                domain += sub_year_domain
+                year_posts = BlogPost.sudo().search(pre_post_domain + sub_year_domain)
+                if year_posts and len(year_posts):
+                    year_posts_ids += (year_posts.ids)
+        if year_posts_ids and len(year_posts_ids):
+            domain.append(('id', 'in', year_posts_ids))
+
         all_posts = BlogPost.sudo().search(domain)
         posts = BlogPost.sudo().search(domain, offset=(page - 1) * _blog_post_per_page, limit=_blog_post_per_page,order=order)
         total = len(all_posts)
@@ -548,34 +541,26 @@ class WebsiteBlog(WebsiteBlog):
         tags = False
 
         # YEARS
+        # NEW CODE
         if not year_list:
             year_list = request.httprequest.args.getlist('year')
         year_set = {int(v) for v in year_list}
 
-        year_domain = []
         years = self.new_blog_nav_list(domain)
         pre_sub_year_domain = []
-
-        if pre_sub_year_domain and not pre_sub_year_domain == []:
-            domain += pre_sub_year_domain
-        count_operators = 0
+        year_posts_ids = []
+        pre_post_domain = domain
         for year_item in year_set:
-            if year_item and str(year_item) in years:
-                count_operators += 1
-        i = 0
-        # for x in range(0, count_operators - 1):
-        #     domain += ['|', '&']
-
-        for year_item in year_set:
-            i += 1
-
             sub_year_domain = []
             if year_item and str(year_item) in years:
-                if count_operators > 1 and i < count_operators:
-                    domain += ['|', '&']
+                sub_year_domain = []
                 sub_year_domain.append(('document_date', '>=', years[str(year_item)]['date_begin']))
                 sub_year_domain.append(('document_date', '<', years[str(year_item)]['date_end']))
-                domain += sub_year_domain
+                year_posts = BlogPost.sudo().search(pre_post_domain + sub_year_domain)
+                if year_posts and len(year_posts):
+                    year_posts_ids += (year_posts.ids)
+        if year_posts_ids and len(year_posts_ids):
+            domain.append(('id', 'in', year_posts_ids))
 
         values.update({'years': years,'year_set': year_set})
 
@@ -712,34 +697,27 @@ class WebsiteBlog(WebsiteBlog):
                 domain += [('tag_ids', 'in', value)]
 
         # YEARS
+        # NEW CODE
         if not year_list:
             year_list = request.httprequest.args.getlist('year')
         year_set = {int(v) for v in year_list}
 
-        year_domain = []
         years = self.new_blog_nav_list(domain)
         pre_sub_year_domain = []
-
-        if pre_sub_year_domain and not pre_sub_year_domain == []:
-            domain += pre_sub_year_domain
-        count_operators = 0
+        year_posts_ids = []
+        pre_post_domain = domain
         for year_item in year_set:
-            if year_item and str(year_item) in years:
-                count_operators += 1
-        i = 0
-        # for x in range(0, count_operators - 1):
-        #     domain += ['|', '&']
-
-        for year_item in year_set:
-            i += 1
-
             sub_year_domain = []
             if year_item and str(year_item) in years:
-                if count_operators > 1 and i < count_operators:
-                    domain += ['|', '&']
+                sub_year_domain = []
                 sub_year_domain.append(('document_date', '>=', years[str(year_item)]['date_begin']))
                 sub_year_domain.append(('document_date', '<', years[str(year_item)]['date_end']))
-                domain += sub_year_domain
+                year_posts = BlogPost.sudo().search(pre_post_domain + sub_year_domain)
+                if year_posts and len(year_posts):
+                    year_posts_ids += (year_posts.ids)
+        if year_posts_ids and len(year_posts_ids):
+            domain.append(('id', 'in', year_posts_ids))
+
 
         all_posts = BlogPost.sudo().search(domain)
         posts = BlogPost.search(domain, offset=(page - 1) * _blog_post_per_page, order=order, limit=_blog_post_per_page)
