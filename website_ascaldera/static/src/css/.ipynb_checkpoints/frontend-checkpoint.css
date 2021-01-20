@@ -1,0 +1,158 @@
+#main #page .sidebar_icon{
+	display:none;
+    position: fixed;
+    top: 50%;
+    right: 2%;
+    border: 2px solid #fff;
+    background: #fff;
+    z-index: 1010;
+}
+#main #page .sidebar_bg{
+	display: none;
+	position: fixed;
+    top: 0;
+    right: 0%;
+    background: #000000cc;
+    width: 100%;
+    height:100%;
+    z-index: 1000;
+}
+.element-row.tight.news_block.inline_images{
+	width:100%;
+}
+.elements .element-column .element-wrapper .element.fixed, .elements .element-row.inline_images .element-wrapper .element.fixed{
+	height:100%;
+}
+.elements.inline_images_wrapper{
+	display: flex;
+}
+.elements .element-column.tight:last-of-type .element-wrapper,.elements .element-column.tight .element-wrapper,
+.elements .element-row.tight .element-wrapper{
+	padding:0px;
+}
+.elements .element-column.tight:last-of-type .element-wrapper,.elements .element-column.tight .element-wrapper.list_padding,
+.elements .element-row.tight .element-wrapper.list_padding{
+	padding-bottom:5px;
+}
+.elements .element-column.tight .element-wrapper .element .element-image, .elements .element-row.tight.news_block.inline_images .element-wrapper .element .element-image
+{
+	width: 100%;
+}
+.wrapper.container-fluid.maxWidth
+{
+	max-width: 1400px;
+}
+
+/* NOVO */
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  line-height: 20px;
+}
+
+/* Links inside the dropdown*/ 
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.sub-menu-1:hover .dropdown-content {
+  display: block;
+    position: absolute;
+}
+.sub-menu-2:hover .dropdown-content {
+  display: block;
+      position: absolute;
+}
+/* NOVO */
+
+@media only screen and (max-width: 991px){
+	#header #header-nav-top .language-info{
+		display: block;
+    	width: auto; 
+    	text-align: right;
+	}
+	#header #header-nav-top .account{
+		display: block;
+	    width: auto;
+	}
+	#header #header-main .section-logo{
+		display: block;
+	    width: 100%;
+	}
+	#header #header-main .section-search{
+		display:block;
+	    width: 100%;
+	    margin-top: 20px;
+	}
+	#header #header-nav-menu .menu-main{
+		width:100%;
+	}
+	#header #header-nav-menu .menu-side{
+		width: 100%;
+		text-align: left;
+	}
+	#header #header-nav-menu .menu-vertical > li{
+		padding: 10px;
+		line-height: 20px;
+	}
+	#header #header-nav-menu .menu-vertical > li a{
+		padding: 5px;
+	}
+	.elements .element-column .element-wrapper .element.fixed, .elements .element-row .element-wrapper .element.fixed{
+		height: auto;
+	}
+	.elements .element-column.tight .element-wrapper .element .element-image, .elements .element-row.tight .element-wrapper .element .element-image{
+		width: 100%;
+	}
+	.elements .element-column .element-wrapper .element.has-image .element-text, .elements .element-row .element-wrapper .element.has-image .element-text{
+		display: block;
+		width: 100%;
+	    height: 150px;
+	    overflow-y: auto;
+	    margin: 10px 0px;
+	}
+	#main #page #content{
+		width: 100%;
+	}
+	#main #page #sidebar{
+		display: none;
+	    position: fixed;
+	    overflow-y: auto!important;
+	    width: 80%;
+	    height: 100%;
+	    border: 2px solid #888;
+	    top: 0;
+	    right: 0;
+	    background: #fff;
+	    padding: 10px;
+	    z-index: 1010;
+	}
+	#main #page .sidebar_icon{
+		display: block;
+	}
+	#footer #footer-main .section-links .menu-vertical li{
+		display: block;
+    	padding-right:0px; 
+	}
+	#footer #footer-main .section-links{
+		vertical-align: middle;
+	}
+	.element-row.tight.news_block.inline_images{
+		width:auto;
+	}
+	.elements.inline_images_wrapper{
+		display: block;
+	}
+}

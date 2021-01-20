@@ -1,0 +1,21 @@
+
+#scroll_paginator {
+  display: none;
+}
+
+#scroll_paginator.show {
+  display: block;
+  position: relative;
+  z-index: 100;
+  background-image: url("/website_ascaldera/static/src/img/load.svg");
+  background-repeat: no-repeat;
+  width: 40px;
+  padding: 10px;
+  height: 40px;
+  text-align: center;
+  margin: auto;
+}
+#scroll_paginator.hide {
+  visibility: hidden;
+  display: none;
+}

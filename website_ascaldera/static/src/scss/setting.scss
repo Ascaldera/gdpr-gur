@@ -1,0 +1,59 @@
+//$color_brown: #a67432;
+$color_brown: #B69B58;
+$color_blue: #143d52;
+$color_black: #000000;
+$color_white: #ffffff;
+
+
+$font_family: 'Nunito', sans-serif;
+$font_family_bold: 'Nunito', sans-serif;
+$font_size: 14px;
+$font_line_height: 18px;
+$link_color: $color_brown;
+$link_color_hover: $color_brown;
+$f_color :           		 $color_brown,#bcb6b6,transparent,#333333,inherit,  !default;
+
+/* Header */
+$header_height: 240px;
+$header_top_height: 50px;
+$header_main_height: 120px;
+$header_menu_height: 70px;
+$header_color: #5a5a5a;
+
+/* Menu */
+$menu_main_spacing: 80px;
+$menu_side_spacing: $menu_main_spacing / 2;
+
+/* Submenu */
+$submenu_width: 500px;
+$submenu_height: 30px;
+$submenu_spacing: 30px;
+$submenu_arrow_size: 15px;
+$submenu_arrow_left: 15px;
+
+/* Page */
+$page_wrapper: 1600px;
+$page_content_width: $page_wrapper * 0.75;
+$page_sidebar_width: $page_wrapper * 0.25;
+
+
+/* Footer */
+$footer_height: 170px;
+$footer_main_height: 120px;
+$footer_bottom_height: 50px;
+$footer_color: #143d52;
+
+
+/* Block */
+$block_line_width: 35%;
+$block_line_width_max: 150px;
+$block_spacing: 40px;
+
+
+/* Element */
+$page_wrapper: 1588px;
+$element_width: $page_wrapper * 0.25;
+$element_spacing: 5px;
+$element_delimiter: 25px;
+$element_delimiter2: 13px;
+$element_height: $element_width / (16 / 9) + $element_delimiter;
