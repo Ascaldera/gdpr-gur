@@ -428,7 +428,7 @@
                                 <t t-set="lang" t-value="request.env.context.get('lang')"/>
                                 <select class="selector-lang">
                                     <option t-att-value="'/en_US'+href" t-att-selected="lang == 'en_US'">English</option>
-                                    <option t-att-value="'/sl_SI'+href" t-att-selected="lang == 'sl_SI'">Slovenia</option>
+                                    <option t-att-value="'/sl_SI'+href" t-att-selected="lang == 'sl_SI'">Slovenian</option>
                                     <option t-att-value="'/it_IT'+href" t-att-selected="lang == 'it_IT'">Italy</option>
                                 </select>
                             </div>
@@ -779,6 +779,8 @@
                                 <div class="overlay">
                                     <div class="grid_image_element_title text-left">
                                         <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;"><t t-esc="post.document_date" t-options='{"widget": "date"}'/></font>
+                                            <br/>
                                             <font style="vertical-align: inherit;"><t t-esc="post.name"/></font>
                                         </font>
                                     </div>

@@ -365,7 +365,7 @@ msgstr "Zadnjič spremenjeno"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
 msgid "Last Published"
-msgstr "Zadnje Objavljeni"
+msgstr "Zadnje Objavljeni v kategoriji"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__write_uid
@@ -415,7 +415,7 @@ msgstr "Odjava"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_single
 msgid "Most Read"
-msgstr "Najbolj Brani"
+msgstr "Najbolj Brani v kategoriji"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post

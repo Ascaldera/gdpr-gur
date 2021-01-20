@@ -27,11 +27,17 @@
                 
                 <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
                 <field name="show_subcategory" invisible="1"/>
-                <field name="sub_category_main" attrs="{'invisible':[('show_subcategory','=',False)]}"/>
                 <field name="save_name" invisible="True"/>
 
+                <!--
+                <field name="sub_category_main" attrs="{'invisible':[('show_subcategory','=',False)]}"/>
                 <field name="sub_category_1" invisible="True"/>
                 <field name="sub_category_2" invisible="True"/>
+                 -->           
+                
+                <field name="sub_category_main" attrs="{'invisible':1}"/>
+                <field name="sub_category_1" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(3,)')]}"/>
+                <field name="sub_category_2" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(4,)')]}"/>
                 
                 <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
                 

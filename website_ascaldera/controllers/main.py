@@ -166,7 +166,7 @@ class Website(Website):
         most_read_news_post = blog_post.sudo().search(
             [('blog_post_type_id', '=', news_id.id),
              ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))], limit=3,order='visits,document_date desc')
+             ('lang', '=', request.env.context.get('lang'))], limit=3,order='visits desc,document_date desc')
 
 
         # Get max three article posts
@@ -176,7 +176,8 @@ class Website(Website):
         most_read_article_post = blog_post.sudo().search(
             [('blog_post_type_id', '=', article_id.id),
              ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))], order='visits,document_date desc',limit=3)
+             ('lang', '=', request.env.context.get('lang'))], order='visits desc, document_date desc',limit=3)
+    
         # Get max three practice posts
         practice_id = request.env.ref(
             'website_ascaldera.blog_post_type_judicial_practice')
@@ -184,7 +185,7 @@ class Website(Website):
         most_read_practice_post = blog_post.sudo().search(
             [('blog_post_type_id', '=', practice_id.id),
              ('website_published', '=', True),
-             ('lang', '=', request.env.context.get('lang'))], order='visits,document_date desc', limit=3)
+             ('lang', '=', request.env.context.get('lang'))], order='visits desc,document_date desc', limit=3)
         grid_images_posts = blog_post.sudo().search(
             [('website_published', '=', True),
              ('lang', '=', request.env.context.get('lang'))],order='document_date desc', limit=7)
@@ -369,7 +370,7 @@ class WebsiteBlog(WebsiteBlog):
         url = '/blog/%s/post/%s' % (slug(blog_post.blog_id), slug(blog_post))
         return url
 
-    def _get_blog_post_tag_list(self, tag_ids=False,  page=1, order='visits,document_date desc',types_list = False, year_list=False, _blog_post_per_page=8, ):
+    def _get_blog_post_tag_list(self, tag_ids=False,  page=1, order='visits desc,document_date desc',types_list = False, year_list=False, _blog_post_per_page=8, ):
         BlogPost = request.env['blog.post']
         BlogType = request.env['blog.post.type']
         domain = [('tag_ids', 'in', tag_ids.ids)]
@@ -451,13 +452,13 @@ class WebsiteBlog(WebsiteBlog):
     @http.route([
         '''/blog/tag/<model("blog.tag"):tag_id>''',
     ], type='http', auth="public", website=True)
-    def blog_tag(self, tag_id, page=1,order='visits,document_date desc', **post):
+    def blog_tag(self, tag_id, page=1,order='visits desc,document_date desc', **post):
         """Controller to fetch blog based on tags."""
         values = self._get_blog_post_tag_list(tag_id, page,order)
         return request.render("website_ascaldera.blog_post_tags", values )
 
     @http.route('/tag_js_call', type='json', auth='public', website=True)
-    def tag_js_call(self, tag_ids,page = 1,order='visits,document_date desc'):
+    def tag_js_call(self, tag_ids,page = 1,order='visits desc,document_date desc'):
         query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
         order = False
         type_list = False
@@ -479,7 +480,7 @@ class WebsiteBlog(WebsiteBlog):
             return {'count': pager['page_count'] - page, 'data_grid': response, 'page': page, 'order':order}
 
 
-    def _get_blog_post_search_list(self, search_query='',blog_post_type = False,page = 1,order='visits,document_date desc',types_list=False, tags_list=False, year_list = False,_blog_post_per_page =8,):
+    def _get_blog_post_search_list(self, search_query='',blog_post_type = False,page = 1,order='visits desc,document_date desc',types_list=False, tags_list=False, year_list = False,_blog_post_per_page =8,):
         values = {}
         BlogPost = request.env['blog.post']
         values.update({'query': search_query})
@@ -612,7 +613,7 @@ class WebsiteBlog(WebsiteBlog):
     @http.route([
         '/blog/search',
     ], type='http', auth="public", website=True)
-    def blog_post_search(self, _blog_post_per_page =8,order = 'visits,document_date desc',**post):
+    def blog_post_search(self, _blog_post_per_page =8,order = 'visits desc,document_date desc',**post):
         if post:
             search_query = post.get('query')
 
@@ -631,7 +632,7 @@ class WebsiteBlog(WebsiteBlog):
             return request.render("website_ascaldera.blog_post_search", values)
 
     @http.route('/search_js_call', type='json', auth='public', website=True)
-    def search_js_call(self, search_query='',blog_post_type = False,page = 1,order = 'visits,document_date desc'):
+    def search_js_call(self, search_query='',blog_post_type = False,page = 1,order = 'visits desc,document_date desc'):
         query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
         order = False
         tags_list = False
@@ -678,7 +679,7 @@ class WebsiteBlog(WebsiteBlog):
 
         all_posts = BlogPost.sudo().search(domain)
 
-        most_read_posts = BlogPost.search(domain, limit=4,order='visits,document_date desc')
+        most_read_posts = BlogPost.search(domain, limit=4,order='visits desc,document_date desc')
         # TAGS
         BlogTag = request.env['blog.tag']
         tags = BlogTag.sudo().search([('post_ids', '!=', False), ('post_ids', 'in', all_posts.ids)])
