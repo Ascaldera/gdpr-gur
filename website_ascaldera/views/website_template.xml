@@ -248,10 +248,12 @@
                     <div class="block-content">
                         Subscribe to our newsletter and we will keep you updated on all the latest news, professional articles, changes.
                         <div class="field-input has-icon icon-fill">
-                            <input type="email" placeholder="E-news"/>
+                        <form action="/blog/Newsletter" method="post">
+                            <input type="email" placeholder="E-news" name='email'/>
                             <input type="submit" class="action submit" value=""/>
-                            <a class="action submit" href="#"></a>
-                            <button class="action submit"></button>
+                            <!--<a class="action submit" href="#"></a> class="action submit"-->
+                            <button type='submit' class="action submit"></button>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -537,8 +539,8 @@
                         </div>
                         <div class="section-links">
                             <ul class="menu-vertical menu-main">
-                                <li><a href="#">Legal stuff</a></li>
-                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="/about-us">About Us</a></li>
+                                <li><a href="/legal">Privacy policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -991,6 +993,34 @@
                                     <div class="text">HUB App</div>
                                     <div class="line"><span></span></div>
                                 </div>
+                            </div>
+                        </div>
+                        <t t-call="website_ascaldera.t_sidebar"/>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+        <template id="blog_post_newsletter" name="Newsletter">
+        <t t-call="website.layout">
+            <main id="main">
+                <div id="page" class="no-mediabox">
+                    <div class="wrapper container-fluid maxWidth">
+                        <div id="content">
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">Newsletter</div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="elements">
+                                        <t t-if="created">
+                                            <h3> Successful!</h3>
+                                        </t>
+                                        <t t-else="">
+                                            <h3> Email already in database!</h3>
+                                        </t>
+                                    </div>
                             </div>
                         </div>
                         <t t-call="website_ascaldera.t_sidebar"/>
