@@ -871,7 +871,7 @@ class WebsiteBlog(WebsiteBlog):
         contact = contacts_model.search([('name','=', email)])
 
         if not contact:
-            contacts_model.create({'name': email})
+            contacts_model.create({'name': email, 'email': email})
             created = True
         else:
             created = False 
