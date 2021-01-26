@@ -627,7 +627,7 @@ class WebsiteBlog(WebsiteBlog):
                     blog_post_type = False
 
             #page = post.get('page')
-            page = False
+            page = 1
 
             values =self._get_blog_post_search_list(search_query,blog_post_type,page,order)
 
