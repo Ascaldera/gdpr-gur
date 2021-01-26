@@ -626,14 +626,15 @@ class WebsiteBlog(WebsiteBlog):
                 except:
                     blog_post_type = False
 
-            page = post.get('page')
+            #page = post.get('page')
+            page = False
 
             values =self._get_blog_post_search_list(search_query,blog_post_type,page,order)
 
             return request.render("website_ascaldera.blog_post_search", values)
 
     @http.route('/search_js_call', type='json', auth='public', website=True)
-    def search_js_call(self, search_query='',blog_post_type = False,page = 1,order = 'visits,document_date desc'):
+    def search_js_call(self, search_query='',blog_post_type = False,page = 1,order = 'document_date desc'):
         query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
         order = False
         tags_list = False
