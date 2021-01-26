@@ -290,7 +290,8 @@ class WebsiteBlog(WebsiteBlog):
             search_list.append(x[1])
         fav_tags=request.env['blog.tag'].sudo().search([('id','in',search_list)])"""
         
-        """fav_tags = request.env['blog.tag'].sudo().search([],limit=3)"""        
+        """fav_tags = request.env['blog.tag'].sudo().search([],limit=3)"""
+
         posts = blog_post.sudo().search(
             [('lang', '=', request.env.context.get('lang'))], order='id desc')
         # Get max three news posts
@@ -835,11 +836,49 @@ class WebsiteBlog(WebsiteBlog):
     ], type='http', auth="public", website=True)
     def blog_post_dpo(self, **post):
         """Controller for DPO  page."""
-        return request.render("website_ascaldera.blog_post_dpo", )
+        
+        return request.redirect('https://www.dataprotection-officer.com/')
+        """
+        return request.render("website_ascaldera.blog_post_dpo", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+        """
 
     @http.route([
         '/blog/Hubapp',
     ], type='http', auth="public", website=True)
     def blog_post_hubapp(self, **post):
         """Controller for HUBAPP  page."""
-        return request.render("website_ascaldera.blog_post_hubapp", )
+        
+        return request.redirect('http://staging.app.gdpr.ascaldera.com/#/login')
+        """
+        return request.render("website_ascaldera.blog_post_hubapp", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+        """
+
+    @http.route([
+        '/blog/Newsletter',
+    ], type='http', auth="public", methods=['POST'], website=True, csrf=False)
+    def newsletter(self, **post):
+        """Controller for Newsletter  page."""
+
+        created = False
+        email = post['email']
+        contacts_model = request.env['res.partner']
+        contact = contacts_model.search([('name','=', email)])
+
+        if not contact:
+            contacts_model.create({'name': email})
+            created = True
+        else:
+            created = False 
+
+        return request.render("website_ascaldera.blog_post_newsletter", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+            'created': created,
+            'contact': contact,
+        })
