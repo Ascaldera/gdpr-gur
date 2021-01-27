@@ -869,10 +869,10 @@ class WebsiteBlog(WebsiteBlog):
         created = False
         email = post['email']
         contacts_model = request.env['res.partner']
-        contact = contacts_model.search([('name','=', email)])
+        contact = contacts_model.sudo().search([('name','=', email)])
 
         if not contact:
-            contacts_model.create({'name': email, 'email': email})
+            contacts_model.sudo().create({'name': email, 'email': email})
             created = True
         else:
             created = False 
