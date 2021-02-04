@@ -28,6 +28,7 @@ BLOG_TYPES = {
     'News': {'blog_post_type': 'website_ascaldera.blog_post_type_news','title': 'News'},
     'Articles': {'blog_post_type': 'website_ascaldera.blog_post_type_article', 'title': 'Legislation'},
     'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation'},
+    'SLO-Information-Commissioners-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_slo_ip'},
     'Judicial-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_judicial_practice'},
 }
 BLOG_SUBTYPES = {

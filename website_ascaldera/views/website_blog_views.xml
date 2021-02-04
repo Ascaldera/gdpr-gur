@@ -12,6 +12,7 @@
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <!-- Attributes have been added -->
+                <field name="subscription"/>
                 <field name="blog_post_type_id" widget='selection'/>
                 <field name="api_sync"/>
                 <field name="api_id"/>
@@ -22,24 +23,18 @@
             </xpath>
             <xpath expr="//field[@name='blog_post_type_id']" position="after">
                 
-                
-                <!-- THESE SELECTION FIELDS HAVE BEEN ADDED -->
-                
-                <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
                 <field name="show_subcategory" invisible="1"/>
                 <field name="save_name" invisible="True"/>
-
                 <!--
                 <field name="sub_category_main" attrs="{'invisible':[('show_subcategory','=',False)]}"/>
                 <field name="sub_category_1" invisible="True"/>
                 <field name="sub_category_2" invisible="True"/>
-                 -->           
-                
+                 -->
                 <field name="sub_category_main" attrs="{'invisible':1}"/>
-                <field name="sub_category_1" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(3,)')]}"/>
-                <field name="sub_category_2" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(4,)')]}"/>
-                
-                <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+                <field name="sub_category_articles" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(2,)')]}"/>
+                <field name="sub_category_judicialpractice" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(3,)')]}"/>
+                <field name="sub_category_legislation" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(4,)')]}"/>
+                <field name="sub_category_IP" attrs="{'invisible':[('save_name', '!=', 'blog.post.type(5,)')]}"/>
                 
                 <field name="lang"/>
                 <field name="post_listing_content"/>
