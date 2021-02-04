@@ -99,6 +99,9 @@ class BlogPostType(models.Model):
     name = fields.Char(string='Name', translate=True)
     blog_post_ids = fields.One2many('blog.post', 'blog_post_type_id', string='Blog Posts')
 
+class BlogTag(models.Model):
+    _inherit = "blog.tag"
+    _order = "name"
 
 class BlogPost(models.Model):
     _inherit = "blog.post"
@@ -145,9 +148,9 @@ class BlogPost(models.Model):
     save_name=fields.Char(string='Saved name')
     
     sub_category_main=fields.Selection(string="Subcategory", 
-                                       selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation'),('SLO_judgments','Judgments of the Slovenian Court'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'),('slo_practice','SLO Information Commissioners practice')])
+                                       selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation'),('SLO_judgments','Judgments of the Slovenian Court'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'),('slo_practice','SLO Information Commissioners practice'), ('publications_and_manuals','Useful Publications and Manuals'), ('opinions','Opinions'), ('other_IP_news','Other IP News')])
     sub_category_1=fields.Selection(string="Subcategory", 
-                                    selection=[('SLO_judgments','Judgments of the Slovenian Court'), ('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'), ('slo_practice','SLO Information Commissioners practice')])
+                                    selection=[('SLO_judgments','Judgments of the Slovenian Court'), ('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'), ('slo_practice','SLO Information Commissioners practice'), ('publications_and_manuals','Useful Publications and Manuals'), ('opinions','Opinions'), ('other_IP_news','Other IP News')])
     sub_category_2=fields.Selection(string="Subcategory", 
                                     selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation')])
     show_subcategory = fields.Boolean('Show sub category',default=_show_sub_category,compute=_show_sub_category)

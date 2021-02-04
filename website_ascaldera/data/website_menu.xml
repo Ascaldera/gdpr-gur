@@ -13,7 +13,7 @@
 <!--            <field name="view_id" ref="about_us"/>-->
 <!--        </record>-->
 
-          <record id="top_menu" model="website.menu">
+        <record id="top_menu" model="website.menu">
             <field name="name">Top Menu</field>
             <field name="url">/</field>
             <field name="sequence" type="int">1</field>
@@ -108,6 +108,28 @@
             <field name="website_id" ref="website.default_website"/>
         </record>
 
+        <record id="menu_judicial_sub_publications_and_manuals" model="website.menu">
+            <field name="name">Useful Publications and Manuals</field>
+            <field name="url">/blog/Judicial-Practice/publications_and_manuals</field>
+            <field name="parent_id" ref="website_ascaldera.menu_judicial_practice"/>
+            <field name="sequence" type="int">29</field>
+            <field name="website_id" ref="website.default_website"/>
+        </record>
+        <record id="menu_judicial_sub_opinions" model="website.menu">
+            <field name="name">Opinions</field>
+            <field name="url">/blog/Judicial-Practice/opinions</field>
+            <field name="parent_id" ref="website_ascaldera.menu_judicial_practice"/>
+            <field name="sequence" type="int">30</field>
+            <field name="website_id" ref="website.default_website"/>
+        </record>
+        <record id="menu_judicial_sub_other_IP_news" model="website.menu">
+            <field name="name">Other IP News</field>
+            <field name="url">/blog/Judicial-Practice/other_IP_news</field>
+            <field name="parent_id" ref="website_ascaldera.menu_judicial_practice"/>
+            <field name="sequence" type="int">31</field>
+            <field name="website_id" ref="website.default_website"/>
+        </record>
+
         <record id="menu_legislation" model="website.menu">
             <field name="name">Legislation</field>
             <field name="url">/blog/Legislation</field>
@@ -120,21 +142,21 @@
             <field name="name">Legislation</field>
             <field name="url">/blog/Legislation</field>
             <field name="parent_id" ref="website_ascaldera.menu_legislation"/>
-            <field name="sequence" type="int">31</field>
+            <field name="sequence" type="int">32</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
         <record id="menu_legislation_sub_foreign_legislation" model="website.menu">
             <field name="name">Foreign legislation</field>
             <field name="url">/blog/Legislation/legislation_foreign</field>
             <field name="parent_id" ref="website_ascaldera.menu_legislation"/>
-            <field name="sequence" type="int">32</field>
+            <field name="sequence" type="int">33</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
         <record id="menu_legislation_sub_legislation_slo" model="website.menu">
             <field name="name">Slovenian legislation</field>
             <field name="url">/blog/Legislation/legislation_slo</field>
             <field name="parent_id" ref="website_ascaldera.menu_legislation"/>
-            <field name="sequence" type="int">33</field>
+            <field name="sequence" type="int">34</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
         <record id="menu_pricelist" model="website.menu">

@@ -40,6 +40,9 @@ BLOG_SUBTYPES = {
     'legislation_foreign': {'sub_category_main': 'foreign_legislation'},
     'edpb_guidelines': {'sub_category_main': 'edpb_guidelines'},
     'practice_slo': {'sub_category_main': 'slo_practice'},
+    'publications_and_manuals': {'sub_category_main': 'publications_and_manuals'},
+    'opinions': {'sub_category_main': 'opinions'},
+    'other_IP_news': {'sub_category_main': 'other_IP_news'},
 }
 
 
@@ -869,7 +872,7 @@ class WebsiteBlog(WebsiteBlog):
         created = False
         email = post['email']
         contacts_model = request.env['res.partner']
-        contact = contacts_model.sudo().search([('name','=', email)])
+        contact = contacts_model.sudo().search([('email','=', email)])
 
         if not contact:
             contacts_model.sudo().create({'name': email, 'email': email})
