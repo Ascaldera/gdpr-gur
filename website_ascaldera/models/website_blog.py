@@ -42,7 +42,8 @@ class BlogBlog(models.Model):
                                     'blog_id': blog_id,
                                     'blog_post_type_id': blog_type_id.id,
                                     'sub_category_main':subtype_selection,
-                                    'content': BeautifulSoup(base64.b64decode(res['content']), features="lxml").get_text(),
+                                    'content': str(BeautifulSoup(base64.b64decode(res['content']), features="lxml")),
+                                    #'content': BeautifulSoup(base64.b64decode(res['content']), features="lxml").get_text(),
                                     'published_date': parse(res['lastModifiedAt']).strftime('%Y-%m-%d %H:%M:%S'),
                                     'document_date': parse(res['createdAt']).strftime('%Y-%m-%d %H:%M:%S'),
                                     'website_published':True,
@@ -88,8 +89,8 @@ class BlogBlog(models.Model):
 
 
     def sync_api_slo_blog(self):
-        blog_type_id = self.env.ref('website_ascaldera.blog_post_type_judicial_practice')
-        self.sync_api_blog('sl_SI','http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail',10,5,blog_type_id,'slo_practice')
+        blog_type_id = self.env.ref('website_ascaldera.blog_post_type_slo_ip')
+        self.sync_api_blog('sl_SI','http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail',10,5,blog_type_id,[])
 
 
 
@@ -107,6 +108,8 @@ class BlogPost(models.Model):
     _inherit = "blog.post"
     _order = 'document_date desc'
     visits = fields.Integer('No of Views', copy=False,default=0)
+    subscription=fields.Selection(string="Subscription", 
+                                    selection=[('private','Private'),('public','Public')], default='private', required=True)
 
     blog_post_type_id = fields.Many2one('blog.post.type',
                                         string='Blog Post Type',
@@ -148,35 +151,61 @@ class BlogPost(models.Model):
     save_name=fields.Char(string='Saved name')
     
     sub_category_main=fields.Selection(string="Subcategory", 
-                                       selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation'),('SLO_judgments','Judgments of the Slovenian Court'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'),('slo_practice','SLO Information Commissioners practice'), ('publications_and_manuals','Useful Publications and Manuals'), ('opinions','Opinions'), ('other_IP_news','Other IP News')])
-    sub_category_1=fields.Selection(string="Subcategory", 
-                                    selection=[('SLO_judgments','Judgments of the Slovenian Court'), ('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'), ('slo_practice','SLO Information Commissioners practice'), ('publications_and_manuals','Useful Publications and Manuals'), ('opinions','Opinions'), ('other_IP_news','Other IP News')])
-    sub_category_2=fields.Selection(string="Subcategory", 
+                                       selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation'),('SLO_judgments','Judgments of the Slovenian Court'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'), ('publications_and_manuals','Useful Publications and Manuals'), ('opinions','Opinions'), ('other_IP_news','Other IP News')])
+    sub_category_judicialpractice=fields.Selection(string="Subcategory", 
+                                    selection=[('SLO_judgments','Judgments of the Slovenian Court'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'),('foreign_practice','The practice of foreign oversight bodies'), ('edpb_guidelines', 'EDPB guidelines and opinions')])
+    sub_category_legislation=fields.Selection(string="Subcategory", 
                                     selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation')])
+    sub_category_IP=fields.Selection(string="Subcategory", 
+                                    selection=[('opinions','Opinions IP'), ('other_IP_news','Other IP News')])
+    sub_category_articles=fields.Selection(string="Subcategory", 
+                                    selection=[('publications_and_manuals','Useful Publications and Manuals')])
     show_subcategory = fields.Boolean('Show sub category',default=_show_sub_category,compute=_show_sub_category)
     
     #Function to populate the main subcategory selection field or erase data from that field if something else was selected
     #Function to save the name of the blog_post_type_id field
     #------------------------------------------------------------------------------------------------------------------------------
     
-    @api.onchange('blog_post_type_id','sub_category_1','sub_category_2')
+    @api.onchange('blog_post_type_id','sub_category_judicialpractice','sub_category_legislation', 'sub_category_IP','sub_category_articles')
     def spremeni_podkategorijo(self):
         if self.blog_post_type_id.name=="Judicial-Practice" or self.blog_post_type_id.name=="Pravna praksa":
-            self.sub_category_2=[]
-            if self.sub_category_1==False:
+            self.sub_category_legislation=[]
+            self.sub_category_IP=[]
+            self.sub_category_articles=[]
+            if self.sub_category_judicialpractice == False:
                 self.sub_category_main=[]
         elif self.blog_post_type_id.name=="Legislation" or self.blog_post_type_id.name=="Zakonodaja":
-            self.sub_category_1=[]
-            if self.sub_category_2==False:
+            self.sub_category_judicialpractice=[]
+            self.sub_category_IP=[]
+            self.sub_category_articles=[]
+            if self.sub_category_legislation==False:
+                self.sub_category_main=[]
+        elif self.blog_post_type_id.name=="Articles" or self.blog_post_type_id.name=="Strokovni članki":
+            self.sub_category_judicialpractice=[]
+            self.sub_category_IP=[]
+            self.sub_category_legislation=[]
+            if self.sub_category_articles==False:
+                self.sub_category_main=[]
+        elif self.blog_post_type_id.name=="SLO-Information-Commissioners-Practice" or self.blog_post_type_id.name=="Odločitve SLO IP":
+            self.sub_category_judicialpractice=[]
+            self.sub_category_legislation=[]
+            self.sub_category_articles=[]
+            if self.sub_category_IP==False:
                 self.sub_category_main=[]
         else:
-            self.sub_category_1=[]
-            self.sub_category_2=[]
+            self.sub_category_judicialpractice=[]
+            self.sub_category_legislation=[]
+            self.sub_category_articles=[]
+            self.sub_category_IP=[]
             self.sub_category_main=[]
-        if self.sub_category_1:
-            self.sub_category_main=self.sub_category_1
-        if self.sub_category_2:
-            self.sub_category_main=self.sub_category_2
+        if self.sub_category_judicialpractice:
+            self.sub_category_main=self.sub_category_judicialpractice
+        if self.sub_category_legislation:
+            self.sub_category_main=self.sub_category_legislation
+        if self.sub_category_articles:
+            self.sub_category_main=self.sub_category_articles
+        if self.sub_category_IP:
+            self.sub_category_main=self.sub_category_IP
         if self.blog_post_type_id:
             self.save_name=self.blog_post_type_id
         else:

@@ -13,6 +13,9 @@
         <record id="blog_post_type_legislation" model="blog.post.type">
             <field name="name">Legislation</field>
         </record>
+        <record id="blog_post_type_slo_ip" model="blog.post.type">
+            <field name="name">SLO-Information-Commissioners-Practice</field>
+        </record>
 
 
 
