@@ -383,12 +383,6 @@
 
     <!-- Replace website Header and Footer  -->
     <template id="new_header" inherit_id="website.layout">
-        <!--        <xpath expr="//div[@id='wrapwrap']//header" position="attributes">-->
-        <!--            <attribute  name="t-att-style">'display: none'</attribute>-->
-        <!--        </xpath>-->
-        <!--        <xpath expr="//div[@id='wrapwrap']//header/nav/div/a[hasclass('navbar-brand')]" position="attributes">-->
-        <!--            <attribute  name="t-att-style">'display: none'</attribute>-->
-        <!--        </xpath>-->
 
         <!--        REMOVE NAVBAR-->
         <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
@@ -430,12 +424,12 @@
                                 <t t-set="lang" t-value="request.env.context.get('lang')"/>
                                 <select class="selector-lang">
                                     <option t-att-value="'/en_US'+href" t-att-selected="lang == 'en_US'">English</option>
-                                    <option t-att-value="'/sl_SI'+href" t-att-selected="lang == 'sl_SI'">Slovenian</option>
-                                    <option t-att-value="'/it_IT'+href" t-att-selected="lang == 'it_IT'">Italy</option>
+                                    <option t-att-value="'/sl_SI'+href" t-att-selected="lang == 'sl_SI'">Slovensko</option>
+                                    <!--<option t-att-value="'/it_IT'+href" t-att-selected="lang == 'it_IT'">Italiano</option>-->
                                 </select>
                             </div>
                             <div class="info">
-                                Contact +386 41 000 000
+                                Contact +386 1 230 50 30
                             </div>
                         </div><div class="account">
                         <t t-set="url" t-value="request.httprequest.full_path"/>
@@ -471,43 +465,6 @@
                         </div>
                     </div>
                 </div>
-                <!--                -->
-                <!--                <nav id="header-nav-menu">-->
-                <!--                    <div class="wrapper container-fluid maxWidth">-->
-                <!--                        <ul class="menu-vertical menu-main">-->
-                <!--                            <li><a href="/blog/News">News</a></li>-->
-                <!--                            <li><a href="/blog/Articles">Articles</a></li>-->
-                <!--                            <li class='sub-menu-1'><a href="/blog/Judicial-Practice">Judicial Practice</a>-->
-                <!--                                &lt;!&ndash; dodano &ndash;&gt;-->
-                <!--                                <div class="dropdown-content">-->
-                <!--                                    <a href="/blog/Judicial-Practice/practice_slo">SLO Information Commissioner's practice</a>-->
-                <!--                                    <a href="/blog/Judicial-Practice/judgement_SLO">Judgments of the Slovenian Court</a>-->
-                <!--                                    <a href="/blog/Judicial-Practice/practice_foreign_oversight">The practice of foreign oversight bodies</a>-->
-                <!--                                    <a href="/blog/Judicial-Practice/judgement_EU">Judgments of the European Court of Justice</a>-->
-                <!--                                    <a href="/blog/Judicial-Practice/judgements_escp">ECHR judgments</a>-->
-                <!--                                    <a href="/blog/Judicial-Practice/judgements_foreign">Judgments of foreign courts</a>-->
-                <!--                                    <a href="/blog/Judicial-Practice/edpb_guidelines">EDPB guidelines and opinions</a>-->
-                <!--                                </div>-->
-                <!--                                &lt;!&ndash; dodano &ndash;&gt;-->
-                <!--                            </li>-->
-                <!--                            <li class='sub-menu-2'><a href="/blog/Legislation">Legislation</a>-->
-                <!--                                &lt;!&ndash; dodano &ndash;&gt;-->
-                <!--                                <div class="dropdown-content">-->
-                <!--                                    <a href="/blog/Legislation/legislation_foreign">Foreign legislation</a>-->
-                <!--                                    <a href="/blog/Legislation/legislation_slo">Slovenian legislation</a>-->
-                <!--                                </div>-->
-                <!--                                &lt;!&ndash; dodano &ndash;&gt;-->
-                <!--                            </li>-->
-                <!--                            <li><a href="/price">Price</a></li>-->
-                <!--                            <li><a href="/about-us">About Us</a></li>-->
-                <!--                        </ul>-->
-                <!--                        <ul class="menu-vertical menu-side">-->
-                <!--                            <li><a href="/blog/Dpo">DPO</a></li>-->
-                <!--                            <li><a href="/blog/Hubapp">HUB APP</a></li>-->
-                <!--                        </ul>-->
-                <!--                    </div>-->
-                <!--                </nav>-->
-
             </header>
         </xpath>
 
@@ -817,7 +774,7 @@
                             </div>
                             <div class="block">
                                 <div class="block-title">
-                                    <div class="text">PROFESSIONAL <b>Articles</b></div>
+                                    <div class="text">Most Read <b>PROFESSIONAL Articles</b></div>
                                     <div class="line"><span></span></div>
                                 </div>
                                 <div class="block-content">
@@ -832,7 +789,7 @@
                             </div>
                             <div class="block">
                                 <div class="block-title">
-                                    <div class="text">Judicial <b>Practices</b></div>
+                                    <div class="text">Most Read <b>Judicial Practices</b></div>
                                     <div class="line"><span></span></div>
                                 </div>
                                 <div class="block-content">
@@ -1015,10 +972,12 @@
                                 </div>
                                 <div class="elements">
                                         <t t-if="created">
-                                            <h3> Successful!</h3>
+                                            <h3> Thank you for Signing up for our GDPR GURU Newsletter. <br/>Best Regards. GDPR GURU Team.</h3>
+                                            <!--<h3> Najlepša hvala, ker ste se prijavili na GDPR GURU novice. <br/>Lep pozdrav. Ekipa GDPR GURU.</h3>-->
                                         </t>
                                         <t t-else="">
-                                            <h3> Email already in database!</h3>
+                                            <h3> E-mail already exists in our database! <br/>Best Regards. GDPR GURU Team.</h3>
+                                            <!--<h3> E-mail, ki ste ga vnesli, že obstaja v naši bazi podatkov. <br/>Lep pozdrav. Ekipa GDPR GURU.</h3>-->
                                         </t>
                                     </div>
                             </div>
@@ -1046,7 +1005,7 @@
                                     <!-- ADDED TAGS TO POST -->
                                     <div class="elements elements-tag x1 ">
                                         <t t-set="tags" t-value="blog_post.tag_ids"/>
-                                        <t t-foreach="tags" t-as="tag">
+                                        <t t-foreach="tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
                                             <div class="element-row tight">
                                                 <div class="element-wrapper list_padding">
                                                     <div class="element background">
