@@ -134,6 +134,32 @@ class Binary(http.Controller):
 class Website(Website):
     """Controller Website."""
 
+    def fav_tags_get(self):
+        fav_tags = request.env['blog.tag'].sudo().search([])
+        search_list=[]
+        list=[]
+        for f in fav_tags:
+            list.append((f.id,len(f.post_ids)))
+        list.sort(key=lambda x: x[1],reverse=True)
+        if(len(list) > 10):
+            list=list[:10]
+        for x in list:
+            search_list.append(x[0])
+        return request.env['blog.tag'].sudo().search([('id','in',search_list)])
+    
+    def unfav_tags_get(self):
+        unfav_tags = request.env['blog.tag'].sudo().search([])
+        search_list=[]
+        list=[]
+        for f in unfav_tags:
+            list.append((f.id,len(f.post_ids)))
+        list.sort(key=lambda x: x[1],reverse=True)
+        if(len(list) > 10):
+            list=list[10:]
+        for x in list:
+            search_list.append(x[0])
+        return request.env['blog.tag'].sudo().search([('id','in',search_list)])
+
 
     
     @http.route(auth='public')
@@ -141,27 +167,6 @@ class Website(Website):
         """Controller to replace home page with main page.."""
         super(Website, self).index(**kw)
         blog_post = request.env['blog.post']     
-        
-        fav_tags_1 = request.env['blog.tag'].sudo().search([])
-        search_list_first=[]
-        search_list_second=[]
-        list_first=[]
-        list_second=[]
-        for f in fav_tags_1:
-            list_first.append((f.id,len(f.post_ids)))
-            list_second.append((f.id,len(f.post_ids)))
-        list_first.sort(key=lambda x: x[1],reverse=True)
-        list_second.sort(key=lambda x: x[1],reverse=True)
-        if(len(list_first) > 10):
-            list_first=list_first[:10]
-        if (len(list_second) > 10):
-            list_second=list_second[10:]
-        for x in list_first:
-            search_list_first.append(x[0])
-        for x in list_second:
-            search_list_second.append(x[0])
-        fav_tags=request.env['blog.tag'].sudo().search([('id','in',search_list_first)])
-        unfav_tags=request.env['blog.tag'].sudo().search([('id','in',search_list_second)])
         
         """fav_tags = request.env['blog.tag'].sudo().search([])"""
         # Get max three news posts
@@ -202,8 +207,28 @@ class Website(Website):
             'most_read_article_post': most_read_article_post,
             'most_read_practice_post': most_read_practice_post,
             'grid_images_posts': grid_images_posts,
-            'fav_tags': fav_tags,
-            'unfav_tags': unfav_tags,
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+    
+    @http.route([
+        '/iskalniki-sodisc-drzav-eu',
+    ], type='http', auth="public", website=True)
+    def blog_post_sodna_praksa_EU(self, **post):
+        
+        return request.render("website.sodna-praksa-eu", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+
+    @http.route([
+        '/about-us',
+    ], type='http', auth="public", website=True)
+    def blog_post_about_us(self, **post):
+        
+        return request.render("website.about-us", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
         })
 
 
@@ -283,19 +308,6 @@ class WebsiteBlog(WebsiteBlog):
     def blogs(self, **post):
         """Controller to render new template with most visited data."""
         blog_post = request.env['blog.post']
-        """fav_tags_1 = request.env['blog.tag'].sudo().search([])
-        search_list=[]
-        list=[]
-        for f in fav_tags_1:
-            list.append((f.id,len(f.post_ids)))
-        list.sort(key=lambda x: x[1])
-        if(len(list) > 1):
-            list=list[4:]
-        for x in list:
-            search_list.append(x[1])
-        fav_tags=request.env['blog.tag'].sudo().search([('id','in',search_list)])"""
-        
-        """fav_tags = request.env['blog.tag'].sudo().search([],limit=3)"""
 
         posts = blog_post.sudo().search(
             [('lang', '=', request.env.context.get('lang'))], order='id desc')
