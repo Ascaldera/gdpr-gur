@@ -90,7 +90,7 @@ class BlogBlog(models.Model):
 
     def sync_api_slo_blog(self):
         blog_type_id = self.env.ref('website_ascaldera.blog_post_type_slo_ip')
-        self.sync_api_blog('sl_SI','http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail',10,5,blog_type_id,[])
+        self.sync_api_blog('sl_SI','http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail',3,5,blog_type_id,'decisions_ip')
 
 
 
@@ -186,7 +186,7 @@ class BlogPost(models.Model):
             self.sub_category_legislation=[]
             if self.sub_category_articles==False:
                 self.sub_category_main=[]
-        elif self.blog_post_type_id.name=="SLO-Information-Commissioners-Practice" or self.blog_post_type_id.name=="Odločitve SLO IP":
+        elif self.blog_post_type_id.name=="SLO-Information-Commissioners-Practice" or self.blog_post_type_id.name=="IP RS":
             self.sub_category_judicialpractice=[]
             self.sub_category_legislation=[]
             self.sub_category_articles=[]
