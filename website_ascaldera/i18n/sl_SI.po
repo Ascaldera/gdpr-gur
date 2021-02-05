@@ -644,7 +644,7 @@ msgstr "Podkategorija"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.t_sidebar
 msgid "Subscribe to our newsletter and we will keep you updated on all the latest news, professional articles, changes."
-msgstr "Prijavite se na naše e-novice in obveščali vas bomo o vseh aktualnih novicah, strokovnih člankih, spremembah."
+msgstr "Info hiša, d.o.o. vam bo pošiljala obvestila o slovenski in tuji pravni praksi s področja varstva osebnih podatkov, odmevnih dogodkih (izrečene globe s strani nadzornih organov, novostih na področju IT industrije, ki so povezane z GDPR in pravico do zasebnosti itn.). S prijavo ne e-novice - vnosom vašega e naslova in klikom na gumb ”prijavi se”, nam dovolite, da vam na vpisani e naslov pošiljamo novice.  Iz sistema prejemanja e-novic se lahko kadarkoli odjavite, in sicer tako, da v poslanem elektronskem sporočilu kliknete na označeno povezavo v tem sporočilu. Več o osebnih podatkih lahko preberete na <a href='/legal'>tej povezavi</a>."
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__subscription

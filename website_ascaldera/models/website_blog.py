@@ -180,7 +180,7 @@ class BlogPost(models.Model):
             self.sub_category_articles=[]
             if self.sub_category_legislation==False:
                 self.sub_category_main=[]
-        elif self.blog_post_type_id.name=="Articles" or self.blog_post_type_id.name=="Strokovni članki":
+        elif self.blog_post_type_id.name=="Articles" or self.blog_post_type_id.name=="Strokovni literatura":
             self.sub_category_judicialpractice=[]
             self.sub_category_IP=[]
             self.sub_category_legislation=[]
