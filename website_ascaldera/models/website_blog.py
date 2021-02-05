@@ -168,25 +168,25 @@ class BlogPost(models.Model):
     
     @api.onchange('blog_post_type_id','sub_category_judicialpractice','sub_category_legislation', 'sub_category_IP','sub_category_articles')
     def spremeni_podkategorijo(self):
-        if self.blog_post_type_id.name=="Judicial-Practice" or self.blog_post_type_id.name=="Pravna praksa":
-            self.sub_category_legislation=[]
-            self.sub_category_IP=[]
-            self.sub_category_articles=[]
-            if self.sub_category_judicialpractice == False:
-                self.sub_category_main=[]
-        elif self.blog_post_type_id.name=="Legislation" or self.blog_post_type_id.name=="Zakonodaja":
-            self.sub_category_judicialpractice=[]
-            self.sub_category_IP=[]
-            self.sub_category_articles=[]
-            if self.sub_category_legislation==False:
-                self.sub_category_main=[]
-        elif self.blog_post_type_id.name=="Articles" or self.blog_post_type_id.name=="Strokovni literatura":
+        if self.blog_post_type_id.id == 2:
             self.sub_category_judicialpractice=[]
             self.sub_category_IP=[]
             self.sub_category_legislation=[]
             if self.sub_category_articles==False:
                 self.sub_category_main=[]
-        elif self.blog_post_type_id.name=="SLO-Information-Commissioners-Practice" or self.blog_post_type_id.name=="IP RS":
+        elif self.blog_post_type_id.id == 3:
+            self.sub_category_legislation=[]
+            self.sub_category_IP=[]
+            self.sub_category_articles=[]
+            if self.sub_category_judicialpractice == False:
+                self.sub_category_main=[]
+        elif self.blog_post_type_id.id == 4:
+            self.sub_category_judicialpractice=[]
+            self.sub_category_IP=[]
+            self.sub_category_articles=[]
+            if self.sub_category_legislation==False:
+                self.sub_category_main=[]
+        elif self.blog_post_type_id.id == 5:
             self.sub_category_judicialpractice=[]
             self.sub_category_legislation=[]
             self.sub_category_articles=[]
