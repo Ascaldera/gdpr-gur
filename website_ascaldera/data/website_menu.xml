@@ -55,11 +55,18 @@
             <field name="sequence" type="int">21</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
+        <record id="menu_articles_sub_articles_proffesional" model="website.menu">
+            <field name="name">Professional Articles</field>
+            <field name="url">/blog/Articles/articles_proffesional</field>
+            <field name="parent_id" ref="website_ascaldera.menu_articles"/>
+            <field name="sequence" type="int">22</field>
+            <field name="website_id" ref="website.default_website"/>
+        </record>
         <record id="menu_articles_sub_publications_and_manuals" model="website.menu">
             <field name="name">Useful Publications and Manuals</field>
             <field name="url">/blog/Articles/publications_and_manuals</field>
             <field name="parent_id" ref="website_ascaldera.menu_articles"/>
-            <field name="sequence" type="int">22</field>
+            <field name="sequence" type="int">23</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
 
@@ -135,18 +142,25 @@
             <field name="sequence" type="int">41</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
+        <record id="menu_slo_ip_sub_decisions_ip" model="website.menu">
+            <field name="name">Decisions SLO IP</field>
+            <field name="url">/blog/SLO-Information-Commissioners-Practice/decisions_ip</field>
+            <field name="parent_id" ref="website_ascaldera.menu_slo_ip"/>
+            <field name="sequence" type="int">42</field>
+            <field name="website_id" ref="website.default_website"/>
+        </record>
         <record id="menu_slo_ip_sub_opinions" model="website.menu">
             <field name="name">IP Opinions</field>
             <field name="url">/blog/SLO-Information-Commissioners-Practice/opinions</field>
             <field name="parent_id" ref="website_ascaldera.menu_slo_ip"/>
-            <field name="sequence" type="int">42</field>
+            <field name="sequence" type="int">43</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
         <record id="menu_slo_ip_sub_other_IP_news" model="website.menu">
             <field name="name">Other IP News</field>
             <field name="url">/blog/SLO-Information-Commissioners-Practice/other_IP_news</field>
             <field name="parent_id" ref="website_ascaldera.menu_slo_ip"/>
-            <field name="sequence" type="int">43</field>
+            <field name="sequence" type="int">44</field>
             <field name="website_id" ref="website.default_website"/>
         </record>
 

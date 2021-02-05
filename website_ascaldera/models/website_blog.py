@@ -151,15 +151,15 @@ class BlogPost(models.Model):
     save_name=fields.Char(string='Saved name')
     
     sub_category_main=fields.Selection(string="Subcategory", 
-                                       selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation'),('SLO_judgments','Judgments of the Slovenian Court'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'), ('publications_and_manuals','Useful Publications and Manuals'), ('opinions','Opinions'), ('other_IP_news','Other IP News')])
+                                       selection=[('articles_proffesional','Proffesional Articles'), ('publications_and_manuals','Useful Publications and Manuals'),('SLO_judgments','Judgments of the Slovenian Court'),('foreign_practice','The practice of foreign oversight bodies'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'), ('edpb_guidelines', 'EDPB guidelines and opinions'), ('decisions_ip', 'Decisions SLO IP'), ('opinions','Opinions'), ('other_IP_news','Other IP News'), ('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation')])
     sub_category_judicialpractice=fields.Selection(string="Subcategory", 
                                     selection=[('SLO_judgments','Judgments of the Slovenian Court'),('EU_judgments','Judgments of the European Court of Justice'),('escp_judgements','ECHR judgments'),('foreign_judgments','Judgments of foreign courts'),('foreign_practice','The practice of foreign oversight bodies'), ('edpb_guidelines', 'EDPB guidelines and opinions')])
     sub_category_legislation=fields.Selection(string="Subcategory", 
                                     selection=[('foreign_legislation','Foreign legislation'),('slovenian_legislation','Slovenian legislation')])
     sub_category_IP=fields.Selection(string="Subcategory", 
-                                    selection=[('opinions','Opinions IP'), ('other_IP_news','Other IP News')])
+                                    selection=[('decisions_ip', 'Decisions SLO IP'), ('opinions','Opinions IP'), ('other_IP_news','Other IP News')])
     sub_category_articles=fields.Selection(string="Subcategory", 
-                                    selection=[('publications_and_manuals','Useful Publications and Manuals')])
+                                    selection=[('articles_proffesional','Proffesional Articles'),('publications_and_manuals','Useful Publications and Manuals')])
     show_subcategory = fields.Boolean('Show sub category',default=_show_sub_category,compute=_show_sub_category)
     
     #Function to populate the main subcategory selection field or erase data from that field if something else was selected
