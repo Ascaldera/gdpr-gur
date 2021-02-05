@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0-20210111\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-04 19:09+0000\n"
-"PO-Revision-Date: 2021-02-04 19:09+0000\n"
+"POT-Creation-Date: 2021-02-05 09:35+0000\n"
+"PO-Revision-Date: 2021-02-05 09:35+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -44,12 +44,12 @@ msgstr "<span> Rezultati</span>"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.tag_filter
 msgid "<span>Filter <b>Tags</b></span>"
-msgstr "<span>Filter&amp;nbsp;<b>Ključnih besed</b></span>"
+msgstr "<span>Iskanje po &amp;nbsp;<b>Ključnih besedah</b></span>"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.type_filter
 msgid "<span>Filter <b>Types</b></span>"
-msgstr "<span>Filter&amp;nbsp;<b>Kategorij</b></span>"
+msgstr "<span>Iskanje po&amp;nbsp;<b>Kategorijah</b></span>"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.year_filter
@@ -116,7 +116,7 @@ msgstr ""
 #: model:website.menu,name:website_ascaldera.menu_articles
 #: model:website.menu,name:website_ascaldera.menu_articles_sub_judicial_practice
 msgid "Articles"
-msgstr "Strokovni članki"
+msgstr "Strokovna literatura"
 
 #. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_automated_profiling
@@ -211,10 +211,17 @@ msgid "Date"
 msgstr "Datum"
 
 #. module: website_ascaldera
+#: selection:blog.post,sub_category_IP:0
+#: selection:blog.post,sub_category_main:0
+#: model:website.menu,name:website_ascaldera.menu_slo_ip_sub_decisions_ip
+msgid "Decisions SLO IP"
+msgstr "Odločitve SLO IP"
+
+#. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__display_name
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post_type__display_name
 msgid "Display Name"
-msgstr "Prikazni naziv"
+msgstr "Prikazani naziv"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__document_date
@@ -430,7 +437,7 @@ msgstr "Najbolj Brane <b>Novice</b>"
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.main_blog_post
 msgid "Most Read <b>PROFESSIONAL Articles</b>"
-msgstr "Najbolj brani <b>Strokovni članki</b>"
+msgstr "Najbolj brana <b>Strokovna literatura</b>"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post_type__name
@@ -481,7 +488,7 @@ msgid "Other IP News"
 msgstr "Druge IP novice"
 
 #. module: website_ascaldera
-#: code:addons/website_ascaldera/controllers/main.py:434
+#: code:addons/website_ascaldera/controllers/main.py:435
 #, python-format
 msgid "Oznaka:"
 msgstr ""
@@ -522,6 +529,17 @@ msgid "Processing Principles"
 msgstr ""
 
 #. module: website_ascaldera
+#: model:website.menu,name:website_ascaldera.menu_articles_sub_articles_proffesional
+msgid "Professional Articles"
+msgstr "Strokovni članki"
+
+#. module: website_ascaldera
+#: selection:blog.post,sub_category_articles:0
+#: selection:blog.post,sub_category_main:0
+msgid "Proffesional Articles"
+msgstr "Strokovni članki"
+
+#. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_profiling
 msgid "Profiling"
 msgstr ""
@@ -556,7 +574,7 @@ msgstr ""
 #: model:website.menu,name:website_ascaldera.menu_slo_ip
 #: model:website.menu,name:website_ascaldera.menu_slo_ip_sub_slo_ip
 msgid "SLO-Information-Commissioners-Practice"
-msgstr "Odločitve SLO IP"
+msgstr "IP RS"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__save_name
@@ -564,7 +582,7 @@ msgid "Saved name"
 msgstr ""
 
 #. module: website_ascaldera
-#: code:addons/website_ascaldera/controllers/main.py:610
+#: code:addons/website_ascaldera/controllers/main.py:611
 #, python-format
 msgid "Search: "
 msgstr "Iskanje: "
@@ -600,7 +618,7 @@ msgstr ""
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Sign up"
-msgstr "Prijavi"
+msgstr "Registracija"
 
 #. module: website_ascaldera
 #: selection:blog.post,sub_category_legislation:0
@@ -689,7 +707,7 @@ msgstr "Koristne Povezave"
 #: selection:blog.post,sub_category_main:0
 #: model:website.menu,name:website_ascaldera.menu_articles_sub_publications_and_manuals
 msgid "Useful Publications and Manuals"
-msgstr "Uporabne Publikacije in priročniki"
+msgstr "Uporabne publikacije in priročniki"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header

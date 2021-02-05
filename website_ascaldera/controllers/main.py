@@ -27,23 +27,24 @@ from odoo.tools import crop_image, topological_sort, html_escape, pycompat
 BLOG_TYPES = {
     'News': {'blog_post_type': 'website_ascaldera.blog_post_type_news','title': 'News'},
     'Articles': {'blog_post_type': 'website_ascaldera.blog_post_type_article', 'title': 'Legislation'},
-    'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation'},
-    'SLO-Information-Commissioners-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_slo_ip'},
     'Judicial-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_judicial_practice'},
+    'SLO-Information-Commissioners-Practice': {'blog_post_type': 'website_ascaldera.blog_post_type_slo_ip'},
+    'Legislation': {'blog_post_type': 'website_ascaldera.blog_post_type_legislation'},
 }
 BLOG_SUBTYPES = {
-    'practice_foreign_oversight': {'sub_category_main': 'foreign_practice'},
-    'judgement_EU': {'sub_category_main': 'EU_judgments'},
-    'judgements_escp': {'sub_category_main': 'escp_judgements'},
-    'judgements_foreign': {'sub_category_main': 'foreign_judgments',},
-    'legislation_slo': {'sub_category_main': 'slovenian_legislation'},
-    'judgement_SLO': {'sub_category_main': 'SLO_judgments'},
-    'legislation_foreign': {'sub_category_main': 'foreign_legislation'},
-    'edpb_guidelines': {'sub_category_main': 'edpb_guidelines'},
-    'practice_slo': {'sub_category_main': 'slo_practice'},
+    'articles_proffesional': {'sub_category_main': 'articles_proffesional'},
     'publications_and_manuals': {'sub_category_main': 'publications_and_manuals'},
+    'judgement_SLO': {'sub_category_main': 'SLO_judgments'},
+    'judgement_EU': {'sub_category_main': 'EU_judgments'},
+    'judgements_foreign': {'sub_category_main': 'foreign_judgments',},
+    'judgements_escp': {'sub_category_main': 'escp_judgements'},
+    'practice_foreign_oversight': {'sub_category_main': 'foreign_practice'},
+    'edpb_guidelines': {'sub_category_main': 'edpb_guidelines'},
+    'decisions_ip': {'sub_category_main': 'decisions_ip'},
     'opinions': {'sub_category_main': 'opinions'},
     'other_IP_news': {'sub_category_main': 'other_IP_news'},
+    'legislation_slo': {'sub_category_main': 'slovenian_legislation'},
+    'legislation_foreign': {'sub_category_main': 'foreign_legislation'},
 }
 
 
