@@ -321,7 +321,7 @@ msgstr ""
 #. module: website_ascaldera
 #: model:website.menu,name:website_ascaldera.menu_slo_ip_sub_opinions
 msgid "IP Opinions"
-msgstr ""
+msgstr "Mnenja IP"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_content
