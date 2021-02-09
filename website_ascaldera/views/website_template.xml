@@ -19,16 +19,24 @@
                     <t t-set="document_date_asc_label">Published date: Low to High</t>
                     <t t-set="popularity_desc_label">Popularity - DESC</t>
                     <t t-set="popularity_asc_label">Popularity - ASC</t>
-                    <t t-set="name_asc_label">Name - ASC</t>
+                    <!--<t t-set="name_asc_label">Name - ASC</t>
                     <t t-set="name_desc_label">Name - DESC</t>
                     <t t-set="website_blog_sortable" t-value="[
                         (document_date_desc_label, 'document_date desc'),
                         (document_date_asc_label, 'document_date asc'),
-                         (name_asc_label, 'name asc'),
+                        (name_asc_label, 'name asc'),
                         (name_desc_label, 'name desc'),
                         (popularity_desc_label, 'visits desc'),
                         (popularity_asc_label, 'visits asc'),
                     ]"/>
+                    -->
+                    <t t-set="website_blog_sortable" t-value="[
+                        (document_date_desc_label, 'document_date desc'),
+                        (document_date_asc_label, 'document_date asc'),
+                        (popularity_desc_label, 'visits desc'),
+                        (popularity_asc_label, 'visits asc'),
+                    ]"/>
+
         <t t-set="website_blog_sortable_current" t-value="[sort for sort in website_blog_sortable if sort[1]==request.params.get('order', '')]"/>
         <div class="block">
             <div class="block-title">
