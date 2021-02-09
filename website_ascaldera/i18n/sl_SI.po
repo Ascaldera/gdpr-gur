@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0-20210111\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-05 09:35+0000\n"
-"PO-Revision-Date: 2021-02-05 09:35+0000\n"
+"POT-Creation-Date: 2021-02-09 16:13+0000\n"
+"PO-Revision-Date: 2021-02-09 16:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -221,7 +221,7 @@ msgstr "Odločitve SLO IP"
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__display_name
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post_type__display_name
 msgid "Display Name"
-msgstr "Prikazani naziv"
+msgstr "Prikazni naziv"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__document_date
@@ -308,6 +308,11 @@ msgid "HUB App"
 msgstr ""
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_content
+msgid "Home"
+msgstr "Domov"
+
+#. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__id
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post_type__id
 msgid "ID"
@@ -316,7 +321,12 @@ msgstr ""
 #. module: website_ascaldera
 #: model:website.menu,name:website_ascaldera.menu_slo_ip_sub_opinions
 msgid "IP Opinions"
-msgstr "Mnenja IP"
+msgstr ""
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_content
+msgid "If you want to see this article, you must become subscriber first."
+msgstr "Za ogled tega članka, se morate najprej naročiti na naše plačljive vsebine."
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
@@ -488,7 +498,7 @@ msgid "Other IP News"
 msgstr "Druge IP novice"
 
 #. module: website_ascaldera
-#: code:addons/website_ascaldera/controllers/main.py:435
+#: code:addons/website_ascaldera/controllers/main.py:447
 #, python-format
 msgid "Oznaka:"
 msgstr ""
@@ -507,6 +517,11 @@ msgstr "Popularnost padajoče"
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__post_listing_text_content
 msgid "Post Listing Text Content"
 msgstr ""
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_content
+msgid "Premium Content"
+msgstr "Premium vsebina"
 
 #. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_privacy
@@ -582,7 +597,7 @@ msgid "Saved name"
 msgstr ""
 
 #. module: website_ascaldera
-#: code:addons/website_ascaldera/controllers/main.py:611
+#: code:addons/website_ascaldera/controllers/main.py:623
 #, python-format
 msgid "Search: "
 msgstr "Iskanje: "
