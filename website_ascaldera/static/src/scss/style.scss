@@ -1556,3 +1556,23 @@ input:focus{
   margin-left: 0 !important;
   margin-right: 1.5%;
 }
+.raw_content.modalBlur > *:not(.modal) {
+  -webkit-filter: blur(8px);
+}
+.raw_content.modalDesaturate > *:not(.modal) {
+  -webkit-filter: saturate(0%);
+}
+.modal-backdrop {
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+}
+
+.modal {
+  background: transparent;
+  max-height: 90%;
+  position: absolute;
+  float: left;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

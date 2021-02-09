@@ -5,6 +5,11 @@
         <xpath expr="." position="inside">
             <link rel="stylesheet" href="/website_ascaldera/static/src/css/website_blog_scroll.css"/>
             <script type="text/javascript" src="/website_ascaldera/static/src/js/website_blog_show_more.js"/>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('.modal-backdrop').remove();
+                    $('#myModal').modal('show'); });
+            </script>
         </xpath>
     </template>
 
@@ -70,7 +75,7 @@
 
                     <div  id="wsale_products_attributes_collapse">
                         <ul t-attf-class="nav flex-column #{'open_ul' if tags_set else ''}"  t-att-style="'' if tags_set else 'display: none;' ">
-                            <t t-foreach="tags" t-as="tag">
+                            <t t-foreach="tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
                                 <li class="nav-item">
                                     <label t-attf-class="#{' active' if tag.id in tags_set else ''}">
                                         <input type="checkbox" name="tag" t-att-value="tag.id" t-att-checked="'checked' if tag.id in tags_set else None" />
@@ -87,7 +92,7 @@
 
     </template>
 
-    <template id="type_filter" name="Tag Filter">
+    <template id="type_filter" name="Type Filter">
         <!-- SORT BY-->
 
         <div id="type_filter">
@@ -174,7 +179,7 @@
                 <div class="block-content">
                     <div class="elements elements-tag x1 ">
                         <t t-set="fav_tags" t-value="fav_tags"/>
-                        <t t-foreach="fav_tags" t-as="tag">
+                        <t t-foreach="fav_tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
                             <div class="element-row tight">
                                 <div class="element-wrapper list_padding">
                                     <div class="element background">
@@ -194,7 +199,7 @@
                     <div class="collapse" id="collapsable">
                         <div class="elements elements-tag x1">
                             <t t-set="unfav_tags" t-value="unfav_tags"/>
-                            <t t-foreach="unfav_tags" t-as="untag">
+                            <t t-foreach="unfav_tags.sorted(key=lambda x: x.name.lower())" t-as="untag">
                                 <div class="element-row tight">
                                     <div class="element-wrapper list_padding">
                                         <div class="element background">
@@ -973,11 +978,9 @@
                                 <div class="elements">
                                         <t t-if="created">
                                             <h3> Thank you for Signing up for our GDPR GURU Newsletter. <br/>Best Regards. GDPR GURU Team.</h3>
-                                            <!--<h3> Najlepša hvala, ker ste se prijavili na GDPR GURU novice. <br/>Lep pozdrav. Ekipa GDPR GURU.</h3>-->
                                         </t>
                                         <t t-else="">
                                             <h3> E-mail already exists in our database! <br/>Best Regards. GDPR GURU Team.</h3>
-                                            <!--<h3> E-mail, ki ste ga vnesli, že obstaja v naši bazi podatkov. <br/>Lep pozdrav. Ekipa GDPR GURU.</h3>-->
                                         </t>
                                     </div>
                             </div>
@@ -1023,9 +1026,36 @@
                                         <span t-field="blog_post.document_date" t-options='{"widget": "date"}'/>
                                         <span>  published </span><span t-esc="blog_post.sudo().author_id.name"/>
                                     </div>
+                                    <div class='raw_content'>
+                                        <t t-raw="blog_post.content"/>
 
+                                        <t t-if="blog_post.subscription == 'private' and request.env.user.id == 4">
+                                            <!-- Trigger the modal with a button
+                                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+                                             -->
 
-                                    <t t-raw="blog_post.content"/>
+                                            <!-- Modal -->
+                                            <div class="modal-backdrop in"></div>
+                                            <div class="modal in" id="myModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" style="display: block; padding-right: 17px;">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Premium Content</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>If you want to see this article, you must become subscriber first.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a href="/">
+                                                                <button type="button" class="btn btn-primary">Home</button>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
                                     <div>
                                         <a t-attf-href="#{blog_post.external_post_link}"><t t-esc="blog_post.external_post_link"/></a>
                                     </div>
