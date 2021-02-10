@@ -231,6 +231,16 @@ class Website(Website):
             'unfav_tags': self.unfav_tags_get(),
         })
 
+    @http.route([
+        '/pricelist',
+    ], type='http', auth="public", website=True)
+    def blog_post_pricelist(self, **post):
+        
+        return request.render("website.pricelist", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+
 
 class WebsiteBlog(WebsiteBlog):
     """Controller WebsiteBlog."""
