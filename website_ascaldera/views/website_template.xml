@@ -502,8 +502,31 @@
                         </div>
                     </div>
                 </div>
-                <div id="footer-main">
+                <div class="footer-basic">
+                        <!--<div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>-->
+                        <div class="social">
+                            <img src="/website_ascaldera/static/src/img/logo.png"/>
+                            <!--<img src="/website_ascaldera/static/src/img/npm.svg"/>-->
+                        </div>
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><a href="/about-us">About Us</a></li>
+                            <li class="list-inline-item"><a href="/pricelist">Pricelist</a></li>
+                            <li class="list-inline-item"><a href="/legal">Privacy Policy</a></li>
+                            <li class="list-inline-item"><a href="/legal">Cookies</a></li>
+                            <li class="list-inline-item"><a href="/legal">Terms and conditions</a></li>
+                            <li class="list-inline-item"><a href="/legal">Website editors</a></li>
+                            <li class="list-inline-item"><a href="/legal">Technical solution</a></li>
+                        </ul>
+                        <p class="copyright">
+                            Phone: 01 230 50 30 <br/>
+                            E-Mail: pisarna@pirc-musar.si
+                        </p>
+                </div>
+                <!--
                     <div class="wrapper container-fluid maxWidth">
+                        <div class="section-logo">
+                            <img src="/website_ascaldera/static/src/img/logo.png"/>
+                        </div>
                         <div class="section-logo">
                             <img src="/website_ascaldera/static/src/img/logo.png"/>
                         </div>
@@ -514,12 +537,13 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div>    
+                -->           
                 <div id="footer-bottom">
                     <div class="wrapper container-fluid maxWidth">
                         Copyright &amp;copy;2019
                     </div>
-                </div>
+                </div>          
             </footer>
         </xpath>
     </template>

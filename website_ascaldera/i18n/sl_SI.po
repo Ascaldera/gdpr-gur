@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0-20210111\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-09 16:13+0000\n"
-"PO-Revision-Date: 2021-02-09 16:13+0000\n"
+"POT-Creation-Date: 2021-02-10 09:10+0000\n"
+"PO-Revision-Date: 2021-02-10 09:10+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -169,6 +169,11 @@ msgstr "Vsebina"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Cookies"
+msgstr "O piškotkih"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
 msgid "Copyright &amp;copy;2019"
 msgstr ""
 
@@ -221,7 +226,7 @@ msgstr "Odločitve SLO IP"
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_link__display_name
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post_type__display_name
 msgid "Display Name"
-msgstr "Prikazni naziv"
+msgstr "Prikazani naziv"
 
 #. module: website_ascaldera
 #: model:ir.model.fields,field_description:website_ascaldera.field_blog_post__document_date
@@ -455,16 +460,6 @@ msgid "Name"
 msgstr "Naziv"
 
 #. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
-msgid "Name - ASC"
-msgstr "Naslov A-Ž"
-
-#. module: website_ascaldera
-#: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
-msgid "Name - DESC"
-msgstr "Naslov Ž-A"
-
-#. module: website_ascaldera
 #: model:blog.post.type,name:website_ascaldera.blog_post_type_news
 #: model:website.menu,name:website_ascaldera.menu_news
 msgid "News"
@@ -498,10 +493,17 @@ msgid "Other IP News"
 msgstr "Druge IP novice"
 
 #. module: website_ascaldera
-#: code:addons/website_ascaldera/controllers/main.py:447
+#: code:addons/website_ascaldera/controllers/main.py:457
 #, python-format
 msgid "Oznaka:"
 msgstr ""
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Phone: 01 230 50 30 <br/>\n"
+"                            E-Mail: pisarna@pirc-musar.si"
+msgstr "Tel: 01 230 50 30 <br/>\n"
+"                            E-pošta: pisarna@pirc-musar.si"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.sort_blog
@@ -524,14 +526,19 @@ msgid "Premium Content"
 msgstr "Premium vsebina"
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Pricelist"
+msgstr "Cenik"
+
+#. module: website_ascaldera
 #: model:blog.tag,name:website_ascaldera.blog_tag_privacy
 msgid "Privacy"
 msgstr "Zasebnost"
 
 #. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
-msgid "Privacy policy"
-msgstr "Politika zasebnosti"
+msgid "Privacy Policy"
+msgstr "Informacije za posameznike"
 
 #. module: website_ascaldera
 #: selection:blog.post,subscription:0
@@ -597,7 +604,7 @@ msgid "Saved name"
 msgstr ""
 
 #. module: website_ascaldera
-#: code:addons/website_ascaldera/controllers/main.py:623
+#: code:addons/website_ascaldera/controllers/main.py:633
 #, python-format
 msgid "Search: "
 msgstr "Iskanje: "
@@ -674,6 +681,16 @@ msgid "Sync API blog"
 msgstr ""
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Technical solution"
+msgstr "Tehnična izvedba"
+
+#. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Terms and conditions"
+msgstr "Splošni pogoji"
+
+#. module: website_ascaldera
 #: model_terms:ir.ui.view,arch_db:website_ascaldera.blog_post_newsletter
 msgid "Thank you for Signing up for our GDPR GURU Newsletter. <br/>Best Regards. GDPR GURU Team."
 msgstr "Najlepša hvala, ker ste se prijavili na GDPR GURU novice. <br/>Lep pozdrav. Ekipa GDPR GURU."
@@ -740,6 +757,12 @@ msgid "Website Menu"
 msgstr "Meni spletne strani"
 
 #. module: website_ascaldera
+#: model_terms:ir.ui.view,arch_db:website_ascaldera.new_header
+msgid "Website editors"
+msgstr "Uredniki portala"
+
+#. module: website_ascaldera
 #: model:ir.model,name:website_ascaldera.model_blog_post_type
 msgid "blog.post.type"
 msgstr ""
+
