@@ -240,6 +240,36 @@ class Website(Website):
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
         })
+    
+    @http.route([
+        '/legal',
+    ], type='http', auth="public", website=True)
+    def blog_post_legal(self, **post):
+        
+        return request.render("website_legal_page.legal_page", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+
+    @http.route([
+        '/impressum',
+    ], type='http', auth="public", website=True)
+    def blog_post_impressum(self, **post):
+        
+        return request.render("website.impressum", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+
+    @http.route([
+        '/technical-solution',
+    ], type='http', auth="public", website=True)
+    def blog_post_technicalsolution(self, **post):
+        
+        return request.render("website.technical-solution", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
 
 
 class WebsiteBlog(WebsiteBlog):
@@ -895,11 +925,11 @@ class WebsiteBlog(WebsiteBlog):
 
         created = False
         email = post['email']
-        contacts_model = request.env['res.partner']
-        contact = contacts_model.sudo().search([('email','=', email)])
+        mailing_list = request.env['mail.mass_mailing.contact']
+        existing_records = request.env['mail.mass_mailing.contact'].search([('email', '=', email)])
 
-        if not contact:
-            contacts_model.sudo().create({'name': email, 'email': email})
+        if len(existing_records) == 0:
+            mailing_list.sudo().create({'name': email, 'email': email, 'list_ids': [(6,0,[1])]})
             created = True
         else:
             created = False 
@@ -908,5 +938,5 @@ class WebsiteBlog(WebsiteBlog):
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
             'created': created,
-            'contact': contact,
+            'mailing_list': mailing_list,
         })
