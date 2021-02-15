@@ -28,6 +28,7 @@
 }
 .element-row.tight.most_read_post.inline_images{
 	width:100%;
+	flex: 1;
 }
 .elements .element-column .element-wrapper .element.fixed, .elements .element-row.inline_images .element-wrapper .element.fixed{
 	height:100%;
