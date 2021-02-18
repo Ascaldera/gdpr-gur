@@ -187,18 +187,20 @@
                 <div class="block-content">
                     <div class="elements elements-tag x1 ">
                         <t t-set="fav_tags" t-value="fav_tags"/>
-                        <t t-foreach="fav_tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
-                            <div class="element-row tight">
-                                <div class="element-wrapper list_padding">
-                                    <div class="element background">
-                                        <div class="element-text">
-                                            <div class="element-title">
-                                                <a t-attf-href="/blog/tag/#{ slug(tag) }"><t t-esc="tag.name"/></a>
+                        <t t-if='fav_tags'>
+                            <t t-foreach="fav_tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
+                                <div class="element-row tight">
+                                    <div class="element-wrapper list_padding">
+                                        <div class="element background">
+                                            <div class="element-text">
+                                                <div class="element-title">
+                                                    <a t-attf-href="/blog/tag/#{ slug(tag) }"><t t-esc="tag.name"/></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </t>
                         </t>
                     </div>
 
@@ -207,18 +209,20 @@
                     <div class="collapse" id="collapsable">
                         <div class="elements elements-tag x1">
                             <t t-set="unfav_tags" t-value="unfav_tags"/>
-                            <t t-foreach="unfav_tags.sorted(key=lambda x: x.name.lower())" t-as="untag">
-                                <div class="element-row tight">
-                                    <div class="element-wrapper list_padding">
-                                        <div class="element background">
-                                            <div class="element-text">
-                                                <div class="element-title">
-                                                    <a t-attf-href="/blog/tag/#{ slug(untag) }"><t t-esc="untag.name"/></a>
+                            <t t-if='unfav_tags'>
+                                <t t-foreach="unfav_tags.sorted(key=lambda x: x.name.lower())" t-as="untag">
+                                    <div class="element-row tight">
+                                        <div class="element-wrapper list_padding">
+                                            <div class="element background">
+                                                <div class="element-text">
+                                                    <div class="element-title">
+                                                        <a t-attf-href="/blog/tag/#{ slug(untag) }"><t t-esc="untag.name"/></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </t>
                             </t>
                         </div>
                     </div>
@@ -453,6 +457,9 @@
                             <a t-attf-href="/web/signup" class="fill">Sign up</a>
                         </t>
                         <t t-if="request.env.user.id != 4 and url != '/web/signup?' and url != '/web/login?'">
+                            <a t-attf-href="/my">Profile</a>
+                        </t>
+                        <t t-if="request.env.user.id != 4 and url != '/web/signup?' and url != '/web/login?'">
                             <a t-attf-href="/web/session/logout?redirect=/">Logout</a>
                         </t>
                     </div>
@@ -511,15 +518,14 @@
                         <ul class="list-inline">
                             <li class="list-inline-item"><a href="/about-us">About Us</a></li>
                             <li class="list-inline-item"><a href="/pricelist">Pricelist</a></li>
-                            <li class="list-inline-item"><a href="/legal">Privacy Policy</a></li>
-                            <li class="list-inline-item"><a href="/legal">Cookies</a></li>
-                            <li class="list-inline-item"><a href="/legal">Terms and conditions</a></li>
+                            <li class="list-inline-item"><a href="/privacy-policy">Privacy Policy</a></li>
+                            <li class="list-inline-item"><a href="/cookie-policy">Cookies</a></li>
+                            <li class="list-inline-item"><a href="/terms-and-conditions">Terms and conditions</a></li>
                             <li class="list-inline-item"><a href="/impressum">Website editors</a></li>
-                            <li class="list-inline-item"><a href="/technical-solution">Technical solution</a></li>
                         </ul>
                         <p class="copyright">
-                            Phone: 01 230 50 30 <br/>
-                            E-Mail: pisarna@pirc-musar.si
+                            <i class="fa fa-phone"></i> 01 230 50 30 <br/>
+                           <i class="fa fa-envelope"></i> pisarna@pirc-musar.si
                         </p>
                 </div>
                 <!--
@@ -541,9 +547,9 @@
                 -->           
                 <div id="footer-bottom">
                     <div class="wrapper container-fluid maxWidth">
-                        Copyright &amp;copy;2019
+                        Copyright &amp;copy;2019, <a href="https://www.ascaldera.com/">Ascaldera d.o.o.</a>
                     </div>
-                </div>          
+                </div>       
             </footer>
         </xpath>
     </template>

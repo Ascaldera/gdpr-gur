@@ -782,6 +782,10 @@ input:focus{
         .field-input {
           margin-top: 15px;
         }
+
+        .oe_structure {
+          width: 100%;
+        }
       }
     }
   
@@ -1119,7 +1123,7 @@ input:focus{
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
-.nav-link.active > span,
+.nav-link.active > span
 
 {
 
@@ -1127,11 +1131,11 @@ input:focus{
   padding-bottom:0.5em;
 
 }
-.nav-item.active > a > span,
+.nav-item.active > a > span
 
 {
 
-  border-bottom: 0.25em solid $link_color;;
+  border-bottom: 0.25em solid $link_color;
   padding-bottom:0.5em;
 
 }
@@ -1284,7 +1288,7 @@ input:focus{
     display: inline-block;
   ul.navbar-nav{
     flex-direction: row;
-    .nav-item > a.active > span,
+    .nav-item > a.active > span
 
     {
 
@@ -1447,7 +1451,7 @@ input:focus{
 	[type="checkbox"]:checked + span:after {
 	  	content: '';
 	  	@include position(absolute,6px,auto,auto,10px);
-	  	@include transition(all,.2s)
+	  	@include transition(all,.2s);
 	  	background-color:nth($f_color,1);
 	  	width: 6px;
 		height: 6px;
@@ -1497,7 +1501,7 @@ input:focus{
 	[type="radio"]:checked + span:after {
 	  	content: '';
 	  	@include position(absolute,6px,auto,auto,10px);
-	  	@include transition(all,.2s)
+	  	@include transition(all,.2s);
 	  	background-color:nth($f_color,1);
 	  	width: 6px;
 		height: 6px;
@@ -1558,6 +1562,10 @@ input:focus{
 }
 .raw_content.modalBlur > *:not(.modal) {
   -webkit-filter: blur(8px);
+}
+
+.raw_content {
+  h1, h2, h3, h4, h5, h6 {font-family: $font_family !important;}
 }
 .raw_content.modalDesaturate > *:not(.modal) {
   -webkit-filter: saturate(0%);

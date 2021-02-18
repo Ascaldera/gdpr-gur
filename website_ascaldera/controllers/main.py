@@ -242,9 +242,29 @@ class Website(Website):
         })
     
     @http.route([
-        '/legal',
+        '/privacy-policy',
     ], type='http', auth="public", website=True)
-    def blog_post_legal(self, **post):
+    def blog_post_privacy_policy(self, **post):
+        
+        return request.render("website.privacy-policy", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+    
+    @http.route([
+        '/terms-and-conditions',
+    ], type='http', auth="public", website=True)
+    def blog_post_terms_and_conditions(self, **post):
+        
+        return request.render("website.terms-and-conditions", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
+    
+    @http.route([
+        '/cookie-policy',
+    ], type='http', auth="public", website=True)
+    def blog_post_cookie_policy(self, **post):
         
         return request.render("website_legal_page.legal_page", {
             'fav_tags': self.fav_tags_get(),
@@ -260,17 +280,6 @@ class Website(Website):
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
         })
-
-    @http.route([
-        '/technical-solution',
-    ], type='http', auth="public", website=True)
-    def blog_post_technicalsolution(self, **post):
-        
-        return request.render("website.technical-solution", {
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-        })
-
 
 class WebsiteBlog(WebsiteBlog):
     """Controller WebsiteBlog."""

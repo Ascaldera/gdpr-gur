@@ -4,7 +4,7 @@
     <template id="acceptance_full">
         <span class="acceptance_full">
             <a
-                href="/legal"
+                href="/terms-and-conditions"
             >I accept the legal terms, the privacy policy &amp; conditions of this website.</a>
         </span>
     </template>
