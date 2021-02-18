@@ -6,6 +6,12 @@
         <field name="model">blog.post</field>
         <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
         <field name="arch" type="xml">
+            <xpath expr="." position="inside">
+                <script 
+                    type="text/javascript" 
+                    src="/website_ascaldera/static/src/js/summernote-overrides.js">
+                </script>        
+            </xpath>
             <xpath expr="//field[@name='blog_id']" position="before">
                 <field name="blog_post_cover_image" widget='image' class="oe_avatar" filename="cover_image_filename"/>
                 <field name="cover_image_filename" invisible="1"/>
@@ -51,6 +57,10 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="before">
                 <field name="lang"/>
+            </xpath>
+            <xpath expr="//field[@name='blog_id']" position="before">
+                <field name="blog_post_type_id"/>
+                <field name="sub_category_main"/>
             </xpath>
             <xpath expr="//field[@name='write_date']" position="before">
                 <field name="document_date"/>

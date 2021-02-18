@@ -38,24 +38,23 @@ class BlogBlog(models.Model):
             for res in result['_embedded']['documents']:
                 count += 1
                 values= {
-                                    'name': res['name'].replace('τ','š'),
-                                    'blog_id': blog_id,
-                                    'blog_post_type_id': blog_type_id.id,
-                                    'sub_category_main':subtype_selection,
-                                    'content': str(BeautifulSoup(base64.b64decode(res['content']), features="lxml")),
-                                    #'content': BeautifulSoup(base64.b64decode(res['content']), features="lxml").get_text(),
-                                    'published_date': parse(res['lastModifiedAt']).strftime('%Y-%m-%d %H:%M:%S'),
-                                    'document_date': parse(res['createdAt']).strftime('%Y-%m-%d %H:%M:%S'),
-                                    'website_published':True,
-                                    'api_id': res['id'],
-                                    'api_sync': True,
-                                    'api_link': res['_links']['self']['href'],
-                                    'api_last_modified_at':parse(res['lastModifiedAt']).strftime('%Y-%m-%d %H:%M:%S'),
-                                    'lang':language,
-                                    'author_id':author_id,
-                                    'write_uid':author_id,
-
-                                     }
+                    'name': res['name'].replace('τ','š'),
+                    'blog_id': blog_id,
+                    'blog_post_type_id': blog_type_id.id,
+                    'sub_category_main':subtype_selection,
+                    'content': str(BeautifulSoup(base64.b64decode(res['content']), features="lxml")),
+                    #'content': BeautifulSoup(base64.b64decode(res['content']), features="lxml").get_text(),
+                    'published_date': parse(res['lastModifiedAt']).strftime('%Y-%m-%d %H:%M:%S'),
+                    'document_date': parse(res['createdAt']).strftime('%Y-%m-%d %H:%M:%S'),
+                    'website_published':True,
+                    'api_id': res['id'],
+                    'api_sync': True,
+                    'api_link': res['_links']['self']['href'],
+                    'api_last_modified_at':parse(res['lastModifiedAt']).strftime('%Y-%m-%d %H:%M:%S'),
+                    'lang':language,
+                    'author_id':author_id,
+                    'write_uid':author_id,
+                }
 
                 if img_base:
                     values['blog_post_cover_image'] = img_base
@@ -65,27 +64,30 @@ class BlogBlog(models.Model):
         for record in records:
             existing_blog_post = blog_post_object.search([('lang','=',language),('api_sync','=',True),('api_id','=',record['api_id'])],limit=1)
             if existing_blog_post and len(existing_blog_post):
-                all_blog_post.append(existing_blog_post.id)
+                #all_blog_post.append(existing_blog_post.id)
                 if record['api_last_modified_at'] > str(existing_blog_post.api_last_modified_at):
+                    all_blog_post.append(existing_blog_post.id)
                     existing_blog_post.write(record)
+                """
                 else:
                     existing_blog_post.write(record)
-
+                """
 
             else:
                 blot_post_id = blog_post_object.create(record)
                 blot_post_id.sub_category_main = subtype_selection
                 all_blog_post.append(blot_post_id.id)
+        
+        """
         all_posts = blog_post_object.search(
             [('lang', '=', language), ('api_sync', '=', True), ('id', 'in', all_blog_post)])
         all_posts.write( {'website_published': True})
         for post in all_posts:
             post.published_date = post.api_last_modified_at
-
-
-
+        
         blog_post_object.search([('lang', '=', language), ('api_sync', '=', True), ('id','not in', all_blog_post)]).write({'website_published':False})
         blog_post_object.search([('visits', '=', False)]).write({'visits': 0})
+        """
 
 
     def sync_api_slo_blog(self):
