@@ -1297,7 +1297,7 @@ input:focus{
 
     }
     li{
-      padding-right: 3em;
+      padding-right: 2em;
       @media screen and (max-width: 992px) {
         padding-right: 1em;
       }
@@ -1638,4 +1638,22 @@ input:focus{
   font-size:14px;
   color:$color_white;
   margin-bottom:0;
+}
+
+#wrapwrap > main {
+  max-width: 1400px;
+  margin: 0px auto;
+  height: 100%;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+li.nav-item.divider {
+  display: none;
+  visibility: hidden;
+}
+
+.carousel {
+  height: 0px;
 }
