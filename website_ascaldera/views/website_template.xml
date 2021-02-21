@@ -5,11 +5,20 @@
         <xpath expr="." position="inside">
             <link rel="stylesheet" href="/website_ascaldera/static/src/css/website_blog_scroll.css"/>
             <script type="text/javascript" src="/website_ascaldera/static/src/js/website_blog_show_more.js"/>
-            <script type="text/javascript">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+            <script>
                 $(document).ready(function() {
-                    $('.modal-backdrop').remove();
-                    $('#myModal').modal('show'); });
+                        $('.modal-backdrop').remove();
+                        $('#myModal').modal('show'); 
+                });
             </script>
+        </xpath>
+    </template>
+
+    <template id="assets_frontend_website_blog_printpdf" inherit_id="website.assets_frontend" name="Website Print PDF">
+        <xpath expr="." position="inside">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+            <script type="text/javascript" src="/website_ascaldera/static/src/js/print-pdf.js"/>
         </xpath>
     </template>
 
@@ -177,46 +186,25 @@
         </div>
         <div id="sidebar">
             <div class="block">
-                <div class="block-title">
-                    <div class="text">FAVORITE <b>TAGS</b>
+                <t t-if="footer != True">
+                    <div class="block-title">
+                        <div class="text">FAVORITE <b>TAGS</b>
+                        </div>
+                        <div class="line">
+                            <span></span>
+                        </div>
                     </div>
-                    <div class="line">
-                        <span></span>
-                    </div>
-                </div>
-                <div class="block-content">
-                    <div class="elements elements-tag x1 ">
-                        <t t-set="fav_tags" t-value="fav_tags"/>
-                        <t t-if='fav_tags'>
-                            <t t-foreach="fav_tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
-                                <div class="element-row tight">
-                                    <div class="element-wrapper list_padding">
-                                        <div class="element background">
-                                            <div class="element-text">
-                                                <div class="element-title">
-                                                    <a t-attf-href="/blog/tag/#{ slug(tag) }"><t t-esc="tag.name"/></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </t>
-                        </t>
-                    </div>
-
-                    <!--<button data-toggle="collapse" data-target="#collapsable">More tags...</button>-->
-
-                    <div class="collapse" id="collapsable">
-                        <div class="elements elements-tag x1">
-                            <t t-set="unfav_tags" t-value="unfav_tags"/>
-                            <t t-if='unfav_tags'>
-                                <t t-foreach="unfav_tags.sorted(key=lambda x: x.name.lower())" t-as="untag">
+                    <div class="block-content">
+                        <div class="elements elements-tag x1 ">
+                            <t t-set="fav_tags" t-value="fav_tags"/>
+                            <t t-if='fav_tags'>
+                                <t t-foreach="fav_tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
                                     <div class="element-row tight">
                                         <div class="element-wrapper list_padding">
                                             <div class="element background">
                                                 <div class="element-text">
                                                     <div class="element-title">
-                                                        <a t-attf-href="/blog/tag/#{ slug(untag) }"><t t-esc="untag.name"/></a>
+                                                        <a t-attf-href="/blog/tag/#{ slug(tag) }"><t t-esc="tag.name"/></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -225,8 +213,31 @@
                                 </t>
                             </t>
                         </div>
+
+                        <!--<button data-toggle="collapse" data-target="#collapsable">More tags...</button>-->
+
+                        <div class="collapse" id="collapsable">
+                            <div class="elements elements-tag x1">
+                                <t t-set="unfav_tags" t-value="unfav_tags"/>
+                                <t t-if='unfav_tags'>
+                                    <t t-foreach="unfav_tags.sorted(key=lambda x: x.name.lower())" t-as="untag">
+                                        <div class="element-row tight">
+                                            <div class="element-wrapper list_padding">
+                                                <div class="element background">
+                                                    <div class="element-text">
+                                                        <div class="element-title">
+                                                            <a t-attf-href="/blog/tag/#{ slug(untag) }"><t t-esc="untag.name"/></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </t>
 
                 <div class="block">
                     <div class="block-title">
@@ -269,47 +280,48 @@
                             <input type="email" placeholder="E-news" name='email'/>
                             <input type="submit" class="action submit" value=""/>
                             <!--<a class="action submit" href="#"></a> class="action submit"-->
-                            <button type='submit' class="action submit"></button>
+                            <button style='cursor:pointer;' type='submit' class="action submit"></button>
                         </form>
                         </div>
                     </div>
                 </div>
-                <div class="block">
-                    <div class="block-title" style="margin-bottom: 0px;">
-                        <div class="text">Useful <b>links</b></div>
-                        <div class="line"><span></span></div>
-                    </div>
-                    <div class="block-content">
-                        <div class="elements elements-list x1">
-                            <div class="element-row">
-                                <div class="element-wrapper">
-                                    <div class="element">
-                                        <t t-set="blog_links" t-value="request.env['blog.link'].sudo().search([('lang', '=', request.env.context.get('lang'))])"/>
-                                        <t t-foreach="blog_links" t-as="blog_link">
-                                            <div class="element-text">
-                                                <div class="element-title useful_link">
-                                                    <a id="redirect_gdpr" t-att-data-id="blog_link.link" href="#"><b><t t-esc="blog_link.title"/></b></a>
+                <t t-if="footer != True">
+                    <div class="block">
+                        <div class="block-title" style="margin-bottom: 0px;">
+                            <div class="text">Useful <b>links</b></div>
+                            <div class="line"><span></span></div>
+                        </div>
+                        <div class="block-content">
+                            <div class="elements elements-list x1">
+                                <div class="element-row">
+                                    <div class="element-wrapper">
+                                        <div class="element">
+                                            <t t-set="blog_links" t-value="request.env['blog.link'].sudo().search([('lang', '=', request.env.context.get('lang'))])"/>
+                                            <t t-foreach="blog_links" t-as="blog_link">
+                                                <div class="element-text">
+                                                    <div class="element-title useful_link">
+                                                        <a id="redirect_gdpr" t-att-data-id="blog_link.link" href="#"><b><t t-esc="blog_link.title"/></b></a>
+                                                    </div>
+                                                    <div class="element-content link-content">
+                                                        <t t-esc="blog_link.content"/>
+                                                    </div>
+                                                    <div class="element-link">
+                                                        <a id="redirect_gdpr" t-att-data-id="blog_link.link" href="#"><t t-esc="blog_link.link"/></a>
+                                                    </div>
                                                 </div>
-                                                <div class="element-content link-content">
-                                                    <t t-esc="blog_link.content"/>
-                                                </div>
-                                                <div class="element-link">
-                                                    <a id="redirect_gdpr" t-att-data-id="blog_link.link" href="#"><t t-esc="blog_link.link"/></a>
-                                                </div>
-                                            </div>
-                                        </t>
+                                            </t>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </t>
             </div>
         </div>
     </template>
 
-
-    <!-- RIGHT Sider bar -->
+    <!-- Left Sider bar -->
     <template id="l_sidebar">
         <div class="sidebar_icon">
             <img src="/website_ascaldera/static/src/img/icon-arrow-large-left.svg" id="sidebar_arrow" data-visible="False"/>
@@ -446,7 +458,7 @@
                                 </select>
                             </div>
                             <div class="info">
-                                Contact +386 1 230 50 30
+                                Contact +386 01 23 50 30
                             </div>
                         </div><div class="account">
                         <t t-set="url" t-value="request.httprequest.full_path"/>
@@ -454,7 +466,7 @@
                             <a t-attf-href="/web/login">Login</a>
                         </t>
                         <t t-if="url != '/web/signup?' and request.env.user.id == 4">
-                            <a t-attf-href="/web/signup" class="fill">Sign up</a>
+                            <a t-attf-href="/pricelist" class="fill">Sign up</a>
                         </t>
                         <t t-if="request.env.user.id != 4 and url != '/web/signup?' and url != '/web/login?'">
                             <a t-attf-href="/my">Profile</a>
@@ -490,25 +502,27 @@
 
         <xpath expr="//footer" position="replace">
             <footer id="footer">
-                <div id="footer-top">
-                    <div id="footer-top-content">
-                        <div class="eu-razvoj">
-                            <p><b>Odvetniška družba Pirc Musar &amp; Lemut Strle</b> je nosilka naložbe v projekt »Celostna storitev upravljanja in spremljanja varstva osebnih podatkov v digitalnih okoljih« v partnerstvu s podjetjem <b>Ascaldera.</b></p><p>Inovativna storitev, ki jo bosta partnerja razvila v projektu Priv.HUB, bo pilotni projekt na področju kibernetske varnosti, s poudarkom na varovanju osebnih podatkov.
-                            V konzorciju sta dva komplementarna partnerja, ki  prihajata iz različnih branž: eno podjetje obvladuje pravne vidike varovanja osebnih podatkov, drugo pa izdelavo tehnoloških rešitev za varovanje osebnih podatkov.
-                            Podjetji tako skupaj obvladata paleto različnih poslovnih ekosistemov. Znotraj projekta Priv.HUB bosta svoje programske aplikativne rešitve in pametno IT infrastrukturo razvili v novo inovativno storitev, ki bo pilotno tehnologijo ponudila tudi v prid zaupanja posameznikov do procesov obdelav osebnih podatkov in ne le tehnoloških funkcionalnosti.</p>
-                            <p>Vrednost projekta je ocenjena na 617.186,45 EUR, 60 % del naložbe financirata konzorcijska partnerja, 40 % del <a href="http://www.eu-skladi.si/" target="_blank"><b>naložbe pa sofinancirata Republika Slovenija in Evropska unija iz Evropskega sklada za regionalni razvoj.</b></a>
-                            </p>
-                            <a href="http://www.eu-skladi.si/" target="_blank">
-                                <img src="/website_ascaldera/static/src/img/nalozba.png" alt="Evropski sklad za regionalni razvoj" data-lazy-src="/assets/2019/02/nalozba.png" data-was-processed="true"/>
+                <t t-if="homepage == True">
+                    <div id="footer-top">
+                        <div id="footer-top-content">
+                            <div class="eu-razvoj">
+                                <p><b>Odvetniška družba Pirc Musar &amp; Lemut Strle</b> je nosilka naložbe v projekt »Celostna storitev upravljanja in spremljanja varstva osebnih podatkov v digitalnih okoljih« v partnerstvu s podjetjem <b>Ascaldera.</b></p><p>Inovativna storitev, ki jo bosta partnerja razvila v projektu Priv.HUB, bo pilotni projekt na področju kibernetske varnosti, s poudarkom na varovanju osebnih podatkov.
+                                V konzorciju sta dva komplementarna partnerja, ki  prihajata iz različnih branž: eno podjetje obvladuje pravne vidike varovanja osebnih podatkov, drugo pa izdelavo tehnoloških rešitev za varovanje osebnih podatkov.
+                                Podjetji tako skupaj obvladata paleto različnih poslovnih ekosistemov. Znotraj projekta Priv.HUB bosta svoje programske aplikativne rešitve in pametno IT infrastrukturo razvili v novo inovativno storitev, ki bo pilotno tehnologijo ponudila tudi v prid zaupanja posameznikov do procesov obdelav osebnih podatkov in ne le tehnoloških funkcionalnosti.</p>
+                                <p>Vrednost projekta je ocenjena na 617.186,45 EUR, 60 % del naložbe financirata konzorcijska partnerja, 40 % del <a href="http://www.eu-skladi.si/" target="_blank"><b>naložbe pa sofinancirata Republika Slovenija in Evropska unija iz Evropskega sklada za regionalni razvoj.</b></a>
+                                </p>
+                                <a href="http://www.eu-skladi.si/" target="_blank">
+                                    <img src="/website_ascaldera/static/src/img/nalozba.png" alt="Evropski sklad za regionalni razvoj" data-lazy-src="/assets/2019/02/nalozba.png" data-was-processed="true"/>
 
-                            </a>
-                            <a href="http://www.eu-skladi.si/" target="_blank">
-                                <img  src="/website_ascaldera/static/src/img/ministrstvo.png" alt="Gospodarski razvoj" data-lazy-src="/assets/2019/02/ministrstvo.png" data-was-processed="true" />
+                                </a>
+                                <a href="http://www.eu-skladi.si/" target="_blank">
+                                    <img  src="/website_ascaldera/static/src/img/ministrstvo.png" alt="Gospodarski razvoj" data-lazy-src="/assets/2019/02/ministrstvo.png" data-was-processed="true" />
 
-                            </a>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </t>
                 <div class="footer-basic">
                         <!--<div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>-->
                         <div class="social">
@@ -524,32 +538,19 @@
                             <li class="list-inline-item"><a href="/impressum">Website editors</a></li>
                         </ul>
                         <p class="copyright">
-                            <i class="fa fa-phone"></i> 01 230 50 30 <br/>
-                           <i class="fa fa-envelope"></i> pisarna@pirc-musar.si
+                            <i class="fa fa-phone"></i>	&amp;nbsp; 01 23 50 30 &amp;nbsp;
+                            <i class="fa fa-envelope"></i> &amp;nbsp; <a href="mailto:info@info-hisa.si"> info@info-hisa.si </a>
+                        </p>
+                        <p class="copyright">Copyright ©2019, <a href="https://www.ascaldera.com/">Ascaldera d.o.o. </a> <br/>
                         </p>
                 </div>
                 <!--
-                    <div class="wrapper container-fluid maxWidth">
-                        <div class="section-logo">
-                            <img src="/website_ascaldera/static/src/img/logo.png"/>
-                        </div>
-                        <div class="section-logo">
-                            <img src="/website_ascaldera/static/src/img/logo.png"/>
-                        </div>
-                        <div class="section-links">
-                            <ul class="menu-vertical menu-main">
-                                <li><a href="/about-us">About Us</a></li>
-                                <li><a href="/legal">Privacy policy</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>    
-                -->           
                 <div id="footer-bottom">
                     <div class="wrapper container-fluid maxWidth">
                         Copyright &amp;copy;2019, <a href="https://www.ascaldera.com/">Ascaldera d.o.o.</a>
                     </div>
-                </div>       
+                </div>
+                -->  
             </footer>
         </xpath>
     </template>
@@ -1088,11 +1089,33 @@
                                                             <a href="/">
                                                                 <button type="button" class="btn btn-primary">Home</button>
                                                             </a>
+                                                            <a href="/pricelist">
+                                                                <button type="button" class="btn btn-primary">Subscribe</button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </t>
+                                    </div>
+                                    <div id="editor"></div>
+                                    <div class="s_share">
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8069%2Fabout-us%23" class="s_share_facebook" target="_blank">
+                                            <i class="fa fa-1x fa-facebook rounded shadow-sm"></i>
+                                        </a>
+                                        <a href="https://twitter.com/intent/tweet?text=About%20Us%20%7C%20GDPR%20GURU&amp;url=http%3A%2F%2Flocalhost%3A8069%2Fabout-us%23" class="s_share_twitter" target="_blank">
+                                            <i class="fa fa-1x fa-twitter rounded shadow-sm"></i>
+                                        </a>
+                                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Flocalhost%3A8069%2Fabout-us%23&amp;title=About%20Us%20%7C%20GDPR%20GURU&amp;" class="s_share_linkedin" target="_blank">
+                                            <i class="fa fa-1x fa-linkedin rounded shadow-sm"></i>
+                                        </a>
+                                        <a href="https://plus.google.com/share?url=http%3A%2F%2Flocalhost%3A8069%2Fabout-us%23" class="s_share_google" target="_blank">
+                                            <i class="fa fa-1x fa-google-plus rounded shadow-sm"></i>
+                                        </a>
+                                        <a href="mailto:?body=http%3A%2F%2Flocalhost%3A8069%2Fabout-us%23&amp;subject=About%20Us%20%7C%20GDPR%20GURU" class="s_share_email">
+                                            <i class="fa fa-1x fa-envelope rounded shadow-sm"></i>
+                                        </a>
+                                        <i id="pdf" class="fa fa-file-pdf-o rounded shadow-sm" style="color:red; cursor:pointer;"></i>
                                     </div>
                                     <div>
                                         <a t-attf-href="#{blog_post.external_post_link}"><t t-esc="blog_post.external_post_link"/></a>

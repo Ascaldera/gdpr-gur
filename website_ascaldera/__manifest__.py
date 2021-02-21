@@ -15,7 +15,7 @@ This module develops website sitemap with different blog posts of type:
     'version': '12.0.1.0.0',
     'author': "Aktiv Software",
     'website': "http://www.aktivsoftware.com",
-    'depends': ['website_blog', 'auth_oauth', 'mass_mailing'],
+    'depends': ['website_blog', 'auth_oauth', 'mass_mailing', 'website_sale_digital'],
     'data': [
         'security/ir.model.access.csv',
         'data/website_menu.xml',

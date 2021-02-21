@@ -162,7 +162,7 @@ class Website(Website):
 
 
     
-    @http.route(auth='public')
+    @http.route(auth="public")
     def index(self, data={}, **kw):
         """Controller to replace home page with main page.."""
         super(Website, self).index(**kw)
@@ -209,6 +209,7 @@ class Website(Website):
             'grid_images_posts': grid_images_posts,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'homepage': True,
         })
     
     @http.route([
@@ -219,6 +220,7 @@ class Website(Website):
         return request.render("website.sodna-praksa-eu", {
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'footer': True,
         })
 
     @http.route([
@@ -229,6 +231,7 @@ class Website(Website):
         return request.render("website.about-us", {
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'footer': True,
         })
 
     @http.route([
@@ -239,6 +242,7 @@ class Website(Website):
         return request.render("website.pricelist", {
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'footer': True,
         })
     
     @http.route([
@@ -249,6 +253,7 @@ class Website(Website):
         return request.render("website.privacy-policy", {
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'footer': True,
         })
     
     @http.route([
@@ -259,6 +264,7 @@ class Website(Website):
         return request.render("website.terms-and-conditions", {
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'footer': True,
         })
     
     @http.route([
@@ -269,6 +275,7 @@ class Website(Website):
         return request.render("website_legal_page.legal_page", {
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'footer': True,
         })
 
     @http.route([
@@ -279,7 +286,16 @@ class Website(Website):
         return request.render("website.impressum", {
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
+            'footer': True,
         })
+"""
+    @http.route([
+        '/web/signup',
+    ], type='http', auth="public", website=True)
+    def blog_post_signup(self, **post):
+        
+        return request.redirect("/pricelist")
+"""
 
 class WebsiteBlog(WebsiteBlog):
     """Controller WebsiteBlog."""
@@ -518,7 +534,7 @@ class WebsiteBlog(WebsiteBlog):
         return values
     @http.route([
         '''/blog/tag/<model("blog.tag"):tag_id>''',
-    ], type='http', auth="public", website=True)
+    ], type='http', auth="user", website=True)
     def blog_tag(self, tag_id, page=1,order='document_date desc', **post):
         """Controller to fetch blog based on tags."""
         values = self._get_blog_post_tag_list(tag_id, page,order)
@@ -679,7 +695,7 @@ class WebsiteBlog(WebsiteBlog):
 
     @http.route([
         '/blog/search',
-    ], type='http', auth="public", website=True)
+    ], type='http', auth="user", website=True)
     def blog_post_search(self, _blog_post_per_page =8,order = 'document_date desc',**post):
         if post:
             search_query = post.get('query')
@@ -699,7 +715,7 @@ class WebsiteBlog(WebsiteBlog):
 
             return request.render("website_ascaldera.blog_post_search", values)
 
-    @http.route('/search_js_call', type='json', auth='public', website=True)
+    @http.route('/search_js_call', type='json', auth='user', website=True)
     def search_js_call(self, search_query='',blog_post_type = False,page = 1,order = 'document_date desc'):
         query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
         order = False
@@ -832,7 +848,7 @@ class WebsiteBlog(WebsiteBlog):
         '/blog/<type>/<subtype>',
         '/blog/<type>/page/<int:page>',
         '/blog/<type>/<subtype>/page/<int:page>',
-    ], type='http', auth="public", website=True)
+    ], type='http', auth="user", website=True)
     def blog_post_list(self, type, subtype = False, page=1,order = False,year=False, **post):
         if order == False and subtype and subtype == 'legislation_foreign':
             order = 'name asc'
@@ -845,7 +861,7 @@ class WebsiteBlog(WebsiteBlog):
 
 
 
-    @http.route('/scroll_paginator', type='json', auth='public',website=True)
+    @http.route('/scroll_paginator', type='json', auth='user',website=True)
     def scroll_paginator(self, type, subtype=False, page=1,order='document_date desc'):
         query_def = parse.parse_qs(parse.urlparse(request.httprequest.referrer).query)
         order = False
@@ -905,12 +921,6 @@ class WebsiteBlog(WebsiteBlog):
         """Controller for DPO  page."""
         
         return request.redirect('https://www.dataprotection-officer.com/')
-        """
-        return request.render("website_ascaldera.blog_post_dpo", {
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-        })
-        """
 
     @http.route([
         '/blog/Hubapp',
@@ -919,12 +929,6 @@ class WebsiteBlog(WebsiteBlog):
         """Controller for HUBAPP  page."""
         
         return request.redirect('http://staging.app.gdpr.ascaldera.com/#/login')
-        """
-        return request.render("website_ascaldera.blog_post_hubapp", {
-            'fav_tags': self.fav_tags_get(),
-            'unfav_tags': self.unfav_tags_get(),
-        })
-        """
 
     @http.route([
         '/blog/Newsletter',
@@ -935,7 +939,7 @@ class WebsiteBlog(WebsiteBlog):
         created = False
         email = post['email']
         mailing_list = request.env['mail.mass_mailing.contact']
-        existing_records = request.env['mail.mass_mailing.contact'].search([('email', '=', email)])
+        existing_records = request.env['mail.mass_mailing.contact'].sudo().search([('email', '=', email)])
 
         if len(existing_records) == 0:
             mailing_list.sudo().create({'name': email, 'email': email, 'list_ids': [(6,0,[1])]})
