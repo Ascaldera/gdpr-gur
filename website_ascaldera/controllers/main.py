@@ -873,6 +873,9 @@ class WebsiteBlog(WebsiteBlog):
             tags_list = query_def['tag']
         if 'year' in query_def:
             year_list = query_def['year']
+        
+        if order == False and subtype and subtype == 'legislation_foreign':
+            order = 'name asc'
 
         render_values = self._get_blog_post_list(type, subtype, page, order, tags_list, year_list)
 
