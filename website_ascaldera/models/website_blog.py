@@ -11,6 +11,9 @@ from bs4 import BeautifulSoup
 from dateutil.parser import parse
 from odoo.modules.module import get_module_resource
 
+import re
+import csv
+
 @api.model
 def _lang_get(self):
     return self.env['res.lang'].get_installed()
@@ -21,31 +24,65 @@ class BlogBlog(models.Model):
 
     def sync_api_blog(self,language=False,url=False,author_id=False,blog_id=False,blog_type_id=False,subtype_selection=False):
         blog_post_object = self.env['blog.post']
-        res = requests.get(url)
-        result = 0
-        if (res):
-            result = res.json()
-        records = []
-        count = 0
-        #/website_ascaldera/static/src/img/IP_logo.jpg
         img_path = get_module_resource('website_ascaldera', 'static/src/img', 'informacijski-pooblascenec.jpg')
         img_base = False
         if img_path:
             with open(img_path, 'rb') as f:
                 image = f.read()
                 img_base = base64.b64encode(image)
-        if (result != 0):
+        
+        documents = {}
+        file_path = get_module_resource('website_ascaldera','models','tag_mapping.txt')
+        with open(file_path, encoding = 'utf-8') as tsv:
+            for line in csv.reader(tsv, dialect="excel-tab"):
+                documents[line[0]] = line[2:]
+        
+        tags = {
+            'Odločba ZIN': 644,
+            'Ustavitev ZIN': 645,
+            'Odločba ZP': 646,
+            'Ustavitev ZP': 647,
+            'Zaznamek ZP': 648,
+        }
+        records = []
+        page=0
+        result = requests.get(url, params={'page': page}).json()
+        while (result != {} and page <= 33):
             for res in result['_embedded']['documents']:
-                count += 1
+                content = str(BeautifulSoup(base64.b64decode(res['content']), features="lxml"))
+                date_search = re.search(r'^.*?(\d+\.\s?\d+\.\s?\d+)', content, re.MULTILINE)
+                try:
+                    document_date = datetime.strptime(date_search.group(1).replace(" ", ""), '%d.%m.%Y')
+                except:
+                    document_date = datetime.strptime('1.1.1970', '%d.%m.%Y')
+                
+                #PARSE TAGS
+                tag_key = [ k for k,v in documents.items() if k.startswith(res['name'])]
+                tag_categories = []
+                name = res['name']
+                if tag_key != []:
+                    name = tag_key[0]
+                    tag_categories = documents[tag_key[0]]
+                
+                #TAG LIST TO IMPORT
+                main_tags=[]
+                category = []
+                if tag_categories != []:
+                    if 'Mnenje IP' in [tag_categories[0]]:
+                        category = 'opinions'
+                    else:
+                        main_tags = [(4, tags[tag_categories[0]])]
+                        category = subtype_selection
+                
                 values= {
-                    'name': res['name'].replace('τ','š'),
+                    'name': name.replace("_", " ").replace('.odt','').replace('τ','š').replace('ƒ','č').replace('å','ć').replace('º','ž').replace('¼', 'Č').replace('ª', 'Ž').replace('µ', 'Š'),
                     'blog_id': blog_id,
                     'blog_post_type_id': blog_type_id.id,
-                    'sub_category_main':subtype_selection,
-                    'content': str(BeautifulSoup(base64.b64decode(res['content']), features="lxml")),
+                    'sub_category_main': category,
+                    'content': content,
                     #'content': BeautifulSoup(base64.b64decode(res['content']), features="lxml").get_text(),
                     'published_date': parse(res['lastModifiedAt']).strftime('%Y-%m-%d %H:%M:%S'),
-                    'document_date': parse(res['createdAt']).strftime('%Y-%m-%d %H:%M:%S'),
+                    'document_date': document_date,
                     'website_published':True,
                     'api_id': res['id'],
                     'api_sync': True,
@@ -54,11 +91,14 @@ class BlogBlog(models.Model):
                     'lang':language,
                     'author_id':author_id,
                     'write_uid':author_id,
+                    'tag_ids': main_tags,
                 }
 
                 if img_base:
                     values['blog_post_cover_image'] = img_base
                 records.append(values)
+            page += 1
+            result = requests.get(url, params={'page': page}).json()
 
         all_blog_post = []
         for record in records:
@@ -66,33 +106,17 @@ class BlogBlog(models.Model):
             if existing_blog_post and len(existing_blog_post):
                 #all_blog_post.append(existing_blog_post.id)
                 if record['api_last_modified_at'] > str(existing_blog_post.api_last_modified_at):
-                    all_blog_post.append(existing_blog_post.id)
+                    #all_blog_post.append(existing_blog_post.id)
                     existing_blog_post.write(record)
-                """
-                else:
-                    existing_blog_post.write(record)
-                """
-
             else:
                 blot_post_id = blog_post_object.create(record)
-                blot_post_id.sub_category_main = subtype_selection
-                all_blog_post.append(blot_post_id.id)
-        
-        """
-        all_posts = blog_post_object.search(
-            [('lang', '=', language), ('api_sync', '=', True), ('id', 'in', all_blog_post)])
-        all_posts.write( {'website_published': True})
-        for post in all_posts:
-            post.published_date = post.api_last_modified_at
-        
-        blog_post_object.search([('lang', '=', language), ('api_sync', '=', True), ('id','not in', all_blog_post)]).write({'website_published':False})
-        blog_post_object.search([('visits', '=', False)]).write({'visits': 0})
-        """
+                #blot_post_id.sub_category_main = subtype_selection
+                #all_blog_post.append(blot_post_id.id)
 
 
     def sync_api_slo_blog(self):
         blog_type_id = self.env.ref('website_ascaldera.blog_post_type_slo_ip')
-        self.sync_api_blog('sl_SI','http://staging.app.gdpr.ascaldera.com//api/v1/documents/search?query=zakon&projection=documentDetail',3,5,blog_type_id,'decisions_ip')
+        self.sync_api_blog('sl_SI','http://staging.app.gdpr.ascaldera.com/api/v1/documents/search?query=&projection=documentDetail&size=100&sort=id',3,5,blog_type_id,'decisions_ip')
 
 
 
