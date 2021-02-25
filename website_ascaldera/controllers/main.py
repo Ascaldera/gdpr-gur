@@ -53,8 +53,8 @@ def check_lang_to_installed(env, website):
         lang = env['res.lang'].search([('code', '=', code)], limit=1)
         if not lang:
             lang = install_lang(env, code)
-        if lang and lang not in website.language_ids:
-            website.language_ids = [(4, lang.id)]
+        #if lang and lang not in website.language_ids:
+            #website.language_ids = [(4, lang.id)]
 
 
 def install_lang(env, code):
