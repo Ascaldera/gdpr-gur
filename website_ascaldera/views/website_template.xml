@@ -452,7 +452,7 @@
                                 </t>
                                 <t t-set="lang" t-value="request.env.context.get('lang')"/>
                                 <select class="selector-lang">
-                                    <option t-att-value="'/en_US'+href" t-att-selected="lang == 'en_US'">English</option>
+                                    <!--<option t-att-value="'/en_US'+href" t-att-selected="lang == 'en_US'">English</option>-->
                                     <option t-att-value="'/sl_SI'+href" t-att-selected="lang == 'sl_SI'">Slovensko</option>
                                     <!--<option t-att-value="'/it_IT'+href" t-att-selected="lang == 'it_IT'">Italiano</option>-->
                                 </select>
@@ -1067,6 +1067,13 @@
                                     </div>
                                     <div class='raw_content'>
                                         <t t-raw="blog_post.content"/>
+                                        <t t-if="blog_post.api_sync == True">
+                                            <p>
+                                                Vir podatkov: <a href="https://www.ip-rs.si/varstvo-osebnih-podatkov/praksa-ip/">IP RS</a> <br/>
+                                                Pogoji uporabe: CC BY 4.0 <br/>
+                                                <img src="/website_ascaldera/static/src/img/copyright.png"></img>
+                                            </p>
+                                        </t>
 
                                         <t t-if="blog_post.subscription == 'private' and request.env.user.id == 4">
                                             <!-- Trigger the modal with a button
