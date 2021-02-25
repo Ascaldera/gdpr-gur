@@ -288,6 +288,16 @@ class Website(Website):
             'unfav_tags': self.unfav_tags_get(),
             'footer': True,
         })
+    
+    @http.route([
+        '/navodila-za-iskanje-po-strani',
+    ], type='http', auth="public", website=True)
+    def blog_post_navodila_za_iskanje(self, **post):
+        
+        return request.render("website.navodila-za-iskanje-po-strani", {
+            'fav_tags': self.fav_tags_get(),
+            'unfav_tags': self.unfav_tags_get(),
+        })
 """
     @http.route([
         '/web/signup',

@@ -24,6 +24,8 @@ class BlogBlog(models.Model):
 
     def sync_api_blog(self,language=False,url=False,author_id=False,blog_id=False,blog_type_id=False,subtype_selection=False):
         blog_post_object = self.env['blog.post']
+        blog_tag_object = self.env['blog.tag']
+
         img_path = get_module_resource('website_ascaldera', 'static/src/img', 'informacijski-pooblascenec.jpg')
         img_base = False
         if img_path:
@@ -36,18 +38,11 @@ class BlogBlog(models.Model):
         with open(file_path, encoding = 'utf-8') as tsv:
             for line in csv.reader(tsv, dialect="excel-tab"):
                 documents[line[0]] = line[2:]
-        
-        tags = {
-            'Odločba ZIN': 644,
-            'Ustavitev ZIN': 645,
-            'Odločba ZP': 646,
-            'Ustavitev ZP': 647,
-            'Zaznamek ZP': 648,
-        }
+
         records = []
         page=0
         result = requests.get(url, params={'page': page}).json()
-        while (result != {} and page <= 33):
+        while (result != {}):
             for res in result['_embedded']['documents']:
                 content = str(BeautifulSoup(base64.b64decode(res['content']), features="lxml"))
                 date_search = re.search(r'^.*?(\d+\.\s?\d+\.\s?\d+)', content, re.MULTILINE)
@@ -64,14 +59,20 @@ class BlogBlog(models.Model):
                     name = tag_key[0]
                     tag_categories = documents[tag_key[0]]
                 
-                #TAG LIST TO IMPORT
+                #APPEND TAGS
                 main_tags=[]
+                tag_categories[:] = [x for x in tag_categories if x]
+                for tag in tag_categories:
+                    tag_id = blog_tag_object.search([('name','=ilike',tag)],limit=1)
+                    if tag_id and len(tag_id):
+                        main_tags.append((4, tag_id.id))
+                
+                #DEFINE CATEGORY
                 category = []
                 if tag_categories != []:
                     if 'Mnenje IP' in [tag_categories[0]]:
                         category = 'opinions'
                     else:
-                        main_tags = [(4, tags[tag_categories[0]])]
                         category = subtype_selection
                 
                 values= {
