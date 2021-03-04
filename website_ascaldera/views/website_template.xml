@@ -1122,7 +1122,7 @@
                                         <a href="mailto:?body=http%3A%2F%2Flocalhost%3A8069%2Fabout-us%23&amp;subject=About%20Us%20%7C%20GDPR%20GURU" class="s_share_email">
                                             <i class="fa fa-1x fa-envelope rounded shadow-sm"></i>
                                         </a>
-                                        <i id="pdf" class="fa fa-file-pdf-o rounded shadow-sm" style="color:red; cursor:pointer;"></i>
+                                        <i id="pdf" class="fa fa-1x fa-file-pdf-o rounded shadow-sm" style="color:red; cursor:pointer; margin-left: .4rem;"></i>
                                     </div>
                                     <div>
                                         <a t-attf-href="#{blog_post.external_post_link}"><t t-esc="blog_post.external_post_link"/></a>
