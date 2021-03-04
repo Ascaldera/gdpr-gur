@@ -15,6 +15,7 @@ from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import Website
 from odoo.addons.website_blog.controllers.main import WebsiteBlog
 from odoo.addons.web.controllers.main import Binary
+from odoo.addons.website_sale.controllers.main import WebsiteSale
 from odoo.http import request
 import base64
 from bs4 import BeautifulSoup
@@ -74,6 +75,29 @@ def binary_content(xmlid=None, model='ir.attachment', id=None, field='datas', un
         default_mimetype=default_mimetype, related_id=related_id, access_mode=access_mode, access_token=access_token,
         env=env)
 
+class CustomAddress(WebsiteSale):  # Inherit in your custom class
+    
+    def _checkout_form_save(self, mode, checkout, all_values):
+        res = super(CustomAddress, self)._checkout_form_save(mode, checkout, all_values)
+        subscribe = False
+        try:
+            subscribe = all_values['subscribe']
+        except:
+            subscribe = False
+        if subscribe:
+            created = False
+            email = post['email']
+            mailing_list = request.env['mail.mass_mailing.contact'].sudo()
+            existing_record = request.env['mail.mass_mailing.contact'].sudo().search([('email', '=', email)])
+
+            if len(existing_record) == 0:
+                mailing_list.sudo().create({'name': email, 'email': email, 'list_ids': [(6,0,[4])]})
+                created = True
+            else:
+                list_ids = existing_record.list_ids
+                existing_record.sudo().write({'list_ids': [(4, 4)]})
+                created = False 
+        return res
 
 class Binary(http.Controller):
 
@@ -298,14 +322,6 @@ class Website(Website):
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
         })
-"""
-    @http.route([
-        '/web/signup',
-    ], type='http', auth="public", website=True)
-    def blog_post_signup(self, **post):
-        
-        return request.redirect("/pricelist")
-"""
 
 class WebsiteBlog(WebsiteBlog):
     """Controller WebsiteBlog."""
@@ -622,9 +638,10 @@ class WebsiteBlog(WebsiteBlog):
         tags_set = {int(v) for v in tags_list}
         tag_domain = []
         if tags_set and len(tags_set):
-
+            """
             for x in range(0, len(tags_set) - 1):
                 tag_domain += ['|']
+            """
             attrib = None
             tag_ids = []
             for value in tags_set:
@@ -781,9 +798,10 @@ class WebsiteBlog(WebsiteBlog):
             tags_list = request.httprequest.args.getlist('tag')
         tags_set = {int(v) for v in tags_list}
         if tags_set and len(tags_set):
-
+            """
             for x in range(0, len(tags_set)-1):
                 domain += ['|']
+            """
             attrib = None
             tag_ids = []
             for value in tags_set:
@@ -941,7 +959,7 @@ class WebsiteBlog(WebsiteBlog):
     def blog_post_hubapp(self, **post):
         """Controller for HUBAPP  page."""
         
-        return request.redirect('http://staging.app.gdpr.ascaldera.com/#/login')
+        return request.redirect('https://hub.2cript.com/#/login')
 
     @http.route([
         '/blog/Newsletter',
@@ -951,13 +969,15 @@ class WebsiteBlog(WebsiteBlog):
 
         created = False
         email = post['email']
-        mailing_list = request.env['mail.mass_mailing.contact']
-        existing_records = request.env['mail.mass_mailing.contact'].sudo().search([('email', '=', email)])
+        mailing_list = request.env['mail.mass_mailing.contact'].sudo()
+        existing_record = request.env['mail.mass_mailing.contact'].sudo().search([('email', '=', email)])
 
-        if len(existing_records) == 0:
+        if len(existing_record) == 0:
             mailing_list.sudo().create({'name': email, 'email': email, 'list_ids': [(6,0,[1])]})
             created = True
         else:
+            list_ids = existing_record.list_ids
+            existing_record.sudo().write({'list_ids': [(4, 1)]})
             created = False 
 
         return request.render("website_ascaldera.blog_post_newsletter", {
