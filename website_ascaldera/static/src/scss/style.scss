@@ -1660,18 +1660,14 @@ li.nav-item.divider {
   height: 0px;
 }
 
-.wrapper-lock {
-  position: relative;
-}
-
-.wrapper-lock .lock-icon {
+.lock-icon {
  position: absolute;
  top: 10px;
  left: 10px;
  font-size: 30px;
  color: $color_brown;
 }
-
+/*
 .hover_effect .lock-icon {
   position: absolute;
   top: 10px;
@@ -1687,3 +1683,4 @@ li.nav-item.divider {
   font-size: 30px;
   color: $color_brown;
  }
+ */

@@ -598,23 +598,19 @@
                                 <div class="aspect-ratio-box-inside">
                                     <t t-if="post.blog_post_cover_image">
                                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                            <div class="wrapper-lock">
-                                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-                                                <t t-if="post.subscription == 'private'">
-                                                    <span class="material-icons-outlined lock-icon">&#xE897;</span>
-                                                </t>
-                                            </div>  
+                                            <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                            <t t-if="post.subscription == 'private'">
+                                                <span class="material-icons-outlined lock-icon">&#xE897;</span>
+                                            </t> 
                                             <div class="overlay"/>
                                         </a>
                                     </t>
                                     <t t-else="">
                                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                            <div class="wrapper-lock">
-                                                <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
-                                                <t t-if="post.subscription == 'private'">
-                                                    <span class="material-icons-outlined lock-icon">&#xE897;</span>
-                                                </t>
-                                            </div>  
+                                            <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                            <t t-if="post.subscription == 'private'">
+                                                <span class="material-icons-outlined lock-icon">&#xE897;</span>
+                                            </t>
                                         </a>
                                     </t>
 
