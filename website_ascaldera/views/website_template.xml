@@ -89,9 +89,11 @@
                     </div>
                 </div>
                 <div class="block-content">
-
                     <div  id="wsale_products_attributes_collapse">
-                        <ul t-attf-class="nav flex-column #{'open_ul' if tags_set else ''}"  t-att-style="'' if tags_set else 'display: none;' ">
+                        <ul id="tags" t-attf-class="nav flex-column #{'open_ul' if tags_set else ''}"  t-att-style="'' if tags_set else 'display: none;' ">
+                            <div style="margin-bottom: 1em" class="field-input has-icon">
+                                <input type="text" id="search_tags" placeholder="Iskanje"/>
+                            </div>
                             <t t-foreach="tags.sorted(key=lambda x: x.name.lower())" t-as="tag">
                                 <li class="nav-item">
                                     <label t-attf-class="#{' active' if tag.id in tags_set else ''}">
@@ -115,17 +117,14 @@
         <div id="type_filter">
             <div class="block">
                 <div class="block-title">
-
-                     <div t-attf-class="text te_attr_title #{'te_fa-minus' if types_set else ''}"> <span>Filter <b>Types</b></span>
+                    <div t-attf-class="text te_attr_title #{'te_fa-minus' if types_set else ''}"> <span>Filter <b>Types</b></span>
                     </div>
                     <div class="line">
                         <span></span>
                     </div>
                 </div>
                 <div class="block-content">
-
                     <div  id="wsale_products_attributes_collapse">
-
                         <ul t-attf-class="nav flex-column #{'open_ul' if types_set else ''}"  t-att-style="'' if types_set else 'display: none;' ">
                             <t t-foreach="types" t-as="type">
                                 <li class="nav-item">
@@ -155,13 +154,11 @@
                     </div>
                 </div>
                 <div class="block-content">
-
                     <div  id="wsale_products_attributes_collapse">
                         <ul t-attf-class="nav flex-column #{'open_ul' if year_set else ''}"  t-att-style="'' if year_set else 'display: none;' ">
                             <t t-foreach="years" t-as="year">
                                 <t t-set="year_int"  t-value="int(year)"/>
                                 <li class="nav-item">
-
                                     <label t-attf-class="#{' active' if year_int in year_set else ''}">
                                         <input type="checkbox" name="year" t-att-value="year" t-att-checked="'checked' if year_int in year_set else None" />
                                         <span style="font-weight: normal" t-esc="year" />
@@ -335,9 +332,6 @@
                     <input  name="post_type" t-att-value="post_type" type="hidden"/>
                     <input  name="page" type="hidden" t-att-value="page"/>
                 </t>
-
-
-
                 <t t-call="website_ascaldera.sort_blog"/>
 
                 <t t-if="types">
@@ -563,7 +557,12 @@
                     <div class="aspect-ratio-box-inside">
                         <t t-if="post.blog_post_cover_image">
                             <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                <div class="wrapper-lock">
+                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                    <t t-if="post.subscription == 'private'">
+                                        <i class="fa fa-lock lock-icon"></i>
+                                    </t>
+                                </div>
                                 <div class="overlay">
                                     <div class="element-image-title text-left">
                                         <font style="vertical-align: inherit;">
@@ -576,7 +575,12 @@
                         </t>
                         <t t-else="">
                             <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                <div class="wrapper-lock">
+                                    <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                    <t t-if="post.subscription == 'private'">
+                                        <i class="fa fa-lock lock-icon"></i>
+                                    </t>
+                                </div>
                                 <div class="element-image-title text-left">
                                     <t t-esc="post.name"/>
                                 </div>
@@ -598,14 +602,23 @@
                                 <div class="aspect-ratio-box-inside">
                                     <t t-if="post.blog_post_cover_image">
                                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                            <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                            <div class="wrapper-lock">
+                                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                                <t t-if="post.subscription == 'private'">
+                                                    <i class="fa fa-lock lock-icon"></i>
+                                                </t>
+                                            </div>  
                                             <div class="overlay"/>
                                         </a>
-
                                     </t>
                                     <t t-else="">
                                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                            <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                            <div class="wrapper-lock">
+                                                <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                                <t t-if="post.subscription == 'private'">
+                                                    <i class="fa fa-lock lock-icon"></i>
+                                                </t>
+                                            </div>  
                                         </a>
                                     </t>
 
@@ -620,10 +633,6 @@
                             <div class="element-meta"><span t-field="post.document_date" t-options='{"widget": "date"}'/>
                                 <span>  published </span><span t-esc="post.sudo().author_id.name"/>
                             </div>
-                            <!--                            <span t-field="post.document_date" t-options='{"format": "A"}'/>-->
-                            <!--                            <t t-esc="(post.document_date).strftime('%A')"/>-->
-
-
                             <div class="element-content">
                                 <div class="blog-element-content">
                                     <p style="text-align:left;">
@@ -631,9 +640,6 @@
                                             <t t-esc="post.post_listing_text_content"/>
 
                                         </t>
-                                        <!--                                        <t t-else="">-->
-                                        <!--                                            <t t-raw="post.post_listing_text_content"/>-->
-                                        <!--                                        </t>-->
                                     </p>
                                 </div>
                             </div>
@@ -658,7 +664,6 @@
                     <div class="block-title-main search_section">
                         <div class="line-top"></div>
                         <div class="wrapper container-fluid maxWidth">
-
                             <div class="text">
                                 <div id="div_search" class="section-search">
                                     <div class="field-input has-icon">
@@ -670,17 +675,9 @@
                                         </form>
                                     </div>
                                 </div>
-
-
                                 <t t-call="website_ascaldera.search_menu"/>
-
-
-
                             </div>
-
-
                         </div>
-
                         <div class="line-bottom"></div>
                     </div>
                     <div class="wrapper container-fluid maxWidth">
@@ -772,12 +769,20 @@
                         <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
                             <div class="hover_effect">
                                 <t t-if="post_index==0">
-
-                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                    <div class="wrapper-lock">
+                                        <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                        <t t-if="post.subscription == 'private'">
+                                            <i class="fa fa-lock lock-icon"></i>
+                                        </t>
+                                    </div>
                                 </t>
                                 <t t-if="post_index&gt; 0">
-                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-
+                                    <div class="wrapper-lock">
+                                        <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                        <t t-if="post.subscription == 'private'">
+                                            <i class="fa fa-lock lock-icon"></i>
+                                        </t>
+                                    </div>
                                 </t>
                                 <div class="overlay">
                                     <div class="grid_image_element_title text-left">
@@ -949,9 +954,6 @@
                                         <t t-else="">
                                             <h3> There is no available blog!</h3>
                                         </t>
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1040,8 +1042,15 @@
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
-                                    <div class="text"><t t-esc="blog_post.name"/></div>
+                                    <div class="text">
+                                        <t t-esc="blog_post.name"/>
+                                        <i id="pdf" class="fa fa-print" style="color:#b69b58; cursor:pointer; margin-left: .4rem;"></i>
+                                    </div>
                                     <div class="line"><span></span></div>
+                                </div>
+                                <div class="info_publish">
+                                    <span t-field="blog_post.document_date" t-options='{"widget": "date"}'/>
+                                    <span>  published </span><span t-esc="blog_post.sudo().author_id.name"/>
                                 </div>
                                 <div class="block-content">
                                     <!-- ADDED TAGS TO POST -->
@@ -1060,10 +1069,6 @@
                                                 </div>
                                             </div>
                                         </t>
-                                    </div>
-                                    <div class="info_publish">
-                                        <span t-field="blog_post.document_date" t-options='{"widget": "date"}'/>
-                                        <span>  published </span><span t-esc="blog_post.sudo().author_id.name"/>
                                     </div>
                                     <div class='raw_content'>
                                         <t t-raw="blog_post.content"/>
@@ -1122,7 +1127,6 @@
                                         <a href="mailto:?body=http%3A%2F%2Flocalhost%3A8069%2Fabout-us%23&amp;subject=About%20Us%20%7C%20GDPR%20GURU" class="s_share_email">
                                             <i class="fa fa-1x fa-envelope rounded shadow-sm"></i>
                                         </a>
-                                        <i id="pdf" class="fa fa-1x fa-file-pdf-o rounded shadow-sm" style="color:red; cursor:pointer; margin-left: .4rem;"></i>
                                     </div>
                                     <div>
                                         <a t-attf-href="#{blog_post.external_post_link}"><t t-esc="blog_post.external_post_link"/></a>

@@ -749,6 +749,7 @@ input:focus{
         margin-bottom: 20px;
         
         .text {
+          line-height: 30px;
           font-size: 20px;
           text-transform: uppercase;
           padding: 5px 2px;
@@ -1278,9 +1279,10 @@ input:focus{
     display: -webkit-flex;
     flex-basis: auto;
     width: 70%;
+    line-height: 2em;
   @media screen and (max-width: 992px) {
     width: 80%;
-    line-height: 1em;
+    line-height: 2em;
   }
   @media screen and (max-width: 767px) {
     width: 85%;
@@ -1656,4 +1658,16 @@ li.nav-item.divider {
 
 .carousel {
   height: 0px;
+}
+
+.wrapper-lock {
+  position: relative;
+}
+
+.wrapper-lock .lock-icon {
+ position: absolute;
+ top: 10px;
+ left: 10px;
+ font-size: 40px;
+ color: $color_brown;
 }

@@ -86,7 +86,7 @@ class CustomAddress(WebsiteSale):  # Inherit in your custom class
             subscribe = False
         if subscribe:
             created = False
-            email = post['email']
+            email = checkout['email']
             mailing_list = request.env['mail.mass_mailing.contact'].sudo()
             existing_record = request.env['mail.mass_mailing.contact'].sudo().search([('email', '=', email)])
 
@@ -977,7 +977,7 @@ class WebsiteBlog(WebsiteBlog):
             created = True
         else:
             list_ids = existing_record.list_ids
-            existing_record.sudo().write({'list_ids': [(4, 1)]})
+            existing_record.sudo().write({'list_ids': [(4, 4)]})
             created = False 
 
         return request.render("website_ascaldera.blog_post_newsletter", {
