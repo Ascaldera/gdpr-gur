@@ -1668,7 +1668,7 @@ li.nav-item.divider {
  position: absolute;
  top: 10px;
  left: 10px;
- font-size: 40px;
+ font-size: 30px;
  color: $color_brown;
 }
 
@@ -1676,6 +1676,14 @@ li.nav-item.divider {
   position: absolute;
   top: 10px;
   left: 10px;
-  font-size: 40px;
+  font-size: 30px;
+  color: $color_brown;
+ }
+
+ .element-wrapper .lock-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 30px;
   color: $color_brown;
  }
