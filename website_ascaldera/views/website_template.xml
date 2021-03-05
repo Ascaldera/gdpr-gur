@@ -557,12 +557,10 @@
                     <div class="aspect-ratio-box-inside">
                         <t t-if="post.blog_post_cover_image">
                             <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                <div class="wrapper-lock">
-                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-                                    <t t-if="post.subscription == 'private'">
-                                        <i class="fa fa-lock lock-icon"></i>
-                                    </t>
-                                </div>
+                                <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                <t t-if="post.subscription == 'private'">
+                                    <span class="material-icons-outlined lock-icon">&#xE897;</span>
+                                </t>
                                 <div class="overlay">
                                     <div class="element-image-title text-left">
                                         <font style="vertical-align: inherit;">
@@ -575,12 +573,10 @@
                         </t>
                         <t t-else="">
                             <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
-                                <div class="wrapper-lock">
-                                    <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
-                                    <t t-if="post.subscription == 'private'">
-                                        <i class="fa fa-lock lock-icon"></i>
-                                    </t>
-                                </div>
+                                <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
+                                <t t-if="post.subscription == 'private'">
+                                    <span class="material-icons-outlined lock-icon">&#xE897;</span>
+                                </t>
                                 <div class="element-image-title text-left">
                                     <t t-esc="post.name"/>
                                 </div>
@@ -605,7 +601,7 @@
                                             <div class="wrapper-lock">
                                                 <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
                                                 <t t-if="post.subscription == 'private'">
-                                                    <i class="fa fa-lock lock-icon"></i>
+                                                    <span class="material-icons-outlined lock-icon">&#xE897;</span>
                                                 </t>
                                             </div>  
                                             <div class="overlay"/>
@@ -616,7 +612,7 @@
                                             <div class="wrapper-lock">
                                                 <img src="/website_ascaldera/static/src/img/default_image.jpg"/>
                                                 <t t-if="post.subscription == 'private'">
-                                                    <i class="fa fa-lock lock-icon"></i>
+                                                    <span class="material-icons-outlined lock-icon">&#xE897;</span>
                                                 </t>
                                             </div>  
                                         </a>
@@ -770,13 +766,13 @@
                                 <t t-if="post_index==0">         
                                     <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
                                     <t t-if="post.subscription == 'private'">
-                                        <i class="fa fa-lock lock-icon"></i>
+                                        <span class="material-icons-outlined lock-icon">&#xE897;</span>
                                     </t>
                                 </t>
                                 <t t-if="post_index&gt; 0">
                                     <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
                                     <t t-if="post.subscription == 'private'">
-                                        <i class="fa fa-lock lock-icon"></i>
+                                        <span class="material-icons-outlined lock-icon">&#xE897;</span>
                                     </t>
                                 </t>
                                 <div class="overlay">
