@@ -765,24 +765,19 @@
                 <t t-foreach="grid_images_posts" t-as="post">
                     <t t-set="count" t-value="count+1"/>
                     <div t-att-class="'grid_image_element div'+str(count)" data-scrim-bottom="9">
-
-                        <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">
+                        <a t-attf-href="/blog/#{ slug(post.blog_id) }/post/#{ slug(post) }">         
                             <div class="hover_effect">
-                                <t t-if="post_index==0">
-                                    <div class="wrapper-lock">
-                                        <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-                                        <t t-if="post.subscription == 'private'">
-                                            <i class="fa fa-lock lock-icon"></i>
-                                        </t>
-                                    </div>
+                                <t t-if="post_index==0">         
+                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                    <t t-if="post.subscription == 'private'">
+                                        <i class="fa fa-lock lock-icon"></i>
+                                    </t>
                                 </t>
                                 <t t-if="post_index&gt; 0">
-                                    <div class="wrapper-lock">
-                                        <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
-                                        <t t-if="post.subscription == 'private'">
-                                            <i class="fa fa-lock lock-icon"></i>
-                                        </t>
-                                    </div>
+                                    <img t-attf-src="/website/image/blog.post/{{ post.id }}/blog_post_cover_image" />
+                                    <t t-if="post.subscription == 'private'">
+                                        <i class="fa fa-lock lock-icon"></i>
+                                    </t>
                                 </t>
                                 <div class="overlay">
                                     <div class="grid_image_element_title text-left">
@@ -794,7 +789,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </a>
                     </div>
                 </t>
