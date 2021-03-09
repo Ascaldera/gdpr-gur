@@ -81,26 +81,5 @@ odoo.define('website_ascaldera', function(require) {
         $('#myModal').on('hide.bs.modal', function (e) {
             $('.raw_content').removeClass('modalBlur');
         })
-
-        $('#search_tags').keyup(function() {
-            var input, filter, ul, li, item, i, txtValue;
-            console.log("hello");
-            input = document.getElementById("search_tags");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("tags");
-            li = ul.getElementsByTagName("li");
-        
-            
-            for (i = 0; i < li.length; i++) {
-                item = li[i];
-                
-                txtValue = item.textContent || item.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        });
     });
  })

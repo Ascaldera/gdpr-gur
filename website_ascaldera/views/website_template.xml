@@ -255,7 +255,12 @@
 
                                                     <t t-set="count" t-value="request.env['blog.post'].sudo().search_count([('blog_post_type_id.name', '=', post_type.name), ('website_published', '=', True),('lang', '=', request.env.context.get('lang'))])"/>
 
-                                                    <a t-attf-href="/blog/#{post_type.with_context(lang='en_US').name}"><t t-esc="post_type.name"/><span><t t-esc="count"/></span></a>
+                                                    <a t-attf-href="/blog/#{post_type.with_context(lang='en_US').name}">
+                                                        <t t-esc="post_type.name"/>
+                                                        <span>
+                                                            <t t-esc="count"/>
+                                                        </span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -273,8 +278,8 @@
                     <div class="block-content">
                         Subscribe to our newsletter and we will keep you updated on all the latest news, professional articles, changes.
                         <div class="field-input has-icon icon-fill">
-                        <form action="/blog/Newsletter" method="post">
-                            <input type="email" placeholder="E-news" name='email'/>
+                        <form id="newsletter" action="/blog/Newsletter" method="post">
+                            <input type="email" required="required" placeholder="E-news" name='email'/>
                             <input type="submit" class="action submit" value=""/>
                             <!--<a class="action submit" href="#"></a> class="action submit"-->
                             <button style='cursor:pointer;' type='submit' class="action submit"></button>
@@ -326,7 +331,7 @@
         <div class="sidebar_bg">
         </div>
         <div id="sidebar"  class="left_sidebar">
-            <form class="js_attributes mb-2" method="get">
+            <form id="search" class="js_attributes mb-2" method="get">
                 <t t-if="query">
                     <input  name="query" type="hidden" t-att-value="query"/>
                     <input  name="post_type" t-att-value="post_type" type="hidden"/>

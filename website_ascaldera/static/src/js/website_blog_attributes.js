@@ -5,9 +5,13 @@ odoo.define('website_ascaldera.attributes', function (require) {
     var ajax = require('web.ajax');
 
     function   _onChangeAttribute(ev) {
-        if (!ev.isDefaultPrevented()) {
+        if (!ev.isDefaultPrevented()) {      
             ev.preventDefault();
-            $(ev.currentTarget).closest("form").submit();
+            if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                $("#search").clone().appendTo("body").submit(); // FF only
+              } else {
+                $("#search").submit(); // works under IE and Chrome, but not FF  
+              }
         }
     };
     function   _onAttribSection(ev) {
@@ -35,6 +39,12 @@ odoo.define('website_ascaldera.attributes', function (require) {
         }
         $('.te_attr_title').on('click', _onAttribSection);
 
+        $('#search_tags').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#tags li').filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+       });
     });
 
 })
