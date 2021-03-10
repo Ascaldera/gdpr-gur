@@ -1062,13 +1062,15 @@
                                         </t>
                                     </div>
                                     <div class='raw_content'>
-                                        <t t-raw="blog_post.content"/>
-                                        <t t-if="blog_post.api_sync == True">
-                                            <p>
-                                                Vir podatkov: <a href="https://www.ip-rs.si/varstvo-osebnih-podatkov/praksa-ip/">IP RS</a> <br/>
-                                                Pogoji uporabe: CC BY 4.0 <br/>
-                                                <img src="/website_ascaldera/static/src/img/copyright.png"></img>
-                                            </p>
+                                        <t t-if="blog_post.subscription == 'public' or request.env.user.id != 4">
+                                            <t t-raw="blog_post.content"/>
+                                            <t t-if="blog_post.api_sync == True">
+                                                <p>
+                                                    Vir podatkov: <a href="https://www.ip-rs.si/varstvo-osebnih-podatkov/praksa-ip/">IP RS</a> <br/>
+                                                    Pogoji uporabe: CC BY 4.0 <br/>
+                                                    <img src="/website_ascaldera/static/src/img/copyright.png"></img>
+                                                </p>
+                                            </t>
                                         </t>
 
                                         <t t-if="blog_post.subscription == 'private' and request.env.user.id == 4">
