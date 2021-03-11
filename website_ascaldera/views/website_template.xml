@@ -682,6 +682,10 @@
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
+                                    <h1 style="display: None;">
+                                        Result For:
+                                        <b><t t-esc="query"/></b>
+                                    </h1>
                                     <div class="text">
                                         Result For:
                                         <b><t t-esc="query"/></b>
@@ -756,6 +760,7 @@
     <template id="main_blog_post" name="Blogs">
         <t t-call="website.layout">
             <!--GRID IMAGES-->
+            <h1 style="display: None;">GDPR GURU</h1>
             <div class="grid_image">
 
                 <t t-set="count" t-value="0"/>
@@ -872,6 +877,7 @@
                         <div class="line-top"></div>
                         <div class="wrapper container-fluid maxWidth">
                             <t t-if="main_title">
+                                <h1 style="display: None;"><t t-esc="main_title"/></h1>
                                 <div class="text">
 
                                     <span>
@@ -1033,6 +1039,7 @@
                         <div id="content">
                             <div class="block">
                                 <div class="block-title">
+                                    <h1 style="display: None;"><t t-esc="blog_post.name"/></h1>
                                     <div class="text">
                                         <t t-esc="blog_post.name"/>
                                         <i id="pdf" class="fa fa-print" style="color:#b69b58; cursor:pointer; margin-left: .4rem;"></i>
