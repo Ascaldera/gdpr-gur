@@ -76,11 +76,9 @@
             
             if (msie)
                 var text = window.clipboardData.getData("Text");
-            else
+            else {
                 var text = e.originalEvent.clipboardData.getData(cleaner.keepHtml ? 'text/html' : 'text/plain');
-
-            console.log("original text: ", text);
-            
+            }
             if (text) {
                 if (msie || ffox)
                     setTimeout(function () {
@@ -89,6 +87,11 @@
                 else {
                     window.document.execCommand('insertHtml', false, cleanText(text, cleaner.newline));
                 }
+            }
+            else {
+                text = e.originalEvent.clipboardData.getData('text/plain');
+                text = text.replace(/\n\r?/g, "<br>");
+                window.document.execCommand('insertHtml', false, text);
             }
         }
     });
