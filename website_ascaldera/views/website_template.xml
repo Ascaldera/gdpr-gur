@@ -846,6 +846,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="block">
+                                <div class="block-title">
+                                    <div class="text">Most Read <b>IP RS</b></div>
+                                    <div class="line"><span></span></div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="elements">
+                                        <t t-foreach="most_read_sloip_post" t-as="post">
+                                            <t t-call="website_ascaldera.only_post"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <t t-call="website_ascaldera.t_sidebar"/>
                     </div>
