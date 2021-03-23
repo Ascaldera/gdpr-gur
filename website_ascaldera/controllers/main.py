@@ -220,6 +220,16 @@ class Website(Website):
             [('blog_post_type_id', '=', practice_id.id),
              ('website_published', '=', True),
              ('lang', '=', request.env.context.get('lang'))], order='visits desc,document_date desc', limit=3)
+
+        # Get max three IP RS
+        sloip_id = request.env.ref(
+            'website_ascaldera.blog_post_type_slo_ip')
+
+        most_read_sloip_post = blog_post.sudo().search(
+            [('blog_post_type_id', '=', sloip_id.id),
+             ('website_published', '=', True),
+             ('lang', '=', request.env.context.get('lang'))], order='visits desc,document_date desc', limit=3)
+
         grid_images_posts = blog_post.sudo().search(
             [('website_published', '=', True),
              ('lang', '=', request.env.context.get('lang'))],order='document_date desc', limit=7)
@@ -230,6 +240,7 @@ class Website(Website):
             'most_read_news_post': most_read_news_post,
             'most_read_article_post': most_read_article_post,
             'most_read_practice_post': most_read_practice_post,
+            'most_read_sloip_post': most_read_sloip_post,
             'grid_images_posts': grid_images_posts,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
@@ -434,16 +445,25 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])]
         practice_highest_visits = heapq.nlargest(3, practice_posts_visits)
         most_read_practice_post = blog_post.sudo().search(
-            [('blog_post_type_id', '=', practice_id.id),
+            [('blog_post_type_id', '=', sloip_id.id),
              ('website_published', '=', True),
              ('visits', 'in', practice_highest_visits),
              ('lang', '=', request.env.context.get('lang'))], limit=3)
+        # Get max three IP RS
+        sloip_id = request.env.ref(
+            'website_ascaldera.blog_post_type_slo_ip')
+
+        most_read_sloip_post = blog_post.sudo().search(
+            [('blog_post_type_id', '=', practice_id.id),
+             ('website_published', '=', True),
+             ('lang', '=', request.env.context.get('lang'))], order='visits desc,document_date desc', limit=3)
         check_lang_to_installed(request.env, request.website)
         return request.render("website_ascaldera.main_blog_post", {
             'posts': posts,
             'most_read_news_post': most_read_news_post,
             'most_read_article_post': most_read_article_post,
             'most_read_practice_post': most_read_practice_post,
+            'most_read_sloip_post': most_read_sloip_post,
             'fav_tags': self.fav_tags_get(),
             'unfav_tags': self.unfav_tags_get(),
         })
