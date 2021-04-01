@@ -191,4 +191,9 @@
 		flex: 0 100%;
 		padding-top: 1em;
 	}
+
+	.element-row.tight.most_read_post.inline_images{
+		width:100%;
+		flex: 0 100%;
+	}
 }

@@ -334,6 +334,18 @@ class Website(Website):
             'unfav_tags': self.unfav_tags_get(),
         })
 
+    @http.route([
+        '''/blog/<blog_id>/tag/<tag_id>''',
+    ], type='http', auth="public", website=True)
+    def blog_tag_redirect(self, blog_id, tag_id):
+        return request.redirect('/blog/tag/' + tag_id)
+
+    @http.route([
+        '''/blog/blog-5''',
+    ], type='http', auth="public", website=True)
+    def blog_redirect(self):
+        return request.redirect('/blog')
+
 class WebsiteBlog(WebsiteBlog):
     """Controller WebsiteBlog."""
 
@@ -445,7 +457,7 @@ class WebsiteBlog(WebsiteBlog):
              ('lang', '=', request.env.context.get('lang'))])]
         practice_highest_visits = heapq.nlargest(3, practice_posts_visits)
         most_read_practice_post = blog_post.sudo().search(
-            [('blog_post_type_id', '=', sloip_id.id),
+            [('blog_post_type_id', '=', practice_id.id),
              ('website_published', '=', True),
              ('visits', 'in', practice_highest_visits),
              ('lang', '=', request.env.context.get('lang'))], limit=3)
@@ -454,7 +466,7 @@ class WebsiteBlog(WebsiteBlog):
             'website_ascaldera.blog_post_type_slo_ip')
 
         most_read_sloip_post = blog_post.sudo().search(
-            [('blog_post_type_id', '=', practice_id.id),
+            [('blog_post_type_id', '=', sloip_id.id),
              ('website_published', '=', True),
              ('lang', '=', request.env.context.get('lang'))], order='visits desc,document_date desc', limit=3)
         check_lang_to_installed(request.env, request.website)
