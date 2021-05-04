@@ -433,7 +433,7 @@
         <xpath expr="//nav[hasclass('navbar-expand-md')][1]"  position="inside">
             <ul class=" side-menu-style">
                 <li><a href="/blog/Dpo">DPO</a></li>
-                <li><a href="/blog/Hubapp">HUB APP</a></li>
+                <!--<li><a href="/blog/Hubapp">HUB APP</a></li>-->
             </ul>
         </xpath>
 

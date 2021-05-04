@@ -984,14 +984,13 @@ class WebsiteBlog(WebsiteBlog):
         """Controller for DPO  page."""
         
         return request.redirect('https://www.dataprotection-officer.com/')
-
+    """
     @http.route([
         '/blog/Hubapp',
     ], type='http', auth="public", website=True)
     def blog_post_hubapp(self, **post):
-        """Controller for HUBAPP  page."""
-        
         return request.redirect('https://hub.2cript.com/#/login')
+    """
 
     @http.route([
         '/blog/Newsletter',
